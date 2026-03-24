@@ -1,5 +1,5 @@
 "use client";
-import type { Context } from "gsap";
+// import type { Context } from "gsap"; // Fixed: Context is default export
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
@@ -37,7 +37,7 @@ export default function Hero() {
   const noiseRef    = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ctx: Context;
+let ctx: any;
 
     const init = async () => {
       if (typeof window === "undefined") return;
