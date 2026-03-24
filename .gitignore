@@ -1,0 +1,111 @@
+# See https://github.com/github/gitignore/blob/main/Node.gitignore
+# or https://github.com/github/gitignore/blob/main/Next.js.gitignore
+
+# See https://nextjs.org/docs/basic-features/environment-variables#running-next-js-with-custom-environment-variables for more info
+.env.*
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Next.js
+.next/
+out/
+.next/cache
+
+# Dependencies
+**/node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+out/
+dist/
+
+# Vercel
+.vercel
+
+# Debug
+npm-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+.env.development
+.env.production
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+
+# Nuxt.js
+.nuxt
+
+# Tilde (used by nuxt and vuetify)
+
+# production
+/dist
+
+# output
+/out
+
+# runtime data
+/pids
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# JetBrains
+.idea/
+
+# Visual Studio Code
+.vscode/settings.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional: ES modules resolution cache (https://nodejs.org/api/esm.html#--experimental-modules)
+node_modules/.cache
+
+# TypeScript v1
+**/*.tsbuildinfo
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
