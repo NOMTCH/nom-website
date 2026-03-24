@@ -7,9 +7,8 @@ export const metadata: Metadata = {
 };
 
 const team = [
-  { name: "Nadia Omar", role: "Creative Director", specialty: "Brand & Identity" },
-  { name: "Omar Malik", role: "Lead Developer", specialty: "Web & Motion" },
-  { name: "Mira Santos", role: "Design Lead", specialty: "Digital Invitations" },
+  { name: "Adrian (MONO)", role: "Owner", specialty: "Graphic Design & Web Developer" },
+  { name: "Rrahera", role: "Admin / Customer Service" },
 ];
 
 const stats = [
