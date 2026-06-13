@@ -126,16 +126,6 @@ export const useCVStore = create<CVStore>()(
   ],
   softSkills: ['Leadership', 'Communication'],
 
-  labels: {
-    about: 'Halo, Saya',
-    experience: 'Work Experience',
-    education: 'Education',
-    skills: 'My Skills',
-    contact: 'Contact',
-    phone: 'Phone',
-    email: 'Email',
-    address: 'Address'
-  },
 
   setTemplateId: (id) => set({ templateId: id }),
   setThemeColor: (color) => set({ themeColor: color }),
