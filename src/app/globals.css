@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  /* Neo-Brutalism Light Palette */
+  --background: #E5E5E5; /* Slightly deeper grey for contrast */
+  --surface: #F4F4F0; /* Soft off-white paper, easy on the eyes */
+  --accent: #FF6138; /* Vibrant Orange */
+  --accent-secondary: #0046FF; /* Bright Blue */
+  --accent-dark: #001BB7; /* Deep Blue */
+  
+  --foreground: #0F0F0F;
+  --muted: #555555;
+  --accent-foreground: #FFFFFF;
+  --border: #0F0F0F;
+  
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-bricolage);
+  
+  --animate-marquee: marquee 20s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Neo-brutalist pattern background optional */
+}
+
+/* Neo-Brutalism Utilities */
+.neo-brutalist {
+  border: 3px solid var(--border);
+  box-shadow: 6px 6px 0px var(--border);
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.neo-brutalist:hover {
+  box-shadow: 2px 2px 0px var(--border);
+  transform: translate(4px, 4px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+  border-left: 2px solid var(--border);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border: 2px solid var(--border);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Base Input Resets */
+input, textarea {
+  outline: none;
+  font-family: inherit;
+  border: 3px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+input:focus, textarea:focus {
+  box-shadow: 4px 4px 0px var(--accent);
+}
