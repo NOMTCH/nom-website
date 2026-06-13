@@ -10,9 +10,9 @@ type Promo = {
   title: string;
   description: string;
   code: string;
-  imageUrl: string;
-  isActive: boolean;
-  createdAt: string;
+  image_url: string;
+  is_active: boolean;
+  created_at: string;
 };
 
 export default function PromosDashboard() {
@@ -50,9 +50,10 @@ export default function PromosDashboard() {
       setEditingId(promo.id);
       setTitle(promo.title);
       setDescription(promo.description || '');
-      setCode(promo.code || '');
-      setIsActive(promo.is_active !== undefined ? promo.is_active : promo.isActive);
-      setExistingImage(promo.image_url || promo.imageUrl || '');
+      setCode(promo.code);
+      setIsActive(promo.is_active);
+      setExistingImage(promo.image_url || '');
+      setFile(null);
     } else {
       setEditingId(null);
       setTitle('');
