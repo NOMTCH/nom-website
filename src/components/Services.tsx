@@ -79,6 +79,16 @@ export function Services() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0"
                 />
                 <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-10" />
+                
+                {/* Brutalist Vector Halftone Overlay */}
+                <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:10px_10px] group-hover:opacity-0 transition-opacity duration-500 z-10" />
+                
+                {/* Decorative Brutalist Star Vector */}
+                <div className="absolute -top-4 -left-4 z-20 text-accent opacity-100 md:opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-300 transform -rotate-12 group-hover:rotate-12">
+                  <svg width="60" height="60" viewBox="0 0 100 100" fill="#F7DF1E" stroke="#0F0F0F" strokeWidth="6" className="drop-shadow-[4px_4px_0_rgba(15,15,15,1)]">
+                     <polygon points="50,5 61,35 95,35 68,54 78,85 50,65 22,85 32,54 5,35 39,35" />
+                  </svg>
+                </div>
               </div>
               
               {/* Bottom Half: Content */}
