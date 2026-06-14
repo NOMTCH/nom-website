@@ -5,171 +5,164 @@ import { useCVStore } from '@/store/cvStore';
 export function Template4() {
   const store = useCVStore();
 
+  const nameLength = store.fullName.length;
+  const nameSizeClass = nameLength > 25 ? 'text-3xl' : nameLength > 15 ? 'text-4xl' : 'text-5xl';
+
   const getPhotoStyleClasses = () => {
     switch (store.photoStyle) {
       case 'circle': return 'rounded-full aspect-square';
       case 'arch': return 'rounded-t-full rounded-b-none aspect-[3/4]';
       case 'polygon': return 'aspect-square [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)]';
-      default: return 'rounded-none aspect-[3/4]';
+      default: return 'rounded-none aspect-square';
     }
   };
 
   return (
-    <div className="flex h-full w-full bg-[#0F0F0F] text-gray-300 font-sans p-[8mm] relative overflow-hidden">
-      {/* Futuristic Accents */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(circle_at_top_right,var(--accent-cv),transparent_70%)] opacity-20 pointer-events-none" style={{ '--accent-cv': store.themeColor } as React.CSSProperties} />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-[radial-gradient(circle_at_bottom_left,var(--accent-cv),transparent_70%)] opacity-10 pointer-events-none" style={{ '--accent-cv': store.themeColor } as React.CSSProperties} />
+    <div className="flex flex-col h-[297mm] w-[210mm] bg-white text-gray-800 font-sans relative overflow-hidden box-border">
       
-      {/* Grid Pattern Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+      {/* Subtle Vector Background Accent */}
+      <svg className="absolute top-0 right-0 w-[400px] h-[400px] text-gray-200 opacity-80 transform translate-x-1/4 -translate-y-1/4 pointer-events-none z-0" fill="none" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="0.75" />
+        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="0.75" strokeDasharray="3 3" />
+        <path d="M5 50h90M50 5v90" stroke="currentColor" strokeWidth="0.5" />
+        <rect x="25" y="25" width="50" height="50" stroke="currentColor" strokeWidth="0.5" transform="rotate(45 50 50)" />
+      </svg>
 
-      {/* Main Container */}
-      <div className="flex flex-col h-full w-full relative z-10 border border-gray-800 bg-black/40 backdrop-blur-sm p-6 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+      {/* Header */}
+      <header className="px-12 pt-12 pb-8 flex justify-between items-end border-b border-gray-200 relative z-10">
+        <div className="flex-1">
+          <h1 className={`${nameSizeClass} font-light tracking-tight text-gray-900 mb-2 font-serif`}>
+            {store.fullName}
+          </h1>
+          <h2 className="text-sm uppercase tracking-widest text-gray-500 font-medium mb-6" style={{ color: 'var(--accent-cv)' }}>
+            {store.role}
+          </h2>
+          <div className="flex flex-col gap-2 text-xs text-gray-600">
+            {store.phone && <div className="flex items-center gap-3">
+              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>{store.phone}</span>
+            </div>}
+            {store.email && <div className="flex items-center gap-3">
+              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>{store.email}</span>
+            </div>}
+            {store.address && <div className="flex items-center gap-3">
+              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span>{store.address}</span>
+            </div>}
+          </div>
+        </div>
+
+        {/* Photo */}
+        {store.photoUrl && (
+          <div className={`w-32 bg-gray-100 overflow-hidden shadow-sm ${getPhotoStyleClasses()}`}>
+            <img src={store.photoUrl} alt="Profile" className="w-full h-full object-cover grayscale" />
+          </div>
+        )}
+      </header>
+
+      {/* Main Grid */}
+      <div className="grid grid-cols-[1fr_200px] gap-12 flex-1 px-12 py-10">
         
-        {/* Top Glitch Line */}
-        <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--accent-cv)] to-transparent opacity-50 absolute top-0 left-0" style={{ '--accent-cv': store.themeColor } as React.CSSProperties} />
-
-        <header className="grid grid-cols-[1fr_120px] gap-6 mb-6 mt-2">
-          <div className="flex flex-col justify-center">
-            <h2 className="text-[9px] font-black uppercase tracking-[0.3em] mb-1.5" style={{ color: 'var(--accent-cv)' }}>
-              {store.labels.about}
-            </h2>
-            <h1 className="text-4xl font-black uppercase leading-none tracking-tighter text-white mb-1.5">
-              {store.fullName}
-            </h1>
-            <h3 className="text-[13px] font-bold uppercase tracking-widest text-gray-400">
-              {store.role}
-            </h3>
-            <div className="mt-3 flex gap-3 text-[8px] font-bold uppercase tracking-wider text-gray-500">
-              <span className="flex items-center gap-1"><span className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-cv)' }}></span>{store.phone}</span>
-              <span className="flex items-center gap-1"><span className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-cv)' }}></span>{store.email}</span>
-            </div>
-          </div>
-          
-          <div className={`w-full border-2 relative overflow-hidden ${getPhotoStyleClasses()}`} style={{ borderColor: 'var(--accent-cv)' }}>
-            <div className="absolute -inset-1 border border-gray-800" />
-            {store.photoUrl ? (
-              <img src={store.photoUrl} alt="Profile" className="w-full h-full object-cover grayscale brightness-110 contrast-125 mix-blend-luminosity" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-[9px] font-bold text-gray-700 bg-black">SYS.IMG</div>
-            )}
-            {/* Cyber Corner Marks */}
-            <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t-[1.5px] border-l-[1.5px] bg-[#0F0F0F]" style={{ borderColor: 'var(--accent-cv)' }} />
-            <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b-[1.5px] border-r-[1.5px] bg-[#0F0F0F]" style={{ borderColor: 'var(--accent-cv)' }} />
-          </div>
-        </header>
-
-        {/* 2-Column Grid */}
-        <div className="grid grid-cols-[1fr_1fr] gap-x-8 gap-y-8 flex-1">
+        {/* LEFT COLUMN: Experience & Summary */}
+        <div className="flex flex-col gap-10">
           
           {/* Summary */}
-          <section className="col-span-2 break-inside-avoid bg-[#1A1A1A] p-4 border-l-4" style={{ borderColor: 'var(--accent-cv)' }}>
-            <p className="text-[11px] leading-relaxed font-medium text-gray-300">
-              {store.summary}
-            </p>
-          </section>
+          {store.summary && (
+            <section>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-4 pb-2 border-b border-gray-200">
+                {store.labels.about}
+              </h3>
+              <p className="text-[13px] leading-loose text-gray-700 font-serif text-justify break-words whitespace-pre-wrap">
+                {store.summary}
+              </p>
+            </section>
+          )}
 
-          {/* Left Col: Experience */}
-          <div className="space-y-8">
-            <section className="flex-1">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[8px] font-mono text-gray-600">01.</span>
-                <h3 className="text-xs font-black uppercase tracking-widest text-white">
-                  {store.labels.experience}
-                </h3>
-                <div className="flex-1 h-[1px] bg-gray-800" />
-              </div>
-              
-              <div className="space-y-4">
+          {/* Experience */}
+          {store.experiences && store.experiences.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-6 pb-2 border-b border-gray-200">
+                {store.labels.experience}
+              </h3>
+              <div className="space-y-8">
                 {store.experiences.map((exp) => (
-                  <div key={exp.id} className="relative pl-4 border-l border-gray-800 break-inside-avoid group">
-                    <div className="absolute left-[-2.5px] top-1.5 w-[4px] h-[4px] rotate-45 transition-colors group-hover:bg-white" style={{ backgroundColor: 'var(--accent-cv)' }} />
-                    <div className="flex justify-between items-baseline mb-1">
-                      <h4 className="text-[10px] font-bold text-white uppercase">{exp.title}</h4>
-                      <span className="text-[8px] font-mono text-gray-500">{exp.companyDuration}</span>
+                  <div key={exp.id}>
+                    <div className="flex justify-between items-baseline mb-2">
+                      <h4 className="text-sm font-semibold text-gray-900">{exp.title}</h4>
+                      <span className="text-xs text-gray-500 font-serif italic">{exp.companyDuration}</span>
                     </div>
-                    <p className="text-[8px] leading-relaxed text-gray-400 font-mono mt-1">
+                    <p className="text-xs leading-relaxed text-gray-600 text-justify">
                       {exp.description}
                     </p>
                   </div>
                 ))}
               </div>
             </section>
-          </div>
+          )}
 
-          {/* Right Column */}
-          <div className="flex flex-col space-y-6">
-            
-            {/* Hard Skills */}
+        </div>
+
+        {/* RIGHT COLUMN: Skills & Education */}
+        <div className="flex flex-col gap-10">
+          
+          {/* Hard Skills */}
+          {store.hardSkills && store.hardSkills.length > 0 && (
             <section>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[8px] font-mono text-gray-600">02.</span>
-                <h3 className="text-xs font-black uppercase tracking-widest text-white">
-                  {store.labels.skills}
-                </h3>
-                <div className="flex-1 h-[1px] bg-gray-800" />
-              </div>
-              
-              <div className="space-y-2.5">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-6 pb-2 border-b border-gray-200">
+                {store.labels.skills}
+              </h3>
+              <div className="space-y-4">
                 {store.hardSkills.map((skill, idx) => (
-                  <div key={idx} className="break-inside-avoid">
-                    <div className="flex justify-between text-[7px] font-mono uppercase mb-1 text-gray-400">
-                      <span>{skill.name}</span>
-                      <span style={{ color: 'var(--accent-cv)' }}>{skill.percent}%</span>
+                  <div key={idx}>
+                    <div className="text-xs text-gray-700 mb-1">
+                      {skill.name}
                     </div>
-                    <div className="w-full h-[2px] bg-gray-900 overflow-hidden">
+                    <div className="w-full h-[1px] bg-gray-200">
                       <div 
-                        className="h-full relative"
+                        className="h-full"
                         style={{ width: `${skill.percent}%`, backgroundColor: 'var(--accent-cv)' }}
-                      >
-                        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-r from-transparent to-white opacity-30" />
-                      </div>
+                      />
                     </div>
                   </div>
                 ))}
               </div>
             </section>
+          )}
 
-            {/* Education */}
+          {/* Soft Skills */}
+          {store.softSkills && store.softSkills.length > 0 && (
             <section>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[8px] font-mono text-gray-600">03.</span>
-                <h3 className="text-xs font-black uppercase tracking-widest text-white">
-                  {store.labels.education}
-                </h3>
-                <div className="flex-1 h-[1px] bg-gray-800" />
-              </div>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-6 pb-2 border-b border-gray-200">
+                {store.labels.softSkills}
+              </h3>
+              <ul className="space-y-2">
+                {store.softSkills.map((skill, i) => (
+                  <li key={i} className="text-xs text-gray-600 flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-gray-400" />
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-              <div className="space-y-3">
+          {/* Education */}
+          {store.educations && store.educations.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-6 pb-2 border-b border-gray-200">
+                {store.labels.education}
+              </h3>
+              <div className="space-y-5">
                 {store.educations.map((edu) => (
-                  <div key={edu.id} className="break-inside-avoid bg-gray-900/50 p-2 border border-gray-800">
-                    <h4 className="text-[9px] font-bold text-white uppercase">{edu.name}</h4>
-                    <div className="text-[8px] font-mono text-gray-500 mt-0.5">{edu.year}</div>
+                  <div key={edu.id}>
+                    <h4 className="text-xs font-semibold text-gray-800 mb-1 leading-snug">{edu.name}</h4>
+                    <div className="text-[11px] text-gray-500 font-serif italic">{edu.year}</div>
                   </div>
                 ))}
               </div>
             </section>
-
-            {/* Soft Skills */}
-            <section>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[8px] font-mono text-gray-600">04.</span>
-                <h3 className="text-xs font-black uppercase tracking-widest text-white">
-                  SYS.MODULES
-                </h3>
-                <div className="flex-1 h-[1px] bg-gray-800" />
-              </div>
-
-              <div className="flex flex-wrap gap-1.5">
-                {store.softSkills.map((skill, i) => (
-                  <span key={i} className="text-[7px] font-mono uppercase border border-gray-700 px-1.5 py-0.5 text-gray-400 bg-black">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
-
-          </div>
+          )}
 
         </div>
       </div>

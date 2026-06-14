@@ -38,60 +38,72 @@ function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; i
     onClick(item);
   };
 
-  const content = (
-    <motion.div 
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: idx * 0.1 }}
-      className="group relative flex flex-col border-4 border-foreground overflow-hidden bg-surface shadow-[8px_8px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[4px_4px_0_0_#0F0F0F] cursor-pointer h-full transition-all"
-    >
+  const innerContent = (
+    <>
       <div className="relative aspect-video w-full border-b-4 border-foreground overflow-hidden bg-black">
         {item.mediaType === 'video' ? (
           <video 
             ref={videoRef}
             src={item.coverImage} 
             muted loop playsInline
-            className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+            className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-active:grayscale-0 group-hover:opacity-100 group-active:opacity-100 group-hover:scale-105 group-active:scale-105 transition-all duration-700"
           />
         ) : (
           <div 
-            className="absolute inset-0 bg-cover bg-center grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+            className="absolute inset-0 bg-cover bg-center grayscale opacity-80 group-hover:grayscale-0 group-active:grayscale-0 group-hover:opacity-100 group-active:opacity-100 group-hover:scale-105 group-active:scale-105 transition-all duration-700"
             style={{ backgroundImage: `url('${item.coverImage}')` }}
           />
         )}
       </div>
       
-      <div className="p-6 flex flex-col flex-1 bg-surface group-hover:bg-accent transition-colors duration-300">
-        <h3 className="text-xl font-display font-black text-foreground mb-2 uppercase tracking-tighter">
+      <div className="p-6 flex flex-col flex-1 bg-surface group-hover:bg-accent group-active:bg-accent transition-colors duration-300">
+        <h3 className="text-xl font-display font-black text-accent-secondary group-hover:text-white group-active:text-white mb-2 uppercase tracking-tighter">
           {item.title}
         </h3>
         {item.description && (
-          <p className="text-sm font-bold text-gray-700 line-clamp-2 leading-relaxed">
+          <p className="text-sm font-bold text-gray-600 group-hover:text-black group-active:text-black line-clamp-2 leading-relaxed">
             {item.description}
           </p>
         )}
       </div>
       
-      <div className="absolute top-4 right-4 w-10 h-10 bg-white border-2 border-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 shadow-[2px_2px_0_0_#0F0F0F]">
-        <svg className="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      <div className="absolute top-4 right-4 w-10 h-10 bg-accent-secondary border-2 border-foreground flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 group-active:opacity-100 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 transition-all duration-300 shadow-[2px_2px_0_0_#0F0F0F]">
+        <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
       </div>
-    </motion.div>
+    </>
   );
+
+  const containerClasses = "group relative flex flex-col border-4 border-foreground overflow-hidden bg-surface shadow-[8px_8px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[4px_4px_0_0_#0F0F0F] active:translate-y-1 active:shadow-[4px_4px_0_0_#0F0F0F] cursor-pointer h-full transition-all z-10";
 
   if (disableModal) {
     return (
-      <Link href={item.href} className="block cursor-pointer">
-        {content}
+      <Link href={item.href} className="block cursor-pointer h-full">
+        <motion.div 
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: idx * 0.1 }}
+          className={containerClasses}
+        >
+          {innerContent}
+        </motion.div>
       </Link>
     );
   }
 
   return (
-    <div onClick={handleClick} className="block cursor-pointer">
-      {content}
-    </div>
+    <motion.div 
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: idx * 0.1 }}
+      className={containerClasses}
+    >
+      {innerContent}
+    </motion.div>
   );
 }
 

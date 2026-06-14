@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { MonoAssistant } from "@/components/MonoAssistant";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -48,8 +49,9 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${jakarta.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground relative">
         {children}
+        <MonoAssistant />
       </body>
     </html>
   );

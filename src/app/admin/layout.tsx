@@ -30,6 +30,32 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return () => subscription.unsubscribe();
   }, [router]);
 
+  // Idle Auto-Logout Timer (15 minutes)
+  useEffect(() => {
+    if (!session || pathname.includes('/login')) return;
+
+    let timeoutId: NodeJS.Timeout;
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(async () => {
+        await supabase.auth.signOut();
+        router.push('/admin/login');
+      }, 15 * 60 * 1000); // 15 minutes
+    };
+
+    // Listen to user activity
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    
+    resetTimer();
+    events.forEach(event => window.addEventListener(event, resetTimer));
+
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+    };
+  }, [session, pathname, router]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">

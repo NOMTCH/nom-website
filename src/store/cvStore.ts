@@ -42,6 +42,7 @@ export interface CVStore {
     experience: string;
     education: string;
     skills: string;
+    softSkills: string;
     contact: string;
     phone: string;
     email: string;
@@ -92,6 +93,7 @@ export const useCVStore = create<CVStore>()(
         experience: 'Experience',
         education: 'Education',
         skills: 'Skills',
+        softSkills: 'Core Strengths',
         contact: 'Contact',
         phone: 'Phone',
         email: 'Email',
@@ -193,6 +195,17 @@ export const useCVStore = create<CVStore>()(
     }),
     {
       name: 'cv-storage',
+      merge: (persistedState: unknown, currentState: CVStore) => {
+        const persisted = persistedState as Partial<CVStore>;
+        return {
+          ...currentState,
+          ...persisted,
+          labels: {
+            ...currentState.labels,
+            ...(persisted?.labels || {})
+          }
+        };
+      }
     }
   )
 );

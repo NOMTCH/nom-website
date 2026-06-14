@@ -4,7 +4,6 @@ import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { PortfolioGrid, GridItem } from '@/components/portfolio/PortfolioGrid';
 import { getCategory } from '@/lib/data/portfolio';
 import { notFound } from 'next/navigation';
-import { JellyScroll } from '@/components/JellyScroll';
 import { supabase } from '@/lib/supabase';
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
@@ -39,8 +38,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   return (
     <main className="min-h-screen bg-background pt-[80px]">
       <Navbar />
-      <JellyScroll>
-        <div className="container mx-auto px-6 md:px-12 pb-32">
+      <div className="container mx-auto px-6 md:px-12 pb-32">
           <Breadcrumbs />
           
           <header className="mb-16 mt-8">
@@ -54,7 +52,6 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         </div>
 
         <Footer />
-      </JellyScroll>
     </main>
   );
 }

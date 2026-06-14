@@ -6,7 +6,7 @@ import Link from 'next/link';
 export function Hero() {
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-background">
       
       {/* Dot Pattern & Massive Text Background */}
       <div className="absolute inset-0 opacity-[0.04] z-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #000 2px, transparent 2px)', backgroundSize: '32px 32px' }}></div>
@@ -155,35 +155,35 @@ export function Hero() {
       </div>
       
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 flex flex-col items-center text-center pt-24 pb-32 md:pb-24">
+      <div className="relative z-10 container mx-auto px-4 md:px-6 flex flex-col items-center text-center pt-8 pb-16 md:pt-24 md:pb-24 mt-12 md:mt-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="bg-white border-4 border-foreground shadow-[12px_12px_0_0_#0F0F0F] md:shadow-[24px_24px_0_0_#0F0F0F] p-8 md:p-16 max-w-5xl mx-auto w-full relative z-10"
+          className="bg-white border-4 border-foreground shadow-[12px_12px_0_0_#0F0F0F] md:shadow-[24px_24px_0_0_#0F0F0F] p-4 sm:p-6 md:p-16 max-w-5xl mx-auto w-full relative z-10"
         >
           {/* Decorative Corner Elements */}
           <div className="absolute -top-4 -left-4 w-8 h-8 bg-accent border-4 border-foreground" />
           <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-accent-secondary border-4 border-foreground" />
-          <span className="px-4 py-2 bg-accent text-white font-bold text-sm neo-brutalist mb-8 inline-block">
-            NOMSTD Creative Studio
+          <span className="px-3 py-1.5 md:px-4 md:py-2 bg-accent text-white font-bold text-xs md:text-sm neo-brutalist mb-4 md:mb-8 inline-block">
+            NOM Creative Studio
           </span>
-          <h1 className="text-5xl md:text-8xl font-display font-black tracking-tighter leading-[1.1] mb-6 text-foreground">
-            Desain. Konten. <br/>
+          <h1 className="text-4xl sm:text-5xl md:text-8xl font-display font-black tracking-tighter leading-[1.1] mb-3 md:mb-6 text-foreground">
+            Desain. Konten. <br className="hidden md:block" />
             <span className="text-accent-secondary">
               Teknologi.
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-muted max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
-            Menyediakan layanan desain grafis, foto & video, website, dan solusi IT untuk membantu bisnis dan kreator tampil lebih profesional di dunia digital.
+          <p className="text-sm sm:text-base md:text-xl text-muted max-w-3xl mx-auto mb-6 md:mb-10 leading-relaxed font-medium">
+            Desain grafis foto & video website dan solusi IT untuk membantu bisnismu dan berani tampil lebih profesional di dunia digital.
           </p>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full md:w-auto">
-            <Link href="/portfolio" className="w-full md:w-auto justify-center px-8 py-4 bg-accent text-white font-bold flex items-center gap-2 neo-brutalist">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full md:w-auto">
+            <Link href="/portfolio" className="w-full md:w-auto justify-center px-6 py-3 md:px-8 md:py-4 bg-accent text-white font-bold flex items-center gap-2 neo-brutalist text-sm md:text-base">
               Explore Services
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </Link>
-            <a href="#tools" className="w-full md:w-auto justify-center px-8 py-4 bg-surface text-foreground font-bold flex items-center gap-2 neo-brutalist">
+            <a href="#tools" className="w-full md:w-auto justify-center px-6 py-3 md:px-8 md:py-4 bg-surface text-foreground font-bold flex items-center gap-2 neo-brutalist text-sm md:text-base">
               Free Tools
             </a>
           </div>
@@ -194,7 +194,7 @@ export function Hero() {
       <motion.div
         animate={{ y: [0, 15, 0] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20 cursor-pointer"
+        className="absolute bottom-2 md:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 md:gap-3 z-20 cursor-pointer"
         onClick={() => {
           const servicesSection = document.getElementById('services');
           if (servicesSection) servicesSection.scrollIntoView({ behavior: 'smooth' });

@@ -1,13 +1,10 @@
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { JellyScroll } from '@/components/JellyScroll';
-
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-background pt-[80px]">
       <Navbar />
-      <JellyScroll>
-        <div className="container mx-auto px-6 md:px-12 pb-32">
+      <div className="container mx-auto px-6 md:px-12 pb-32">
           {/* Header Section */}
           <header className="py-24 max-w-4xl">
             <div className="flex items-center gap-4 mb-6">
@@ -59,7 +56,6 @@ export default function AboutPage() {
 
         </div>
         <Footer />
-      </JellyScroll>
     </main>
   );
 }

@@ -98,13 +98,45 @@ export function Sidebar() {
               className="w-full bg-white border-2 border-foreground px-4 py-3 text-sm font-bold focus:bg-[#F7DF1E] outline-none transition-colors shadow-[4px_4px_0_0_#0F0F0F] h-28 resize-none custom-scrollbar"
             />
           </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-black uppercase">Phone Number</label>
+            <input 
+              type="text" 
+              value={store.phone}
+              onChange={(e) => store.updateField('phone', e.target.value)}
+              className="w-full bg-white border-2 border-foreground px-4 py-3 text-sm font-bold focus:bg-[#F7DF1E] outline-none transition-colors shadow-[4px_4px_0_0_#0F0F0F]"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-black uppercase">Email Address</label>
+            <input 
+              type="email" 
+              value={store.email}
+              onChange={(e) => store.updateField('email', e.target.value)}
+              className="w-full bg-white border-2 border-foreground px-4 py-3 text-sm font-bold focus:bg-[#F7DF1E] outline-none transition-colors shadow-[4px_4px_0_0_#0F0F0F]"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-black uppercase">Home Address</label>
+            <input 
+              type="text" 
+              value={store.address}
+              onChange={(e) => store.updateField('address', e.target.value)}
+              className="w-full bg-white border-2 border-foreground px-4 py-3 text-sm font-bold focus:bg-[#F7DF1E] outline-none transition-colors shadow-[4px_4px_0_0_#0F0F0F]"
+            />
+          </div>
         </div>
 
         <div className="h-1 bg-foreground w-full" />
 
         {/* Custom Labels Section */}
         <div className="space-y-4">
-          <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Labels Translation</label>
+          <div>
+            <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Labels Translation</label>
+            <p className="text-[10px] font-bold text-gray-500 mt-2 leading-tight">
+              Change the text below to translate the CV into your preferred language (e.g., Indonesian).
+            </p>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             {Object.entries(store.labels).map(([key, value]) => (
               <div key={key} className="space-y-1">
@@ -124,14 +156,19 @@ export function Sidebar() {
 
         {/* Experience Section */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Experience</label>
-            <button 
-              onClick={store.addExperience}
-              className="w-8 h-8 bg-accent border-2 border-foreground text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] shadow-[4px_4px_0_0_#0F0F0F] transition-all"
-            >
-              <Plus weight="bold" />
-            </button>
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Experience</label>
+              <button 
+                onClick={store.addExperience}
+                className="w-8 h-8 bg-accent border-2 border-foreground text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] shadow-[4px_4px_0_0_#0F0F0F] transition-all"
+              >
+                <Plus weight="bold" />
+              </button>
+            </div>
+            <p className="text-[10px] font-bold text-gray-500 mt-2 leading-tight">
+              Hapus semua item jika bagian ini tidak diperlukan di CV.
+            </p>
           </div>
           
           <div className="space-y-6">
@@ -169,6 +206,159 @@ export function Sidebar() {
                   onChange={(e) => store.updateExperience(exp.id, 'description', e.target.value)}
                   className="w-full bg-[#F0F0F0] border-2 border-foreground px-3 py-2 text-sm font-bold focus:bg-white outline-none transition-colors h-20 resize-none custom-scrollbar"
                 />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        <div className="h-1 bg-foreground w-full" />
+
+        {/* Education Section */}
+        <div className="space-y-4">
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Education</label>
+              <button 
+                onClick={store.addEducation}
+                className="w-8 h-8 bg-accent border-2 border-foreground text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] shadow-[4px_4px_0_0_#0F0F0F] transition-all"
+              >
+                <Plus weight="bold" />
+              </button>
+            </div>
+            <p className="text-[10px] font-bold text-gray-500 mt-2 leading-tight">
+              Hapus semua item jika bagian ini tidak diperlukan di CV.
+            </p>
+          </div>
+          
+          <div className="space-y-6">
+            {store.educations.map((edu, idx) => (
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                key={edu.id} 
+                className="p-4 bg-white border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] space-y-3 relative group"
+              >
+                <button 
+                  onClick={() => store.removeEducation(edu.id)}
+                  className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-red-500 border-2 border-foreground text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:scale-110 shadow-[2px_2px_0_0_#0F0F0F]"
+                >
+                  <Trash weight="bold" />
+                </button>
+                <div className="text-sm font-black bg-black text-white px-2 py-1 inline-block -mt-8 -ml-4 border-r-2 border-b-2 border-foreground">#{idx + 1}</div>
+                <input 
+                  type="text" 
+                  placeholder="School / University Name"
+                  value={edu.name}
+                  onChange={(e) => store.updateEducation(edu.id, 'name', e.target.value)}
+                  className="w-full bg-[#F0F0F0] border-2 border-foreground px-3 py-2 text-sm font-bold focus:bg-white outline-none transition-colors"
+                />
+                <input 
+                  type="text" 
+                  placeholder="Year (e.g. 2018 - 2022)"
+                  value={edu.year}
+                  onChange={(e) => store.updateEducation(edu.id, 'year', e.target.value)}
+                  className="w-full bg-[#F0F0F0] border-2 border-foreground px-3 py-2 text-sm font-bold focus:bg-white outline-none transition-colors"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-1 bg-foreground w-full" />
+
+        {/* Hard Skills Section */}
+        <div className="space-y-4">
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Hard Skills</label>
+              <button 
+                onClick={store.addHardSkill}
+                className="w-8 h-8 bg-accent border-2 border-foreground text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] shadow-[4px_4px_0_0_#0F0F0F] transition-all"
+              >
+                <Plus weight="bold" />
+              </button>
+            </div>
+            <p className="text-[10px] font-bold text-gray-500 mt-2 leading-tight">
+              Hapus semua item jika bagian ini tidak diperlukan di CV.
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            {store.hardSkills.map((skill, idx) => (
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                key={`hardskill-${idx}`} 
+                className="p-3 bg-white border-4 border-foreground shadow-[6px_6px_0_0_#0F0F0F] flex items-center gap-2 relative group"
+              >
+                <div className="flex-1 flex flex-col gap-2">
+                  <input 
+                    type="text" 
+                    placeholder="Skill Name"
+                    value={skill.name}
+                    onChange={(e) => store.updateHardSkill(idx, 'name', e.target.value)}
+                    className="w-full bg-[#F0F0F0] border-2 border-foreground px-2 py-1 text-xs font-bold focus:bg-white outline-none transition-colors"
+                  />
+                  <div className="flex items-center gap-2">
+                    <input 
+                      type="range" 
+                      min="0" max="100"
+                      value={skill.percent}
+                      onChange={(e) => store.updateHardSkill(idx, 'percent', parseInt(e.target.value))}
+                      className="flex-1"
+                    />
+                    <span className="text-xs font-black w-10 text-right">{skill.percent}%</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => store.removeHardSkill(idx)}
+                  className="w-8 h-8 shrink-0 bg-red-500 border-2 border-foreground text-white flex items-center justify-center hover:scale-110 shadow-[2px_2px_0_0_#0F0F0F]"
+                >
+                  <Trash weight="bold" />
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-1 bg-foreground w-full" />
+
+        {/* Soft Skills Section */}
+        <div className="space-y-4">
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-white px-2 border-2 border-foreground inline-block shadow-[2px_2px_0_0_#0F0F0F]">Soft Skills</label>
+              <button 
+                onClick={store.addSoftSkill}
+                className="w-8 h-8 bg-accent border-2 border-foreground text-white flex items-center justify-center hover:-translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] shadow-[4px_4px_0_0_#0F0F0F] transition-all"
+              >
+                <Plus weight="bold" />
+              </button>
+            </div>
+            <p className="text-[10px] font-bold text-gray-500 mt-2 leading-tight">
+              Hapus semua item jika bagian ini tidak diperlukan di CV.
+            </p>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {store.softSkills.map((skill, idx) => (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                key={`softskill-${idx}`} 
+                className="flex items-center bg-white border-2 border-foreground shadow-[2px_2px_0_0_#0F0F0F]"
+              >
+                <input 
+                  type="text" 
+                  value={skill}
+                  onChange={(e) => store.updateSoftSkill(idx, e.target.value)}
+                  className="w-24 bg-transparent px-2 py-1 text-xs font-bold focus:bg-[#F7DF1E] outline-none transition-colors"
+                />
+                <button 
+                  onClick={() => store.removeSoftSkill(idx)}
+                  className="px-2 h-full border-l-2 border-foreground bg-red-500 text-white hover:bg-black transition-colors"
+                >
+                  <Trash size={12} weight="bold" />
+                </button>
               </motion.div>
             ))}
           </div>
