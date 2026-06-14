@@ -22,6 +22,7 @@ export default function AdminPricingPage() {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('Graphic Design');
   const [features, setFeatures] = useState<string[]>(['']);
   const [isPopular, setIsPopular] = useState(false);
   const [sortOrder, setSortOrder] = useState(0);
@@ -44,6 +45,7 @@ export default function AdminPricingPage() {
       setName(pkg.name);
       setPrice(pkg.price);
       setDescription(pkg.description);
+      setCategory(pkg.category || 'Graphic Design');
       setFeatures(pkg.features.length > 0 ? pkg.features : ['']);
       setIsPopular(pkg.is_popular);
       setSortOrder(pkg.sort_order);
@@ -52,6 +54,7 @@ export default function AdminPricingPage() {
       setName('');
       setPrice('');
       setDescription('');
+      setCategory('Graphic Design');
       setFeatures(['']);
       setIsPopular(false);
       setSortOrder(packages.length);
@@ -83,6 +86,7 @@ export default function AdminPricingPage() {
         name,
         price,
         description,
+        category,
         features: cleanFeatures,
         is_popular: isPopular,
         sort_order: sortOrder
@@ -147,10 +151,13 @@ export default function AdminPricingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg) => (
-            <div key={pkg.id} className="bg-surface border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] p-6 relative flex flex-col group">
+            <div key={pkg.id} className="bg-surface border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] p-6 relative flex flex-col group mt-4">
+              <div className="absolute -top-4 -left-4 bg-foreground text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border-2 border-foreground shadow-[4px_4px_0_0_#F7DF1E]">
+                {pkg.category}
+              </div>
               {pkg.is_popular && (
-                <div className="absolute -top-5 -right-5 bg-accent text-black font-black text-xs uppercase tracking-widest px-4 py-2 border-4 border-foreground shadow-[4px_4px_0_0_#0F0F0F] flex items-center gap-1 transform rotate-6">
-                  <Star weight="fill" size={16} /> POPULAR
+                <div className="absolute -top-4 -right-4 bg-accent text-black font-black text-xs uppercase tracking-widest px-3 py-1 border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] transform rotate-3">
+                  Populer
                 </div>
               )}
               
@@ -233,6 +240,21 @@ export default function AdminPricingPage() {
                       placeholder="e.g. Rp 1.500.000 / bln"
                     />
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-black uppercase tracking-widest mb-2">Category</label>
+                  <select 
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
+                    className="w-full bg-surface border-4 border-foreground p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                  >
+                    <option value="Graphic Design">Graphic Design</option>
+                    <option value="Photography">Photography</option>
+                    <option value="Videography">Videography</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="IT Solutions">IT Solutions</option>
+                  </select>
                 </div>
 
                 <div>

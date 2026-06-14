@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import * as PhosphorIcons from '@phosphor-icons/react';
 import { X } from '@phosphor-icons/react';
 
 export interface GridItem {
@@ -13,6 +14,7 @@ export interface GridItem {
   mediaType?: 'image' | 'video';
   mediaItems?: { url: string; type: string }[];
   href: string;
+  icon?: string;
 }
 
 function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; idx: number, onClick: (item: GridItem) => void, disableModal?: boolean }) {
@@ -38,10 +40,18 @@ function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; i
     onClick(item);
   };
 
+  const IconComponent = item.icon ? (PhosphorIcons as any)[item.icon] : null;
+
   const innerContent = (
     <>
-      <div className="relative aspect-video w-full border-b-4 border-foreground overflow-hidden bg-black">
-        {item.mediaType === 'video' ? (
+      <div className="relative aspect-video w-full border-b-4 border-foreground overflow-hidden bg-black flex items-center justify-center">
+        {IconComponent ? (
+          <>
+            <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:16px_16px] z-10" />
+            <IconComponent weight="duotone" size={100} className="text-[#F7DF1E] transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12 z-20" />
+            <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-30" />
+          </>
+        ) : item.mediaType === 'video' ? (
           <video 
             ref={videoRef}
             src={item.coverImage} 
@@ -55,15 +65,19 @@ function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; i
           />
         )}
 
-        {/* Brutalist Vector Halftone Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:10px_10px] group-hover:opacity-0 transition-opacity duration-500 z-10" />
+        {/* Brutalist Vector Halftone Overlay (Only for images/videos) */}
+        {!IconComponent && (
+          <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:10px_10px] group-hover:opacity-0 transition-opacity duration-500 z-10" />
+        )}
         
         {/* Decorative Brutalist Star Vector */}
-        <div className="absolute -top-4 -left-4 z-20 text-accent opacity-100 md:opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-300 transform -rotate-12 group-hover:rotate-12">
-          <svg width="60" height="60" viewBox="0 0 100 100" fill="#F7DF1E" stroke="#0F0F0F" strokeWidth="6" className="drop-shadow-[4px_4px_0_rgba(15,15,15,1)]">
-             <polygon points="50,5 61,35 95,35 68,54 78,85 50,65 22,85 32,54 5,35 39,35" />
-          </svg>
-        </div>
+        {!IconComponent && (
+          <div className="absolute -top-4 -left-4 z-20 text-accent opacity-100 md:opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-300 transform -rotate-12 group-hover:rotate-12">
+            <svg width="60" height="60" viewBox="0 0 100 100" fill="#F7DF1E" stroke="#0F0F0F" strokeWidth="6" className="drop-shadow-[4px_4px_0_rgba(15,15,15,1)]">
+               <polygon points="50,5 61,35 95,35 68,54 78,85 50,65 22,85 32,54 5,35 39,35" />
+            </svg>
+          </div>
+        )}
       </div>
       
       <div className="p-6 flex flex-col flex-1 bg-surface group-hover:bg-accent group-active:bg-accent transition-colors duration-300">

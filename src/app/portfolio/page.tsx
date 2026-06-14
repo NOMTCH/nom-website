@@ -7,12 +7,21 @@ import { getCategories } from '@/lib/data/portfolio';
 export default async function PortfolioPage() {
   const categories = await getCategories();
   
+  const iconMap: Record<string, string> = {
+    'graphic-design': 'Palette',
+    'photography': 'Camera',
+    'videography': 'VideoCamera',
+    'web-development': 'Code',
+    'it-solutions': 'Desktop'
+  };
+
   const items: GridItem[] = categories.map(c => ({
     id: c.id,
     title: c.title,
     description: c.description,
     coverImage: c.coverImage,
-    href: `/portfolio/${c.id}`
+    href: `/portfolio/${c.id}`,
+    icon: iconMap[c.id] || 'Image'
   }));
 
   return (

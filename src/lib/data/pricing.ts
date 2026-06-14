@@ -6,6 +6,7 @@ export interface PricingPackage {
   price: string;
   description: string;
   features: string[]; // Stored as jsonb array in DB
+  category: string;
   is_popular: boolean;
   sort_order: number;
   created_at?: string;

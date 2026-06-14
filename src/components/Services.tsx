@@ -2,46 +2,47 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { Palette, Camera, VideoCamera, Code, Desktop } from '@phosphor-icons/react';
 
 const services = [
   {
     id: '01',
     title: 'Graphic Design',
     desc: 'Logo, Branding, Brosur, Social Media Management. Bikin identitas visual yang nancep di kepala audiens. (Note: We focus on layout and branding, no hand-drawn illustration).',
-    color: 'from-blue-500 to-cyan-400',
-    video: '/assets/videos/Graphic.mp4',
+    color: 'text-[#F7DF1E]',
+    icon: Palette,
     href: '/portfolio/graphic-design'
   },
   {
     id: '02',
     title: 'Photography',
     desc: 'Dari momen epic Wedding, Corporate Event, Perpisahan Sekolah, sampai foto Produk komersial dengan lighting mahal.',
-    color: 'from-accent to-emerald-400',
-    video: '/assets/videos/Photo.mp4',
+    color: 'text-emerald-400',
+    icon: Camera,
     href: '/portfolio/photography'
   },
   {
     id: '03',
     title: 'Videography',
     desc: 'Shooting dan video editing profesional. Cinematic wedding, aftermovie event, sampai paket Reels/TikTok yang hook-nya dapet banget.',
-    color: 'from-amber-400 to-orange-500',
-    video: '/assets/videos/Video.mp4',
+    color: 'text-orange-500',
+    icon: VideoCamera,
     href: '/portfolio/videography'
   },
   {
     id: '04',
     title: 'Web Development',
     desc: 'Bikin Landing Page, Company Profile, atau web app kekinian yang ngebut dan responsif (Powered by modern stacks).',
-    color: 'from-purple-500 to-pink-500',
-    video: '/assets/videos/Web.mp4',
+    color: 'text-pink-500',
+    icon: Code,
     href: '/portfolio/web-development'
   },
   {
     id: '05',
     title: 'IT Solutions',
     desc: 'Service laptop lemot, upgrade SSD/RAM, rakit PC custom idaman, dan maintenance jaringan buat kantor lo.',
-    color: 'from-rose-500 to-red-500',
-    video: '/assets/videos/Laptop.mp4',
+    color: 'text-cyan-400',
+    icon: Desktop,
     href: '/portfolio/it-solutions'
   }
 ];
@@ -71,24 +72,17 @@ export function Services() {
               transition={{ delay: idx * 0.1 }}
               className="group relative flex flex-col bg-surface neo-brutalist overflow-hidden h-[450px] cursor-pointer"
             >
-              {/* Top Half: Video */}
-              <div className="relative h-[200px] w-full border-b-4 border-foreground overflow-hidden bg-black">
-                <video 
-                  src={srv.video} 
-                  autoPlay loop muted playsInline 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-10" />
-                
+              {/* Top Half: Vector Icon */}
+              <div className="relative h-[200px] w-full border-b-4 border-foreground overflow-hidden bg-black flex items-center justify-center">
                 {/* Brutalist Vector Halftone Overlay */}
-                <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:10px_10px] group-hover:opacity-0 transition-opacity duration-500 z-10" />
+                <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:16px_16px] z-10" />
                 
-                {/* Decorative Brutalist Star Vector */}
-                <div className="absolute -top-4 -left-4 z-20 text-accent opacity-100 md:opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-300 transform -rotate-12 group-hover:rotate-12">
-                  <svg width="60" height="60" viewBox="0 0 100 100" fill="#F7DF1E" stroke="#0F0F0F" strokeWidth="6" className="drop-shadow-[4px_4px_0_rgba(15,15,15,1)]">
-                     <polygon points="50,5 61,35 95,35 68,54 78,85 50,65 22,85 32,54 5,35 39,35" />
-                  </svg>
+                {/* Massive Brutalist Icon */}
+                <div className={`transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12 ${srv.color}`}>
+                  <srv.icon weight="duotone" size={120} />
                 </div>
+                
+                <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-20" />
               </div>
               
               {/* Bottom Half: Content */}
