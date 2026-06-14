@@ -10,7 +10,7 @@ const services = [
     title: 'Graphic Design',
     desc: 'Logo, Branding, Brosur, Social Media Management. Bikin identitas visual yang nancep di kepala audiens. (Note: We focus on layout and branding, no hand-drawn illustration).',
     color: 'text-[#F7DF1E]',
-    icon: Palette,
+    icon: '/assets/icons/Portfolio Icon/design.svg',
     href: '/portfolio/graphic-design'
   },
   {
@@ -18,7 +18,7 @@ const services = [
     title: 'Photography',
     desc: 'Dari momen epic Wedding, Corporate Event, Perpisahan Sekolah, sampai foto Produk komersial dengan lighting mahal.',
     color: 'text-emerald-400',
-    icon: Camera,
+    icon: '/assets/icons/Portfolio Icon/camera.svg',
     href: '/portfolio/photography'
   },
   {
@@ -26,7 +26,7 @@ const services = [
     title: 'Videography',
     desc: 'Shooting dan video editing profesional. Cinematic wedding, aftermovie event, sampai paket Reels/TikTok yang hook-nya dapet banget.',
     color: 'text-orange-500',
-    icon: VideoCamera,
+    icon: '/assets/icons/Portfolio Icon/video.svg',
     href: '/portfolio/videography'
   },
   {
@@ -34,7 +34,7 @@ const services = [
     title: 'Web Development',
     desc: 'Bikin Landing Page, Company Profile, atau web app kekinian yang ngebut dan responsif (Powered by modern stacks).',
     color: 'text-pink-500',
-    icon: Code,
+    icon: '/assets/icons/Portfolio Icon/web.svg',
     href: '/portfolio/web-development'
   },
   {
@@ -42,7 +42,7 @@ const services = [
     title: 'IT Solutions',
     desc: 'Service laptop lemot, upgrade SSD/RAM, rakit PC custom idaman, dan maintenance jaringan buat kantor lo.',
     color: 'text-cyan-400',
-    icon: Desktop,
+    icon: '/assets/icons/Portfolio Icon/laptop.svg',
     href: '/portfolio/it-solutions'
   }
 ];
@@ -78,8 +78,8 @@ export function Services() {
                 <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:16px_16px] z-10" />
                 
                 {/* Massive Brutalist Icon */}
-                <div className={`transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12 ${srv.color}`}>
-                  <srv.icon weight="duotone" size={120} />
+                <div className={`transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12`}>
+                  <img src={srv.icon} alt={srv.title} className="w-32 h-32 object-contain" />
                 </div>
                 
                 <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-20" />

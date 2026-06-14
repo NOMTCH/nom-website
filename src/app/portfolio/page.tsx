@@ -8,11 +8,11 @@ export default async function PortfolioPage() {
   const categories = await getCategories();
   
   const iconMap: Record<string, string> = {
-    'graphic-design': 'Palette',
-    'photography': 'Camera',
-    'videography': 'VideoCamera',
-    'web-development': 'Code',
-    'it-solutions': 'Desktop'
+    'graphic-design': '/assets/icons/Portfolio Icon/design.svg',
+    'photography': '/assets/icons/Portfolio Icon/camera.svg',
+    'videography': '/assets/icons/Portfolio Icon/video.svg',
+    'web-development': '/assets/icons/Portfolio Icon/web.svg',
+    'it-solutions': '/assets/icons/Portfolio Icon/laptop.svg'
   };
 
   const items: GridItem[] = categories.map(c => ({
@@ -21,7 +21,7 @@ export default async function PortfolioPage() {
     description: c.description,
     coverImage: c.coverImage,
     href: `/portfolio/${c.id}`,
-    icon: iconMap[c.id] || 'Image'
+    icon: iconMap[c.id] || null
   }));
 
   return (

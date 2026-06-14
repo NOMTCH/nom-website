@@ -230,15 +230,18 @@ export default function AdminPricingPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-black uppercase tracking-widest mb-2">Price String</label>
-                    <input 
-                      type="text" 
-                      required
-                      value={price}
-                      onChange={e => setPrice(e.target.value)}
-                      className="w-full bg-surface border-4 border-foreground p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
-                      placeholder="e.g. Rp 1.500.000 / bln"
-                    />
+                    <label className="block text-sm font-black uppercase tracking-widest mb-2">Nominal Harga</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-muted">Rp</span>
+                      <input 
+                        type="number" 
+                        required
+                        value={price}
+                        onChange={e => setPrice(e.target.value)}
+                        className="w-full bg-surface border-4 border-foreground p-3 pl-12 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                        placeholder="1500000"
+                      />
+                    </div>
                   </div>
                 </div>
 

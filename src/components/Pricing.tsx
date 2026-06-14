@@ -104,8 +104,13 @@ export function Pricing() {
                     </div>
 
                     <div className="mb-10">
-                      <div className="text-5xl md:text-6xl font-black tracking-tighter mb-2">
-                        {pkg.price}
+                      <div className="flex items-start gap-1 md:gap-2 mb-2">
+                        <span className="text-xl md:text-2xl font-bold mt-1 md:mt-2">Rp</span>
+                        <span className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none break-all">
+                          {!isNaN(Number(pkg.price)) && pkg.price.trim() !== ''
+                            ? new Intl.NumberFormat('id-ID').format(Number(pkg.price))
+                            : pkg.price.replace(/Rp\.?\s?/i, '')}
+                        </span>
                       </div>
                     </div>
 

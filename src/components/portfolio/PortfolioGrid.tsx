@@ -40,15 +40,13 @@ function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; i
     onClick(item);
   };
 
-  const IconComponent = item.icon ? (PhosphorIcons as any)[item.icon] : null;
-
   const innerContent = (
     <>
       <div className="relative aspect-video w-full border-b-4 border-foreground overflow-hidden bg-black flex items-center justify-center">
-        {IconComponent ? (
+        {item.icon ? (
           <>
             <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:16px_16px] z-10" />
-            <IconComponent weight="duotone" size={100} className="text-[#F7DF1E] transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12 z-20" />
+            <img src={item.icon} alt={item.title} className="w-24 h-24 object-contain transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12 z-20" />
             <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-30" />
           </>
         ) : item.mediaType === 'video' ? (
@@ -66,12 +64,12 @@ function PortfolioCard({ item, idx, onClick, disableModal }: { item: GridItem; i
         )}
 
         {/* Brutalist Vector Halftone Overlay (Only for images/videos) */}
-        {!IconComponent && (
+        {!item.icon && (
           <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:10px_10px] group-hover:opacity-0 transition-opacity duration-500 z-10" />
         )}
         
         {/* Decorative Brutalist Star Vector */}
-        {!IconComponent && (
+        {!item.icon && (
           <div className="absolute -top-4 -left-4 z-20 text-accent opacity-100 md:opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-all duration-300 transform -rotate-12 group-hover:rotate-12">
             <svg width="60" height="60" viewBox="0 0 100 100" fill="#F7DF1E" stroke="#0F0F0F" strokeWidth="6" className="drop-shadow-[4px_4px_0_rgba(15,15,15,1)]">
                <polygon points="50,5 61,35 95,35 68,54 78,85 50,65 22,85 32,54 5,35 39,35" />
