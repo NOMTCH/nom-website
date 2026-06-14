@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "NOMSTD",
     images: [
       {
-        url: "/assets/logo/Favicon.svg",
+        url: "/assets/logo/favicon.svg",
         width: 800,
         height: 600,
         alt: "NOMSTD Banner",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: '/assets/logo/Favicon.svg'
+    icon: '/assets/logo/favicon.svg'
   }
 };
 
