@@ -21,7 +21,7 @@ export default async function PortfolioPage() {
     description: c.description,
     coverImage: c.coverImage,
     href: `/portfolio/${c.id}`,
-    icon: iconMap[c.id] || null
+    icon: iconMap[c.id] || undefined
   }));
 
   return (
