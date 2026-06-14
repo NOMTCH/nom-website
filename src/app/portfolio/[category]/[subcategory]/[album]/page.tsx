@@ -4,7 +4,6 @@ import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { MasonryGallery } from '@/components/portfolio/MasonryGallery';
 import { getAlbum } from '@/lib/data/portfolio';
 import { notFound } from 'next/navigation';
-import { JellyScroll } from '@/components/JellyScroll';
 
 export default async function AlbumPage({ params }: { params: Promise<{ category: string, subcategory: string, album: string }> }) {
   const { category, subcategory, album: albumId } = await params;
@@ -17,7 +16,6 @@ export default async function AlbumPage({ params }: { params: Promise<{ category
   return (
     <main className="min-h-screen bg-background pt-[80px]">
       <Navbar />
-      <JellyScroll>
         <div className="container mx-auto px-6 md:px-12 pb-32">
           <Breadcrumbs />
           
@@ -45,7 +43,6 @@ export default async function AlbumPage({ params }: { params: Promise<{ category
         </div>
 
         <Footer />
-      </JellyScroll>
     </main>
   );
 }
