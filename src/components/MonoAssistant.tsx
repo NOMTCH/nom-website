@@ -57,7 +57,7 @@ export function MonoAssistant() {
     } else if (isAdmin) {
       text = 'Ampun%20Bos%20MONO!%20Saya%20akan%20kerja%20lebih%20keras%20lagi!%20%F0%9F%99%8F%E2%80%8D%E2%99%82%EF%B8%8F';
     }
-    window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
+    window.open(`https://wa.me/6282130704794?text=${text}`, '_blank');
   };
 
   if (!isClient) return null;
