@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -121,24 +121,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="flex-1 p-4 space-y-2 overflow-hidden">
           <Link 
             href="/admin" 
-            className={`flex items-center gap-3 px-4 py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname === '/admin' ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname === '/admin' ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
           >
             <Desktop weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Overview"}
           </Link>
           <Link 
             href="/admin/projects" 
-            className={`flex items-center gap-3 px-4 py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/projects') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/projects') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
           >
             <Briefcase weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Portfolio"}
           </Link>
           <Link 
             href="/admin/promos" 
-            className={`flex items-center gap-3 px-4 py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/promos') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/promos') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
           >
             <Tag weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Promos"}
+          </Link>
+          <Link 
+            href="/admin/pricing" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/pricing') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+          >
+            <CurrencyDollar weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Pricing"}
           </Link>
         </nav>
 
@@ -148,7 +155,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               await supabase.auth.signOut();
               router.push('/admin/login');
             }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500 border-2 border-foreground font-black uppercase text-white shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] transition-all"
+            className={`w-full flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'justify-center gap-2 px-4'} py-3 bg-red-500 border-2 border-foreground font-black uppercase text-white shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] transition-all`}
             title="Logout"
           >
             <SignOut weight="bold" size={20} className="shrink-0" />

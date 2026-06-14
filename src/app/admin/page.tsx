@@ -11,8 +11,15 @@ export default function AdminDashboard() {
     cvUsers: 0,
     templates: 4
   });
+  const [greeting, setGreeting] = useState('Wilujeng Sumping, Juragan! 👋');
 
   useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour >= 3 && hour < 10) setGreeting('Wilujeng Enjing, Juragan! 🌅');
+    else if (hour >= 10 && hour < 15) setGreeting('Wilujeng Siang, Juragan! ☀️');
+    else if (hour >= 15 && hour < 18) setGreeting('Wilujeng Sonten, Juragan! ⛅');
+    else setGreeting('Wilujeng Wengi, Juragan! 🌙');
+
     async function loadStats() {
       // Load projects count
       const { count: projectsCount } = await supabase
@@ -37,6 +44,7 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <header className="mb-10">
+        <p className="text-xl md:text-2xl font-bold text-muted mb-2">{greeting}</p>
         <h1 className="text-5xl md:text-6xl font-display font-black uppercase tracking-tighter text-foreground leading-none mb-2">System Overview</h1>
         <div className="w-24 h-2 bg-accent" />
       </header>

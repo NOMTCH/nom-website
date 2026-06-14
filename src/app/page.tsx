@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { PainPoints } from "@/components/PainPoints";
 import { FreeTools } from "@/components/FreeTools";
+import { Pricing } from "@/components/Pricing";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
@@ -14,6 +15,7 @@ export default function Home() {
       <Services />
       <PainPoints />
       <FreeTools />
+      <Pricing />
       <Contact />
       <Footer />
     </main>

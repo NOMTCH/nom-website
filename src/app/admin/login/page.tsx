@@ -42,7 +42,7 @@ export default function AdminLogin() {
             <img src="/assets/logo/favicon.svg" className="w-16 h-16 " alt="NOMSYS" />
           </div>
           <h1 className="text-4xl font-display font-black uppercase tracking-tighter text-foreground  leading-none mb-2">NOMSYS</h1>
-          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Authorized Personnel Only</p>
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Khusus Nu Boga Akses</p>
         </div>
 
         {error && (
@@ -54,35 +54,35 @@ export default function AdminLogin() {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-foreground">Admin Email</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <EnvelopeSimple weight="bold" size={20} className="text-gray-400" />
+            <label className="text-xs font-black uppercase tracking-widest text-foreground">Akses Admin</label>
+            <div className="flex bg-[#F5F5F5] border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] focus-within:bg-white transition-all group">
+              <div className="flex items-center justify-center w-14 border-r-2 border-foreground bg-surface group-focus-within:bg-white transition-colors">
+                <EnvelopeSimple weight="bold" size={24} className="text-foreground" />
               </div>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-12 pr-4 py-4 bg-[#F5F5F5] border-2 border-foreground font-mono text-sm focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#0F0F0F] transition-all"
-                placeholder="admin@nomstd.studio"
+                className="w-full p-4 !bg-transparent font-mono text-sm focus:outline-none !rounded-none !border-0 !shadow-none !ring-0"
+                placeholder="Asupkeun email"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-foreground">Password</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <LockKey weight="bold" size={20} className="text-gray-400" />
+            <label className="text-xs font-black uppercase tracking-widest text-foreground">Kunci Rahasia</label>
+            <div className="flex bg-[#F5F5F5] border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] focus-within:bg-white transition-all group">
+              <div className="flex items-center justify-center w-14 border-r-2 border-foreground bg-surface group-focus-within:bg-white transition-colors">
+                <LockKey weight="bold" size={24} className="text-foreground" />
               </div>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full pl-12 pr-4 py-4 bg-[#F5F5F5] border-2 border-foreground font-mono text-sm focus:outline-none focus:bg-white focus:shadow-[4px_4px_0_0_#0F0F0F] transition-all"
-                placeholder="••••••••"
+                className="w-full p-4 !bg-transparent font-mono text-sm focus:outline-none !rounded-none !border-0 !shadow-none !ring-0"
+                placeholder="Asupkeun sandi"
               />
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function AdminLogin() {
             {loading ? (
               <div className="w-6 h-6 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
             ) : (
-              'Access System'
+              'GAS ASUP!'
             )}
           </button>
         </form>
