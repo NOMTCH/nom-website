@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -146,6 +146,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <CurrencyDollar weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Pricing"}
+          </Link>
+          <Link 
+            href="/admin/messages" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/messages') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+          >
+            <Envelope weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Inbox"}
           </Link>
         </nav>
 
