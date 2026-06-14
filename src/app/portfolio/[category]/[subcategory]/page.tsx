@@ -4,7 +4,6 @@ import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { PortfolioGrid, GridItem } from '@/components/portfolio/PortfolioGrid';
 import { getSubcategory } from '@/lib/data/portfolio';
 import { notFound } from 'next/navigation';
-import { JellyScroll } from '@/components/JellyScroll';
 
 export default async function SubcategoryPage({ params }: { params: Promise<{ category: string, subcategory: string }> }) {
   const { category, subcategory } = await params;
@@ -25,7 +24,6 @@ export default async function SubcategoryPage({ params }: { params: Promise<{ ca
   return (
     <main className="min-h-screen bg-background pt-[80px]">
       <Navbar />
-      <JellyScroll>
         <div className="container mx-auto px-6 md:px-12 pb-32">
           <Breadcrumbs />
           
@@ -38,9 +36,7 @@ export default async function SubcategoryPage({ params }: { params: Promise<{ ca
 
           <PortfolioGrid items={items} />
         </div>
-
         <Footer />
-      </JellyScroll>
     </main>
   );
 }
