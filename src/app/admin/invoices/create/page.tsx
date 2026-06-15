@@ -39,7 +39,7 @@ export default function CreateInvoicePage() {
     if (field === 'description') {
       item.description = value as string;
     } else {
-      item[field] = Number(value);
+      (item as any)[field] = Number(value);
       if (field === 'quantity' || field === 'price') {
         item.total = item.quantity * item.price;
       }
