@@ -4,17 +4,22 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
+    // Auto open sidebar on desktop
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setSidebarOpen(true);
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
@@ -83,7 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       />
       
       {/* Mobile Sidebar Toggle */}
-      <div className="md:hidden p-4 border-b-4 border-foreground flex justify-between items-center bg-surface">
+      <div className="print:hidden md:hidden p-4 border-b-4 border-foreground flex justify-between items-center bg-surface">
         <Link href="/admin" className="font-black uppercase tracking-widest text-lg flex items-center gap-2">
           <div className="w-8 h-8 flex items-center justify-center">
             <img src="/assets/logo/favicon.svg" className="w-6 h-6" alt="NOMSYS" />
@@ -97,9 +102,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside className={`
-        ${sidebarOpen ? 'w-full md:w-64' : 'w-0 md:w-20 overflow-visible'} 
-        bg-surface border-r-4 border-foreground 
-        transition-all duration-300 flex flex-col shrink-0 relative z-40
+        print:hidden
+        ${sidebarOpen ? 'flex w-full md:w-64 border-b-4 md:border-b-0 md:border-r-4' : 'hidden md:flex md:w-20 md:border-r-4 overflow-visible'} 
+        bg-surface border-foreground 
+        transition-all duration-300 flex-col shrink-0 relative z-40
       `}>
         {/* Desktop Center Puller */}
         <button 
@@ -153,6 +159,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Envelope weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Inbox"}
+          </Link>
+          <Link 
+            href="/admin/invoices" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/invoices') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+          >
+            <Receipt weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Invoices"}
           </Link>
         </nav>
 

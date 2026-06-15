@@ -69,7 +69,7 @@ export function MonoAssistant() {
     : "Meow! 🐾 Ada project seru? WA babuku aja ntar dia balasin chat lho! 🚀";
 
   return (
-    <div className="fixed -bottom-4 right-2 sm:-bottom-6 sm:right-6 z-[999] flex flex-col items-end pointer-events-none">
+    <div className={`print:hidden fixed -bottom-4 right-2 sm:-bottom-6 sm:right-6 z-[999] flex flex-col items-end pointer-events-none ${isAdmin ? 'hidden md:flex' : 'flex'}`}>
       <audio ref={popSoundRef} src="/assets/Sound/pop.wav" preload="auto" />
       <audio ref={catSoundRef} src="/assets/Sound/cat.wav" preload="auto" />
 
