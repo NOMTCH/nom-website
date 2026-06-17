@@ -32,8 +32,8 @@ export default function PrintInvoicePage() {
       setInvoice(data);
       setLoading(false);
       
-      // Update document title so "Save as PDF" defaults to a beautiful filename
-      document.title = `NOM Studio - ${data.invoice_number} - ${data.client_name}`;
+      // Handled by layout metadata for better production support
+
       
       setTimeout(fitToScreen, 100);
     }

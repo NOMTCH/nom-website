@@ -79,6 +79,21 @@ export async function updateInvoiceStatus(id: string, status: 'unpaid' | 'paid' 
   return data as Invoice;
 }
 
+export async function updateInvoice(id: string, invoice: Partial<Omit<Invoice, 'id' | 'created_at'>>) {
+  const { data, error } = await supabase
+    .from('invoices')
+    .update(invoice)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Supabase Update Error:", error);
+    throw error;
+  }
+  return data as Invoice;
+}
+
 export async function deleteInvoice(id: string) {
   const { error } = await supabase
     .from('invoices')

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Plus, Printer, Trash, Receipt, CaretRight } from '@phosphor-icons/react';
+import { Plus, Printer, Trash, Receipt, CaretRight, Pencil } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { Invoice, getInvoices, deleteInvoice, updateInvoiceStatus } from '@/lib/data/invoices';
 
@@ -125,6 +125,13 @@ export default function AdminInvoicesPage() {
                     </td>
                     <td className="p-3 md:p-4 border-l-4 border-dashed border-border align-top h-full">
                       <div className="flex flex-col sm:flex-row gap-2 h-full">
+                        <Link 
+                          href={`/admin/invoices/${inv.id}/edit`}
+                          className="w-8 h-8 md:w-10 md:h-10 bg-surface border-2 border-foreground shadow-[2px_2px_0_0_#0F0F0F] flex items-center justify-center hover:bg-[#F7DF1E] hover:text-black transition-colors shrink-0"
+                          title="Edit"
+                        >
+                          <Pencil weight="bold" size={18} className="md:w-5 md:h-5" />
+                        </Link>
                         <Link 
                           href={`/admin/invoices/${inv.id}/print`}
                           target="_blank"
