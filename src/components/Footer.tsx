@@ -2,23 +2,24 @@
 
 export function Footer() {
   return (
-    <footer className="py-16 border-t-8 border-foreground bg-black text-center relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.05] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
+    <footer className="py-16 md:py-24 border-t border-border bg-background text-center relative overflow-hidden">
+      {/* Soft Pattern */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#E5E7EB_2px,transparent_2px)] [background-size:24px_24px]" />
       
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
         
-        <div className="bg-accent border-4 border-foreground shadow-[8px_8px_0_0_#ffffff] p-6 mb-8 hover:-rotate-2 transition-transform cursor-pointer">
-          <img src="/assets/logo/logo.svg" alt="NOMSTD Logo" className="h-12 w-auto" />
+        <div className="bg-white border border-border shadow-sm rounded-3xl p-6 mb-10 hover:-translate-y-2 hover:shadow-lg transition-all duration-300 cursor-pointer">
+          <img src="/assets/logo/logo2.svg" alt="NOMSTD Logo" className="h-10 w-auto" />
         </div>
         
-        <p className="text-white font-bold uppercase tracking-widest text-sm md:text-base mb-8">
+        <p className="text-muted font-bold text-sm md:text-base mb-8">
           © {new Date().getFullYear()} NOMSTD Creative Studio. All rights reserved.
         </p>
         
-        <div className="flex justify-center gap-6 text-sm font-black uppercase tracking-widest text-white">
-          <a href="https://www.instagram.com/nomstd/" target="_blank" rel="noreferrer" className="py-2 px-4 border-2 border-transparent hover:border-white hover:bg-white hover:text-black transition-all">Instagram</a>
-          <a href="#" className="py-2 px-4 border-2 border-transparent hover:border-white hover:bg-white hover:text-black transition-all">Twitter</a>
-          <a href="#" className="py-2 px-4 border-2 border-transparent hover:border-white hover:bg-white hover:text-black transition-all">TikTok</a>
+        <div className="flex justify-center gap-4 text-sm font-bold text-muted">
+          <a href="https://www.instagram.com/nomstd/" target="_blank" rel="noreferrer" className="py-2 px-6 rounded-full border border-border hover:border-accent hover:text-accent hover:bg-accent/5 transition-all">Instagram</a>
+          <a href="#" className="py-2 px-6 rounded-full border border-border hover:border-accent hover:text-accent hover:bg-accent/5 transition-all">Twitter</a>
+          <a href="#" className="py-2 px-6 rounded-full border border-border hover:border-accent hover:text-accent hover:bg-accent/5 transition-all">TikTok</a>
         </div>
       </div>
     </footer>

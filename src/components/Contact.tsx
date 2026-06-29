@@ -20,30 +20,35 @@ export function Contact() {
       setStatus('error');
     }
   };
-  return (
-    <section id="contact" className="py-32 px-6 bg-surface relative">
-      <div className="container mx-auto max-w-4xl bg-surface p-8 md:p-16 relative overflow-hidden neo-brutalist shadow-[12px_12px_0_0_#0F0F0F]">
-        
-        {/* Decorative Circle */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full pointer-events-none transform translate-x-1/3 -translate-y-1/3 border-4 border-border" />
 
-        <div className="relative z-10 flex flex-col md:flex-row gap-12">
+  return (
+    <section id="contact" className="py-24 md:py-32 px-4 bg-background relative">
+      <div className="container mx-auto max-w-5xl bg-white p-8 md:p-16 relative overflow-hidden rounded-[2.5rem] md:rounded-[4rem] shadow-[0_20px_40px_rgba(0,0,0,0.06)] border border-border">
+        
+        {/* Decorative Circles */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent-secondary/5 rounded-full pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
+
+        <div className="relative z-10 flex flex-col md:flex-row gap-12 lg:gap-20">
           <div className="flex-1 space-y-6">
-            <h2 className="text-4xl md:text-5xl font-display font-black leading-tight text-foreground uppercase tracking-tighter">
+            <span className="text-accent font-bold text-sm uppercase tracking-wider inline-block px-4 py-1.5 bg-accent/10 rounded-full mb-2">
+              Let&apos;s Talk
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] text-foreground tracking-tight">
               Got an Idea?<br/>
               <span className="text-accent">Let&apos;s Make It Happen.</span>
             </h2>
-            <p className="text-muted font-bold">
+            <p className="text-muted font-medium text-lg leading-relaxed">
               Isi form di samping untuk mulai ngobrolin project lo, atau langsung hubungi via WhatsApp untuk fast response.
             </p>
+            
             <div className="pt-8 space-y-6">
-              
               <div>
                 <a 
                   href="https://wa.me/6282130704794" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-3 px-6 py-4 bg-[#25D366] text-black border-4 border-foreground font-black uppercase tracking-widest hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#0F0F0F] active:translate-y-1 active:shadow-none transition-all group"
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-3 px-8 py-4 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#20bd5a] hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/20 transition-all duration-300 group"
                 >
                   <WhatsappLogo weight="fill" size={28} />
                   <span>Chat WhatsApp</span>
@@ -52,8 +57,8 @@ export function Contact() {
               </div>
 
               <div>
-                <div className="text-xs font-black uppercase tracking-widest text-muted mb-2">Or via Email</div>
-                <a href="mailto:halo@nomstd.com" className="inline-flex items-center gap-2 text-lg font-black uppercase tracking-widest text-foreground hover:text-accent transition-colors">
+                <div className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Or via Email</div>
+                <a href="mailto:halo@nomstd.com" className="inline-flex items-center gap-2 text-lg font-bold text-foreground hover:text-accent transition-colors">
                   <EnvelopeSimple weight="bold" size={24} />
                   halo@nomstd.com
                 </a>
@@ -62,21 +67,21 @@ export function Contact() {
           </div>
 
           {status === 'success' ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-surface border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F]">
-              <CheckCircle weight="fill" size={64} className="text-green-500 mb-4" />
-              <h3 className="text-2xl font-black uppercase mb-2">Message Sent!</h3>
-              <p className="font-bold text-gray-600 mb-6">Thanks for reaching out. Our team will get back to you shortly.</p>
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-background border border-border rounded-[2rem]">
+              <CheckCircle weight="fill" size={64} className="text-[#34C759] mb-6" />
+              <h3 className="text-2xl font-bold tracking-tight mb-3">Message Sent!</h3>
+              <p className="font-medium text-muted mb-8 leading-relaxed">Thanks for reaching out. Our team will get back to you shortly.</p>
               <button 
                 onClick={() => setStatus('idle')}
-                className="py-3 px-6 bg-accent text-black font-black uppercase tracking-widest border-4 border-foreground shadow-[4px_4px_0_0_#0F0F0F] hover:bg-white active:translate-y-1 active:shadow-none transition-all"
+                className="py-3 px-8 bg-foreground text-white rounded-full font-bold hover:bg-accent hover:shadow-lg transition-all"
               >
                 Send Another
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex-1 space-y-4">
+            <form onSubmit={handleSubmit} className="flex-1 space-y-5">
               <div>
-                <label className="text-sm font-bold text-foreground mb-2 block uppercase tracking-widest">Name</label>
+                <label className="text-sm font-bold text-foreground mb-2 block tracking-wide">Name</label>
                 <input 
                   type="text" 
                   required
@@ -87,7 +92,7 @@ export function Contact() {
                 />
               </div>
               <div>
-                <label className="text-sm font-bold text-foreground mb-2 block uppercase tracking-widest">Email</label>
+                <label className="text-sm font-bold text-foreground mb-2 block tracking-wide">Email</label>
                 <input 
                   type="email" 
                   required
@@ -98,7 +103,7 @@ export function Contact() {
                 />
               </div>
               <div>
-                <label className="text-sm font-bold text-foreground mb-2 block uppercase tracking-widest">Project Details</label>
+                <label className="text-sm font-bold text-foreground mb-2 block tracking-wide">Project Details</label>
                 <textarea 
                   required
                   value={formData.project_details}
@@ -108,12 +113,12 @@ export function Contact() {
                 ></textarea>
               </div>
               {status === 'error' && (
-                <p className="text-red-500 font-bold text-sm">Oops! Something went wrong. Please try again.</p>
+                <p className="text-red-500 font-bold text-sm bg-red-50 p-3 rounded-xl border border-red-100">Oops! Something went wrong. Please try again.</p>
               )}
               <button 
                 type="submit" 
                 disabled={status === 'loading'}
-                className="w-full py-4 flex items-center justify-center gap-2 bg-accent text-black font-black uppercase tracking-widest border-4 border-foreground shadow-[4px_4px_0_0_#0F0F0F] hover:bg-white active:translate-y-1 active:shadow-none transition-all disabled:opacity-50"
+                className="w-full py-4 mt-2 flex items-center justify-center gap-2 bg-foreground text-white rounded-2xl font-bold hover:bg-accent hover:shadow-lg hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
               >
                 {status === 'loading' ? <SpinnerGap className="animate-spin" size={24} /> : 'Send Message'}
               </button>

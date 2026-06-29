@@ -5,49 +5,72 @@ import Link from 'next/link';
 
 export function FreeTools() {
   return (
-    <section id="tools" className="py-32 px-6 bg-background relative border-t-2 border-border">
+    <section id="tools" className="py-24 md:py-32 px-4 bg-surface relative border-t border-border">
       <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
+        <div className="flex flex-col md:flex-row gap-12 lg:gap-16 items-center">
           
-          <div className="flex-1 space-y-6">
-            <span className="text-accent font-bold text-sm">— CSR & Community</span>
-            <h2 className="text-4xl md:text-5xl font-display font-black mb-6 uppercase tracking-tighter">
-              We Build &quot;Free&quot; Tools <br/>For Community
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex-1 space-y-6"
+          >
+            <span className="text-accent font-bold text-sm uppercase tracking-wider inline-block px-4 py-1.5 bg-accent/10 rounded-full">
+              Level Up Your Game
+            </span>
+            <h2 className="text-4xl md:text-5xl font-display font-black mb-6 tracking-tight text-foreground">
+              Premium Tools,<br/>
+              <span className="text-accent">
+                100% Gratis.
+              </span>
             </h2>
-            <p className="text-muted text-lg leading-relaxed">
-              Walaupun bayarannya cuma lewat &quot;Saweria&quot;, ngebantu orang dapet kerja atau mempermudah hidup mereka itu gratis. Cobain tools gratis buatan NOMSTD!
+            <p className="text-muted text-base md:text-lg leading-relaxed font-medium">
+              Kita bikin tools kualitas premium khusus buat lo. Mulai dari bikin CV keren buat ngelamar kerja, sampai Bio Link bergaya Neo-Pop buat nampang di sosmed. Sikat semua gratis tanpa langganan! (Tapi kalau mau traktir kopi, kita gak nolak kok wkwk).
             </p>
             
-            <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <Link href="/tools/cv-generator" target="_blank" className="px-8 py-4 bg-surface text-foreground font-bold text-center neo-brutalist hover:bg-accent hover:text-white">
-                Open CV Generator
+            <div className="pt-6 flex flex-col sm:flex-row gap-4">
+              <Link href="/tools/cv-generator" target="_blank" className="px-8 py-4 bg-white border border-border text-foreground font-bold text-center rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-accent transition-all duration-300">
+                CV Generator
+              </Link>
+              <Link href="/tools/link-builder" target="_blank" className="px-8 py-4 bg-accent text-white font-bold text-center rounded-2xl shadow-sm hover:shadow-lg hover:shadow-accent/30 hover:-translate-y-1 hover:bg-accent-dark transition-all duration-300">
+                Bio Link Builder
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex-1 w-full max-w-sm">
-            <div className="p-8 bg-[#F7DF1E] border-4 border-foreground text-center relative group shadow-[12px_12px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[4px_4px_0_0_#0F0F0F] transition-all">
-              <div className="absolute top-0 left-0 right-0 h-4 bg-[repeating-linear-gradient(45deg,#0F0F0F,#0F0F0F_10px,#F7DF1E_10px,#F7DF1E_20px)] border-b-4 border-foreground" />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex-1 w-full max-w-md"
+          >
+            <div className="p-8 md:p-10 bg-[#FF9500]/10 border border-[#FFCC00]/30 text-center relative group shadow-sm hover:shadow-xl hover:-translate-y-2 rounded-[2rem] transition-all duration-500">
+              {/* Cute top accent pill */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-[#FF9500] text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">
+                Support Us
+              </div>
               
-              <div className="relative z-10 pt-6">
-                <h3 className="text-3xl font-black mb-2 text-foreground uppercase tracking-widest">TRAKTIR KOPI ☕</h3>
-                <p className="text-sm font-bold text-foreground mb-6 uppercase">
+              <div className="relative z-10 pt-4">
+                <h3 className="text-2xl font-black mb-3 text-foreground tracking-tight">TRAKTIR KOPI ☕</h3>
+                <p className="text-sm font-semibold text-muted mb-8 leading-relaxed">
                   Dukung server NOMSTD biar terus nyala! Sawer seikhlasnya, pahala seluas-luasnya.
                 </p>
-                {/* Actual QR Code UI */}
-                <div className="w-48 h-48 mx-auto bg-white p-2 border-4 border-foreground mb-6 group-hover:-rotate-3 transition-transform flex items-center justify-center shadow-[8px_8px_0_0_#0F0F0F]">
+                {/* Clean QR Code UI */}
+                <div className="w-48 h-48 mx-auto bg-white p-3 rounded-2xl border border-border mb-8 shadow-sm group-hover:scale-105 transition-transform duration-500">
                   <img 
                     src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://saweria.co/iammonoz" 
                     alt="Saweria QR Code" 
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain rounded-xl"
                   />
                 </div>
-                <a href="https://saweria.co/iammonoz" target="_blank" rel="noreferrer" className="block w-full py-4 bg-accent text-black font-black uppercase tracking-widest border-4 border-foreground hover:bg-white transition-colors shadow-[4px_4px_0_0_#0F0F0F] active:translate-y-1 active:shadow-none">
+                <a href="https://saweria.co/iammonoz" target="_blank" rel="noreferrer" className="block w-full py-4 bg-[#FF9500] text-white font-bold rounded-xl hover:bg-[#E68600] transition-colors shadow-sm hover:shadow-md">
                   SAWER LEWAT SINI
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

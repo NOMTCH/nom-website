@@ -4,6 +4,21 @@ import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { PortfolioGrid, GridItem } from '@/components/portfolio/PortfolioGrid';
 import { getSubcategory } from '@/lib/data/portfolio';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ category: string, subcategory: string }> }): Promise<Metadata> {
+  const { category, subcategory } = await params;
+  const subcat = await getSubcategory(category, subcategory);
+  if (!subcat) {
+    return { title: 'Subcategory Not Found | NOMSTD' };
+  }
+
+  return {
+    title: `${subcat.title} - Portfolio | NOMSTD`,
+    description: `Koleksi galeri karya terbaik untuk subkategori ${subcat.title}. ${subcat.description}`,
+    keywords: [subcat.title.toLowerCase(), "karya kreatif", "nomstd agency", subcategory],
+  };
+}
 
 export default async function SubcategoryPage({ params }: { params: Promise<{ category: string, subcategory: string }> }) {
   const { category, subcategory } = await params;

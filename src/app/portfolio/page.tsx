@@ -3,6 +3,13 @@ import { Footer } from '@/components/Footer';
 import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { PortfolioGrid, GridItem } from '@/components/portfolio/PortfolioGrid';
 import { getCategories } from '@/lib/data/portfolio';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Portfolio Karya Kreatif & Solusi IT | NOMSTD',
+  description: 'Eksplorasi karya-karya terbaik kami di bidang desain grafis, fotografi, videografi, website development, dan solusi IT. Bukti nyata dari inovasi kami.',
+  keywords: ['portfolio nomstd', 'galeri karya', 'jasa desain grafis', 'hasil web development', 'corporate photography', 'cinematic video'],
+};
 
 export default async function PortfolioPage() {
   const categories = await getCategories();

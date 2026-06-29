@@ -2,48 +2,55 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { Palette, Camera, VideoCamera, Code, Desktop } from '@phosphor-icons/react';
 
 const services = [
   {
     id: '01',
     title: 'Graphic Design',
-    desc: 'Logo, Branding, Brosur, Social Media Management. Bikin identitas visual yang nancep di kepala audiens. (Note: We focus on layout and branding, no hand-drawn illustration).',
-    color: 'text-[#F7DF1E]',
+    desc: 'Logo, Branding, Brosur, Social Media Management. Bikin identitas visual yang nancep di kepala audiens. (We focus on layout and branding).',
+    color: 'text-[#FF3B30]',
     icon: '/assets/icons/Portfolio Icon/design.svg',
-    href: '/portfolio/graphic-design'
+    href: '/services/graphic-design'
   },
   {
     id: '02',
     title: 'Photography',
     desc: 'Dari momen epic Wedding, Corporate Event, Perpisahan Sekolah, sampai foto Produk komersial dengan lighting mahal.',
-    color: 'text-emerald-400',
+    color: 'text-[#34C759]',
     icon: '/assets/icons/Portfolio Icon/camera.svg',
-    href: '/portfolio/photography'
+    href: '/services/photography'
   },
   {
     id: '03',
     title: 'Videography',
     desc: 'Shooting dan video editing profesional. Cinematic wedding, aftermovie event, sampai paket Reels/TikTok yang hook-nya dapet banget.',
-    color: 'text-orange-500',
+    color: 'text-[#FF9500]',
     icon: '/assets/icons/Portfolio Icon/video.svg',
-    href: '/portfolio/videography'
+    href: '/services/videography'
   },
   {
     id: '04',
     title: 'Web Development',
     desc: 'Bikin Landing Page, Company Profile, atau web app kekinian yang ngebut dan responsif (Powered by modern stacks).',
-    color: 'text-pink-500',
+    color: 'text-[#5856D6]',
     icon: '/assets/icons/Portfolio Icon/web.svg',
-    href: '/portfolio/web-development'
+    href: '/services/web-development'
   },
   {
     id: '05',
     title: 'IT Solutions',
     desc: 'Service laptop lemot, upgrade SSD/RAM, rakit PC custom idaman, dan maintenance jaringan buat kantor lo.',
-    color: 'text-cyan-400',
+    color: 'text-[#007AFF]',
     icon: '/assets/icons/Portfolio Icon/laptop.svg',
-    href: '/portfolio/it-solutions'
+    href: '/services/it-solutions'
+  },
+  {
+    id: '06',
+    title: 'Digital Invitation',
+    desc: 'Bikin tamu lo kena mental. Undangan digital eksklusif dengan tema premium, RSVP, kado cashless, dan animasi dewa.',
+    color: 'text-[#AF52DE]',
+    icon: '/assets/icons/Portfolio Icon/web.svg',
+    href: '/services/digital-invitation'
   }
 ];
 
@@ -51,57 +58,66 @@ export function Services() {
   const router = useRouter();
 
   return (
-    <section id="services" className="py-32 px-6 bg-surface relative">
-      <div className="container mx-auto">
-        <div className="mb-20">
-          <span className="text-accent font-bold text-sm mb-2 block">— Our Expertise</span>
-          <h2 className="text-5xl md:text-7xl font-display font-black leading-tight text-foreground">
+    <section id="services" className="py-24 md:py-32 px-4 bg-background relative">
+      <div className="container mx-auto max-w-7xl">
+        <div className="mb-16 md:mb-24 text-center max-w-3xl mx-auto">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-accent font-bold text-sm mb-4 inline-block px-4 py-1.5 bg-accent/10 rounded-full uppercase tracking-wider"
+          >
+            Our Expertise
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-display font-black leading-tight text-foreground"
+          >
             Creative Studio.<br/>
-            <span className="text-accent-secondary">& IT Solutions.</span>
-          </h2>
+            <span className="text-accent">
+              & IT Solutions.
+            </span>
+          </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {services.map((srv, idx) => (
             <motion.div 
               key={srv.id}
               onClick={() => router.push(srv.href)}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="group relative flex flex-col bg-surface neo-brutalist overflow-hidden h-[450px] cursor-pointer"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: idx * 0.1, duration: 0.5, ease: "easeOut" }}
+              className="group bg-surface border border-border shadow-sm rounded-[2rem] p-8 md:p-10 cursor-pointer hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] hover:-translate-y-2 hover:border-border/50 transition-all duration-300 relative overflow-hidden"
             >
-              {/* Top Half: Vector Icon */}
-              <div className="relative h-[200px] w-full border-b-4 border-foreground overflow-hidden bg-black flex items-center justify-center">
-                {/* Brutalist Vector Halftone Overlay */}
-                <div className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:16px_16px] z-10" />
-                
-                {/* Massive Brutalist Icon */}
-                <div className={`transform transition-all duration-700 group-hover:scale-125 group-hover:-rotate-12`}>
-                  <img src={srv.icon} alt={srv.title} className="w-32 h-32 object-contain" />
+              {/* Background Accent Hover */}
+              <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" />
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-background border border-border flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
+                    <img src={srv.icon} alt={srv.title} className="w-8 h-8 object-contain" />
+                  </div>
+                  <span className="text-4xl font-display font-black text-muted/20 group-hover:text-accent/20 transition-colors duration-300">
+                    {srv.id}
+                  </span>
                 </div>
                 
-                <div className="absolute inset-0 border-4 border-transparent group-hover:border-accent transition-colors duration-300 pointer-events-none z-20" />
-              </div>
-              
-              {/* Bottom Half: Content */}
-              <div className="relative flex-1 p-6 flex flex-col bg-surface group-hover:bg-accent transition-colors duration-300 overflow-hidden">
-                {/* Giant Brutalist Number */}
-                <span className="absolute -bottom-4 -right-2 text-[120px] font-display font-black text-foreground opacity-5 group-hover:opacity-20 transition-all duration-300 pointer-events-none select-none leading-none">
-                  {srv.id}
-                </span>
-
-                <div className="relative z-10 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-2xl font-black mb-3 text-foreground group-hover:text-black transition-colors uppercase tracking-tight">{srv.title}</h3>
-                    <p className="text-muted group-hover:text-black/80 font-bold leading-relaxed text-sm line-clamp-3 transition-colors">{srv.desc}</p>
-                  </div>
-                  
-                  {/* Chunky Persistent Button */}
-                  <div className="mt-4 flex items-center justify-between px-4 py-3 bg-white border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] text-sm font-black uppercase tracking-wider text-foreground w-full group-hover:bg-black group-hover:text-white group-hover:shadow-[2px_2px_0_0_#FFFFFF] transition-all duration-300 active:translate-y-1 active:translate-x-1 active:shadow-none">
-                    <span>Explore</span>
-                    <svg className="group-hover:translate-x-2 transition-transform" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-accent transition-colors duration-300">
+                  {srv.title}
+                </h3>
+                <p className="text-muted leading-relaxed text-sm md:text-base font-medium mb-8">
+                  {srv.desc}
+                </p>
+                
+                <div className="flex items-center text-sm font-bold text-foreground group-hover:text-accent transition-colors mt-auto">
+                  <span>Explore Service</span>
+                  <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center ml-4 group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-all duration-300 shadow-sm">
+                    <svg className="group-hover:translate-x-0.5 transition-transform" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
                   </div>
                 </div>
               </div>

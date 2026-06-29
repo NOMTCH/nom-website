@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { MonoAssistant } from "@/components/MonoAssistant";
+import { JsonLd } from "@/components/JsonLd";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -44,12 +45,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "NOMSTD",
+    "url": "https://nomstd.my.id/",
+    "logo": "https://nomstd.my.id/assets/logo/favicon.svg",
+    "sameAs": [
+      "https://www.instagram.com/nomstd/"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+62-821-3070-4794",
+      "contactType": "customer service",
+      "email": "admin@nomstudio.com"
+    }
+  };
+
   return (
     <html
       lang="en"
       className={`${bricolage.variable} ${jakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground relative">
+        <JsonLd schema={orgSchema} />
         {children}
         <MonoAssistant />
       </body>

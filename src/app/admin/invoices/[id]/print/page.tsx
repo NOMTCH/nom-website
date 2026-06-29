@@ -54,39 +54,39 @@ export default function PrintInvoicePage() {
   if (!invoice) return null;
 
   return (
-    <div className="h-[calc(100vh-2rem)] w-full overflow-y-auto overflow-x-hidden bg-gray-200 print:bg-white flex items-start justify-center pt-8 print:p-0 print:h-auto print:w-full print:overflow-visible relative">
+    <div className="h-[calc(100vh-2rem)] w-full overflow-y-auto overflow-x-hidden bg-gray-100 print:bg-white flex items-start justify-center pt-8 print:p-0 print:h-auto print:w-full print:overflow-visible relative">
       
       {/* Floating Action Buttons (hidden during print) */}
       <div className="print:hidden fixed top-4 right-4 md:top-8 md:right-8 flex flex-col items-end gap-2 md:gap-4 z-50">
         {/* Zoom Controls */}
-        <div className="flex bg-white border-2 md:border-4 border-black shadow-[4px_4px_0_0_#0F0F0F] md:shadow-[8px_8px_0_0_#0F0F0F] items-center text-black font-black scale-90 origin-right md:scale-100">
-          <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-2 md:p-3 hover:bg-gray-200 border-r-2 md:border-r-4 border-black transition-colors">
-            <MagnifyingGlassMinus size={20} weight="bold" className="md:w-6 md:h-6" />
+        <div className="flex bg-white/95 backdrop-blur-sm border border-gray-200/80 shadow-md rounded-2xl items-center text-gray-700 font-bold scale-90 origin-right md:scale-100 overflow-hidden">
+          <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-2.5 md:p-3.5 hover:bg-gray-100 transition-colors border-r border-gray-100">
+            <MagnifyingGlassMinus size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
           </button>
-          <div className="px-2 md:px-4 text-xs md:text-sm w-12 md:w-20 text-center">{Math.round(zoom * 100)}%</div>
-          <button onClick={() => setZoom(z => Math.min(2, z + 0.1))} className="p-2 md:p-3 hover:bg-gray-200 border-l-2 md:border-l-4 border-black transition-colors">
-            <MagnifyingGlassPlus size={20} weight="bold" className="md:w-6 md:h-6" />
+          <div className="px-2 md:px-4 text-xs md:text-sm w-12 md:w-16 text-center select-none">{Math.round(zoom * 100)}%</div>
+          <button onClick={() => setZoom(z => Math.min(2, z + 0.1))} className="p-2.5 md:p-3.5 hover:bg-gray-100 transition-colors border-l border-gray-100">
+            <MagnifyingGlassPlus size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
           </button>
-          <button onClick={fitToScreen} className="p-2 md:p-3 bg-accent hover:bg-yellow-400 border-l-2 md:border-l-4 border-black transition-colors" title="Fit to Screen">
-            <CornersOut size={20} weight="bold" className="md:w-6 md:h-6" />
+          <button onClick={fitToScreen} className="p-2.5 md:p-3.5 bg-gray-50 hover:bg-gray-100 transition-colors border-l border-gray-100" title="Fit to Screen">
+            <CornersOut size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
           </button>
         </div>
 
         {/* Action Buttons Row */}
-        <div className="flex flex-row gap-2 md:gap-4 items-center">
+        <div className="flex flex-row gap-2 md:gap-3 items-center">
           <Link 
             href="/admin/invoices"
-            className="bg-white text-black font-black uppercase tracking-widest px-3 py-2 md:px-6 md:py-4 flex items-center gap-2 border-2 md:border-4 border-black shadow-[4px_4px_0_0_#0F0F0F] md:shadow-[8px_8px_0_0_#0F0F0F] hover:bg-gray-100 transition-colors"
+            className="bg-white text-gray-700 font-bold uppercase tracking-wider text-xs px-4 py-3 flex items-center gap-2 border border-gray-200/80 shadow-sm rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-200"
           >
-            <ArrowLeft weight="bold" size={20} className="md:w-6 md:h-6" /> 
-            <span className="text-xs md:text-base hidden sm:block">Back</span>
+            <ArrowLeft weight="bold" size={16} /> 
+            <span className="hidden sm:block">Back</span>
           </Link>
           <button 
             onClick={() => window.print()}
-            className="bg-black text-white font-black uppercase tracking-widest px-4 py-2 md:px-6 md:py-4 flex items-center gap-2 border-2 md:border-4 border-black shadow-[4px_4px_0_0_#F7DF1E] md:shadow-[8px_8px_0_0_#F7DF1E] hover:bg-gray-900 transition-colors"
+            className="bg-gray-900 text-white font-bold uppercase tracking-wider text-xs px-5 py-3 flex items-center gap-2 border border-gray-900 shadow-md rounded-xl hover:bg-gray-800 transition-all duration-200 cursor-pointer"
           >
-            <Printer weight="bold" size={20} className="md:w-6 md:h-6" /> 
-            <span className="text-xs md:text-base">Print</span>
+            <Printer weight="bold" size={16} /> 
+            <span>Print / PDF</span>
           </button>
         </div>
       </div>
@@ -95,14 +95,14 @@ export default function PrintInvoicePage() {
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
           @page { size: A4; margin: 0; }
-          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          .preview-container { transform: none !important; margin: 0 !important; }
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background-color: white !important; }
+          .preview-container { transform: none !important; margin: 0 !important; box-shadow: none !important; }
         }
       `}} />
 
       {/* A4 Paper Container */}
       <div 
-        className="preview-container bg-white w-[210mm] min-h-[290mm] print:w-[210mm] print:min-h-[290mm] shadow-2xl print:shadow-none mx-auto relative flex flex-col box-border transition-transform duration-200"
+        className="preview-container bg-white w-[210mm] min-h-[290mm] print:w-[210mm] print:min-h-[290mm] shadow-lg print:shadow-none mx-auto relative flex flex-col box-border transition-transform duration-200 rounded-xl print:rounded-none overflow-hidden"
         style={{ 
           transform: `scale(${zoom})`, 
           transformOrigin: 'top center',
@@ -110,70 +110,65 @@ export default function PrintInvoicePage() {
         }}
       >
         
-        {/* Brutalist Header Bar */}
-        <div className="h-4 w-full bg-accent mb-4 shrink-0"></div>
+        {/* Top Header Bar */}
+        <div className="h-1.5 w-full bg-gray-900 mb-4 shrink-0"></div>
 
-        <div className="px-10 py-4 flex-1 flex flex-col">
+        <div className="px-12 py-6 flex-1 flex flex-col">
           {/* Header */}
-          <div className="flex justify-between items-start mb-4 border-b-8 border-black pb-4 shrink-0">
+          <div className="flex justify-between items-start mb-6 border-b border-gray-100 pb-6 shrink-0">
             <div className="max-w-sm">
               <div className="mb-4">
-                <img src="/assets/logo/logo.svg" alt="NOM STUDIO" className="h-12 md:h-16 object-contain" />
+                <img src="/assets/logo/logo.svg" alt="NOM STUDIO" className="h-10 md:h-12 object-contain" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400 leading-relaxed">
                 Creative Studio & IT Solutions<br/>
                 West Java, Indonesia<br/>
                 admin@nomstudio.com
               </p>
             </div>
             <div className="text-right">
-              <div className="bg-black text-white text-4xl md:text-5xl font-display font-black uppercase tracking-tighter px-6 py-3 inline-block transform rotate-3 shadow-[8px_8px_0_0_#F7DF1E] border-4 border-black mb-6">
+              <div className="text-3xl md:text-4xl font-display font-black uppercase tracking-tight text-gray-900 mb-4">
                 INVOICE
               </div>
-              <div className="mt-2 text-sm font-black uppercase tracking-widest text-black">
-                Invoice No: <span className="font-display text-xl ml-2 bg-gray-200 px-2 py-1">{invoice.invoice_number}</span>
-              </div>
-              <div className="mt-2 text-sm font-black uppercase tracking-widest text-black">
-                Date: <span className="font-display text-xl ml-2">{new Date(invoice.issue_date).toLocaleDateString('en-GB')}</span>
-              </div>
-              <div className="mt-2 text-sm font-black uppercase tracking-widest text-black">
-                Due: <span className="font-display text-xl ml-2 bg-red-500 text-white px-2 py-1 shadow-[4px_4px_0_0_#0F0F0F] border-2 border-black">{new Date(invoice.due_date).toLocaleDateString('en-GB')}</span>
+              <div className="space-y-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                <div>Invoice No: <span className="font-display text-sm font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded ml-1">{invoice.invoice_number}</span></div>
+                <div>Date: <span className="font-display text-sm font-bold text-gray-900 ml-1">{new Date(invoice.issue_date).toLocaleDateString('en-GB')}</span></div>
+                <div>Due Date: <span className="font-display text-sm font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded ml-1">{new Date(invoice.due_date).toLocaleDateString('en-GB')}</span></div>
               </div>
             </div>
           </div>
 
           {/* Bill To */}
-          <div className="mb-4 flex justify-between border-4 border-black p-4 shadow-[6px_6px_0_0_#F7DF1E] bg-white relative shrink-0 break-inside-avoid">
-            <div className="absolute -top-3 -left-3 w-6 h-6 bg-black"></div>
+          <div className="mb-6 flex justify-between border border-gray-100 p-6 rounded-2xl bg-gray-50/50 relative shrink-0 break-inside-avoid">
             <div>
-              <h3 className="text-xs font-display font-black uppercase tracking-widest bg-black text-white inline-block px-2 py-1 mb-2 shadow-[3px_3px_0_0_#0F0F0F] transform -rotate-2">Billed To</h3>
-              <div className="text-2xl font-display font-black uppercase tracking-tight text-black">{invoice.client_name}</div>
-              {invoice.client_email && <div className="text-sm font-bold mt-1 text-black border-b-2 border-dashed border-black inline-block">{invoice.client_email}</div>}
+              <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Billed To</h3>
+              <div className="text-xl font-display font-black uppercase tracking-tight text-gray-900">{invoice.client_name}</div>
+              {invoice.client_email && <div className="text-xs font-semibold text-gray-500 mt-1">{invoice.client_email}</div>}
             </div>
-            <div className="text-right border-l-4 border-black pl-4 flex flex-col items-end justify-center">
-              <h3 className="text-xs font-display font-black uppercase tracking-widest bg-black text-white inline-block px-2 py-1 mb-2 shadow-[3px_3px_0_0_#0F0F0F] transform rotate-2">Project</h3>
-              <div className="text-xl font-display font-black uppercase tracking-tight text-black max-w-[250px] leading-tight">{invoice.project_name}</div>
+            <div className="text-right pl-4 flex flex-col items-end justify-center">
+              <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-2">Project</h3>
+              <div className="text-lg font-display font-black uppercase tracking-tight text-gray-900 max-w-[250px] leading-tight">{invoice.project_name}</div>
             </div>
           </div>
 
           {/* Items Table */}
-          <div className="mb-4 flex-1">
-            <table className="w-full text-left border-collapse border-4 border-black shadow-[6px_6px_0_0_#0F0F0F]">
+          <div className="mb-6 flex-1">
+            <table className="w-full text-left border-collapse border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
               <thead>
-                <tr className="bg-black text-white text-xs font-display font-black uppercase tracking-widest break-inside-avoid">
-                  <th className="p-3 border-r-4 border-black w-1/2">Description</th>
-                  <th className="p-3 border-r-4 border-black text-center whitespace-nowrap">Qty</th>
-                  <th className="p-3 border-r-4 border-black text-right whitespace-nowrap">Price</th>
-                  <th className="p-3 text-right whitespace-nowrap">Total</th>
+                <tr className="bg-gray-50 text-gray-500 text-[10px] font-bold uppercase tracking-wider border-b border-gray-100 break-inside-avoid">
+                  <th className="p-3.5 w-1/2">Description</th>
+                  <th className="p-3.5 text-center whitespace-nowrap">Qty</th>
+                  <th className="p-3.5 text-right whitespace-nowrap">Price</th>
+                  <th className="p-3.5 text-right whitespace-nowrap">Total</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
                 {invoice.items.map((item, idx) => (
-                  <tr key={idx} className="border-b-4 border-black last:border-b-0 break-inside-avoid">
-                    <td className="p-3 font-bold text-black border-r-4 border-black text-base">{item.description}</td>
-                    <td className="p-3 text-center font-display font-black text-xl text-black border-r-4 border-black bg-gray-100">{item.quantity}</td>
-                    <td className="p-3 text-right font-bold text-black border-r-4 border-black whitespace-nowrap text-base">Rp {new Intl.NumberFormat('id-ID').format(item.price)}</td>
-                    <td className="p-3 text-right font-display font-black text-xl text-black whitespace-nowrap bg-[#F7DF1E]">Rp {new Intl.NumberFormat('id-ID').format(item.total)}</td>
+                  <tr key={idx} className="border-b border-gray-50 last:border-b-0 break-inside-avoid hover:bg-gray-50/30 transition-colors">
+                    <td className="p-3.5 font-bold text-gray-800 text-sm">{item.description}</td>
+                    <td className="p-3.5 text-center font-display font-black text-sm text-gray-700">{item.quantity}</td>
+                    <td className="p-3.5 text-right font-semibold text-gray-600 whitespace-nowrap text-sm">Rp {new Intl.NumberFormat('id-ID').format(item.price)}</td>
+                    <td className="p-3.5 text-right font-display font-black text-sm text-gray-900 whitespace-nowrap">Rp {new Intl.NumberFormat('id-ID').format(item.total)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -181,48 +176,47 @@ export default function PrintInvoicePage() {
           </div>
 
           {/* Totals Box */}
-          <div className="flex justify-end mb-4 shrink-0 break-inside-avoid">
-            <div className="w-full md:w-[75%] bg-white p-4 border-4 border-black shadow-[8px_8px_0_0_#0F0F0F] relative">
-              <div className="absolute top-0 right-0 w-6 h-6 bg-accent border-l-4 border-b-4 border-black"></div>
-              <div className="flex justify-between mb-3 text-xs font-black uppercase tracking-widest text-black">
+          <div className="flex justify-end mb-6 shrink-0 break-inside-avoid">
+            <div className="w-full md:w-[60%] bg-white p-5 border border-gray-100 shadow-sm rounded-2xl hover:shadow-none transition-all duration-300">
+              <div className="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                 <span>Subtotal</span>
-                <span className="font-display text-lg">Rp {new Intl.NumberFormat('id-ID').format(invoice.subtotal)}</span>
+                <span className="font-display font-bold text-gray-700 text-sm">Rp {new Intl.NumberFormat('id-ID').format(invoice.subtotal)}</span>
               </div>
               {invoice.tax_rate > 0 && (
-                <div className="flex justify-between mb-3 text-xs font-black uppercase tracking-widest text-black border-b-4 border-dashed border-black pb-3">
+                <div className="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 border-b border-dashed border-gray-100 pb-3">
                   <span>Tax ({invoice.tax_rate}%)</span>
-                  <span className="font-display text-lg">Rp {new Intl.NumberFormat('id-ID').format(invoice.subtotal * (invoice.tax_rate / 100))}</span>
+                  <span className="font-display font-bold text-gray-700 text-sm">Rp {new Intl.NumberFormat('id-ID').format(invoice.subtotal * (invoice.tax_rate / 100))}</span>
                 </div>
               )}
-              <div className="flex justify-between items-center text-lg md:text-xl font-display font-black uppercase tracking-tighter text-black mt-3 pt-3 border-t-8 border-black">
+              <div className="flex justify-between items-center text-sm font-bold uppercase tracking-wider text-gray-900 mt-3 pt-3 border-t border-gray-100">
                 <span>Total Due</span>
-                <span className="bg-black text-white px-3 py-1 transform rotate-1 shadow-[3px_3px_0_0_#F7DF1E]">Rp {new Intl.NumberFormat('id-ID').format(invoice.total)}</span>
+                <span className="font-display font-black text-lg text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100">Rp {new Intl.NumberFormat('id-ID').format(invoice.total)}</span>
               </div>
             </div>
           </div>
 
           {/* Footer Notes */}
-          <div className="mt-auto border-t-8 border-black pt-4 shrink-0 break-inside-avoid">
+          <div className="mt-auto border-t border-gray-100 pt-6 shrink-0 break-inside-avoid">
             <div className="flex justify-between items-end">
-              <div>
-                <h4 className="text-xs font-display font-black uppercase tracking-widest bg-black text-white inline-block px-2 py-1 mb-2">Payment Instructions</h4>
-                <p className="text-sm font-bold text-black border-l-4 border-accent pl-3 mt-1">Bank BCA: <span className="font-display font-black text-lg">5260 703 953</span> a/n Adrian Suryana</p>
-                <p className="text-xs font-bold text-black mt-1">Please include the Invoice Number in the transfer notes.</p>
+              <div className="max-w-md bg-blue-50/50 border border-blue-100/50 rounded-xl p-4">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-blue-800 mb-2">Payment Instructions</h4>
+                <p className="text-xs font-semibold text-gray-700">Bank BCA: <span className="font-display font-black text-sm text-blue-900">5260 703 953</span> a/n Adrian Suryana</p>
+                <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-wide">Please include the Invoice Number in the transfer notes.</p>
               </div>
               <div className="text-right">
-                <h4 className="text-4xl font-display font-black text-gray-200 uppercase tracking-tighter transform -rotate-6 scale-110">Thank You!</h4>
+                <h4 className="text-3xl font-display font-black text-gray-200 uppercase tracking-tight select-none">Thank You!</h4>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Brutalist Footer Bar */}
-        <div className="h-4 w-full bg-black shrink-0 mt-2"></div>
+        {/* Footer Bar */}
+        <div className="h-1.5 w-full bg-gray-900 shrink-0 mt-4"></div>
         
         {/* Status Stamp (if Paid) */}
         {invoice.status === 'paid' && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-12 opacity-20 pointer-events-none">
-            <div className="border-8 border-emerald-500 text-emerald-500 text-[120px] font-black uppercase tracking-tighter px-8 py-4 mix-blend-multiply">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-12 opacity-15 pointer-events-none">
+            <div className="border-[6px] border-emerald-500 text-emerald-500 text-[100px] font-black uppercase tracking-tighter px-8 py-3 mix-blend-multiply rounded-2xl">
               PAID
             </div>
           </div>

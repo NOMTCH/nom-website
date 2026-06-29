@@ -2,24 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { type Session } from '@supabase/supabase-js';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    // Auto open sidebar on desktop
-    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-      setSidebarOpen(true);
-    }
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
@@ -64,7 +60,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-foreground border-t-accent rounded-full animate-spin"></div>
+        <div className="w-16 h-16 border border-border rounded-2xl border-t-accent animate-spin"></div>
       </div>
     );
   }
@@ -81,14 +77,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         position="top-center" 
         expand={true}
         toastOptions={{
-          className: 'bg-accent border-4 border-foreground shadow-[16px_16px_0_0_#0F0F0F] rounded-none font-display font-black uppercase tracking-widest text-black p-6 text-xl group-[.toaster]:animate-[bounce_0.5s_ease-in-out]',
-          style: { borderRadius: '0px' },
+          className: 'bg-surface border border-border shadow-lg rounded-2xl font-sans text-foreground p-4 group-[.toaster]:animate-[bounce_0.5s_ease-in-out]',
+          style: { borderRadius: '16px' },
           duration: 3000,
         }} 
       />
       
       {/* Mobile Sidebar Toggle */}
-      <div className="print:hidden md:hidden p-4 border-b-4 border-foreground flex justify-between items-center bg-surface">
+      <div className="print:hidden md:hidden p-4 border-b border-gray-100 flex justify-between items-center bg-surface">
         <Link href="/admin" className="font-black uppercase tracking-widest text-lg flex items-center gap-2">
           <div className="w-8 h-8 flex items-center justify-center">
             <img src="/assets/logo/favicon.svg" className="w-6 h-6" alt="NOMSYS" />
@@ -104,78 +100,92 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className={`
         print:hidden
         ${sidebarOpen ? 'flex w-full md:w-64 border-b-4 md:border-b-0 md:border-r-4' : 'hidden md:flex md:w-20 md:border-r-4 overflow-visible'} 
-        bg-surface border-foreground 
+        bg-[#F9FAFB] border-r border-gray-200/80 
         transition-all duration-300 flex-col shrink-0 relative z-40
       `}>
         {/* Desktop Center Puller */}
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="hidden md:flex absolute -right-[22px] top-1/2 -translate-y-1/2 w-[24px] h-[64px] bg-foreground text-white flex items-center justify-center rounded-r-xl border-4 border-l-0 border-foreground cursor-pointer hover:bg-accent hover:border-accent transition-colors z-50 shadow-[4px_4px_0_0_#0F0F0F]"
+          className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-white border border-gray-200 text-gray-400 items-center justify-center rounded-full cursor-pointer hover:bg-gray-50 hover:text-gray-600 transition-all z-50 shadow-sm"
         >
-          <div className="w-1 h-8 bg-white opacity-50 rounded-full" />
+          <div className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
         </button>
 
-        <div className={`p-6 border-b-4 border-foreground flex items-center ${!sidebarOpen && 'justify-center'} min-h-[84px]`}>
+        <div className={`p-6 flex items-center ${!sidebarOpen && 'justify-center'} min-h-[84px] px-6`}>
           <Link href="/admin" className="flex items-center gap-3">
             <div className="w-8 h-8 shrink-0 flex items-center justify-center">
               <img src="/assets/logo/favicon.svg" className="w-8 h-8" alt="NOMSYS" />
             </div>
-            {sidebarOpen && <span className="font-black uppercase tracking-widest text-lg whitespace-nowrap">NOMSYS</span>}
+            {sidebarOpen && <span className="font-display font-black text-xl tracking-tight text-foreground whitespace-nowrap">NOMSYS</span>}
           </Link>
         </div>
         
         <nav className="flex-1 p-4 space-y-2 overflow-hidden">
           <Link 
             href="/admin" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname === '/admin' ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname === '/admin' ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Desktop weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Overview"}
           </Link>
           <Link 
             href="/admin/projects" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/projects') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/projects') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Briefcase weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Portfolio"}
           </Link>
           <Link 
             href="/admin/promos" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/promos') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/promos') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Tag weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Promos"}
           </Link>
           <Link 
             href="/admin/pricing" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/pricing') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/pricing') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <CurrencyDollar weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Pricing"}
           </Link>
           <Link 
+            href="/admin/blog" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/blog') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
+          >
+            <Article weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Blog & Insight"}
+          </Link>
+          <Link 
             href="/admin/messages" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/messages') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/messages') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Envelope weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Inbox"}
           </Link>
           <Link 
             href="/admin/invoices" 
-            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3 border-2 border-foreground font-bold uppercase transition-all shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] ${pathname.includes('/admin/invoices') ? 'bg-[#F7DF1E] text-black border-black' : 'bg-white text-black'}`}
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/invoices') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
           >
             <Receipt weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Invoices"}
           </Link>
+          <Link 
+            href="/admin/invitations" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/invitations') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
+          >
+            <Heart weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Invitations"}
+          </Link>
         </nav>
 
-        <div className="p-4 border-t-4 border-foreground flex flex-col gap-2">
+        <div className="p-4 flex flex-col gap-2 mt-auto border-t border-gray-100">
           <button 
             onClick={async () => {
               await supabase.auth.signOut();
               router.push('/admin/login');
             }}
-            className={`w-full flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'justify-center gap-2 px-4'} py-3 bg-red-500 border-2 border-foreground font-black uppercase text-white shadow-[4px_4px_0_0_#0F0F0F] hover:translate-y-1 hover:shadow-[2px_2px_0_0_#0F0F0F] transition-all`}
+            className={`w-full flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'justify-center gap-2 px-4'} py-3 bg-red-50 text-red-600 rounded-xl font-bold uppercase hover:bg-red-100 transition-colors`}
             title="Logout"
           >
             <SignOut weight="bold" size={20} className="shrink-0" />
@@ -185,9 +195,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto bg-background p-6 lg:p-12 relative z-10 custom-scrollbar transition-all duration-300">
+      <main className="flex-1 overflow-y-auto bg-white p-6 lg:p-12 relative z-10 custom-scrollbar transition-all duration-300">
         {/* Brutalist Pattern Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#0F0F0F_1px,transparent_1px)] [background-size:16px_16px]" />
+        
         
         <div className="relative z-10 max-w-7xl mx-auto">
           {children}

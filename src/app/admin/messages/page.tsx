@@ -13,18 +13,6 @@ export default function MessagesAdmin() {
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        router.push('/admin/login');
-      } else {
-        fetchMessages();
-      }
-    };
-    checkAuth();
-  }, [router]);
-
   const fetchMessages = async () => {
     try {
       const data = await getContactMessages();
@@ -36,6 +24,18 @@ export default function MessagesAdmin() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push('/admin/login');
+      } else {
+        fetchMessages();
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   const handleMarkAsRead = async (id: string, currentStatus: string) => {
     if (currentStatus === 'read') return;
@@ -63,7 +63,7 @@ export default function MessagesAdmin() {
   if (loading) {
     return (
       <div className="flex-1 p-8 md:p-12 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-foreground border-t-accent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border border-border rounded-2xl border-t-accent animate-spin"></div>
       </div>
     );
   }
@@ -81,9 +81,9 @@ export default function MessagesAdmin() {
         </div>
 
         {messages.length === 0 ? (
-          <div className="p-12 text-center border-4 border-dashed border-foreground flex flex-col items-center justify-center min-h-[400px]">
-            <p className="text-2xl font-black uppercase text-foreground mb-4">BELUM ADA PESAN MASUK</p>
-            <p className="font-bold text-muted">Santai dulu kang, ngopi weh bari nungguan aya nu ngechat.</p>
+          <div className="p-12 text-center border border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center min-h-[400px] bg-gray-50/50">
+            <p className="text-xl font-bold uppercase text-foreground mb-2">BELUM ADA PESAN MASUK</p>
+            <p className="font-medium text-sm text-gray-500">Santai dulu kang, ngopi weh bari nungguan aya nu ngechat.</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -92,19 +92,19 @@ export default function MessagesAdmin() {
                 key={msg.id} 
                 onClick={() => handleMarkAsRead(msg.id, msg.status)}
                 className={`
-                  bg-surface border-4 border-foreground p-6 md:p-8 relative flex flex-col md:flex-row gap-6 items-start transition-all cursor-pointer group
-                  ${msg.status === 'unread' ? 'shadow-[8px_8px_0_0_#F7DF1E] bg-yellow-50/50' : 'shadow-[8px_8px_0_0_#0F0F0F] opacity-70 hover:opacity-100'}
+                  bg-surface border rounded-2xl p-6 md:p-8 relative flex flex-col md:flex-row gap-6 items-start transition-all cursor-pointer group
+                  ${msg.status === 'unread' ? 'border-sky-300 bg-sky-50/10 shadow-sm' : 'border-border shadow-sm opacity-80 hover:opacity-100'}
                 `}
               >
                 {msg.status === 'unread' && (
-                  <div className="absolute -top-4 -right-4 bg-accent text-black font-black text-xs uppercase tracking-widest px-4 py-2 border-4 border-foreground shadow-[4px_4px_0_0_#0F0F0F] transform rotate-3">
-                    NEW!
+                  <div className="absolute -top-3 right-4 bg-sky-500 text-white font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-lg shadow-sm">
+                    NEW
                   </div>
                 )}
                 
                 <div className="shrink-0 pt-1">
                   {msg.status === 'unread' ? (
-                    <Envelope weight="fill" size={32} className="text-accent drop-shadow-[2px_2px_0_rgba(0,0,0,1)]" />
+                    <Envelope weight="fill" size={32} className="text-sky-500" />
                   ) : (
                     <EnvelopeOpen weight="bold" size={32} className="text-gray-400" />
                   )}
@@ -121,7 +121,7 @@ export default function MessagesAdmin() {
                     </div>
                   </div>
                   
-                  <div className="bg-white border-2 border-gray-200 p-4 font-mono text-sm text-gray-800 whitespace-pre-wrap mt-4">
+                  <div className="bg-white border border-gray-100 p-4 rounded-xl font-mono text-sm text-gray-700 whitespace-pre-wrap mt-4">
                     {msg.project_details}
                   </div>
                 </div>
@@ -132,10 +132,10 @@ export default function MessagesAdmin() {
                       e.stopPropagation();
                       setMessageToDelete(msg.id);
                     }} 
-                    className="p-3 bg-red-50 hover:bg-red-500 hover:text-white transition-colors border-2 border-transparent hover:border-black text-red-500"
+                    className="p-2 bg-red-50 hover:bg-red-500 hover:text-white text-red-500 border border-transparent rounded-xl transition-all"
                     title="Hapus Pesan"
                   >
-                    <Trash weight="bold" size={24} />
+                    <Trash weight="bold" size={20} />
                   </button>
                 </div>
               </div>
@@ -146,11 +146,11 @@ export default function MessagesAdmin() {
         {/* Brutal Delete Modal (Sunda Pride) */}
         {messageToDelete && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setMessageToDelete(null)}>
-            <div className="bg-surface border-8 border-foreground shadow-[16px_16px_0_0_#FF6138] w-full max-w-md my-8 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]" onClick={e => e.stopPropagation()}>
-              <div className="absolute top-0 left-0 right-0 h-4 bg-[repeating-linear-gradient(45deg,#0F0F0F,#0F0F0F_10px,#F7DF1E_10px,#F7DF1E_20px)] border-b-4 border-foreground" />
+            <div className="bg-surface border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]" onClick={e => e.stopPropagation()}>
               
-              <div className="p-8 pt-12 text-center">
-                <div className="w-20 h-20 bg-red-500 mx-auto border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] flex items-center justify-center mb-6">
+              
+              <div className="p-6 text-center">
+                <div className="w-20 h-20 bg-red-500 mx-auto border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center mb-6">
                   <Trash weight="fill" size={40} className="text-white" />
                 </div>
                 <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">HAPUS PESAN IEU?</h2>
@@ -159,13 +159,13 @@ export default function MessagesAdmin() {
                 <div className="flex gap-4">
                   <button 
                     onClick={() => setMessageToDelete(null)}
-                    className="flex-1 py-4 bg-white border-4 border-foreground font-black uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-[4px_4px_0_0_#0F0F0F] active:translate-y-1 active:shadow-[0_0_0_0_#0F0F0F]"
+                    className="flex-1 py-3.5 bg-gray-50 border border-gray-200/80 rounded-xl font-bold uppercase text-xs tracking-wider text-gray-700 hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-sm"
                   >
                     TEU JADI
                   </button>
                   <button 
                     onClick={confirmDelete}
-                    className="flex-1 py-4 bg-red-500 text-white border-4 border-foreground font-black uppercase tracking-widest shadow-[4px_4px_0_0_#0F0F0F] hover:bg-red-600 active:translate-y-1 active:shadow-[0_0_0_0_#0F0F0F] transition-all"
+                    className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all"
                   >
                     HAPUS LAH!
                   </button>

@@ -1,11 +1,13 @@
 'use client';
 
 import { useCVStore } from '@/store/cvStore';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Template1 } from './templates/Template1';
 import { Template2 } from './templates/Template2';
 import { Template3 } from './templates/Template3';
 import { Template4 } from './templates/Template4';
+import { Template5 } from './templates/Template5';
+import { Template6 } from './templates/Template6';
 
 export function CVCanvas({ contentRef }: { contentRef?: React.Ref<HTMLDivElement> }) {
   const store = useCVStore();
@@ -15,14 +17,14 @@ export function CVCanvas({ contentRef }: { contentRef?: React.Ref<HTMLDivElement
   const a4HeightPx = 1122;
 
   // Automatically set smaller scale on mobile
-  useState(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setScale(0.35);
     }
-  });
+  }, []);
 
   return (
-    <div className="flex-1 bg-background overflow-y-auto relative flex flex-col items-center py-6 custom-scrollbar" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '32px 32px' }}>
+    <div className="flex-1 bg-background overflow-y-auto relative flex flex-col items-center py-6 custom-scrollbar" style={{ backgroundImage: 'radial-gradient(#E5E7EB 2px, transparent 2px)', backgroundSize: '32px 32px' }}>
       <style>{`
         .page-gaps {
           background-image: repeating-linear-gradient(
@@ -41,13 +43,13 @@ export function CVCanvas({ contentRef }: { contentRef?: React.Ref<HTMLDivElement
       `}</style>
       
       {/* Canvas Controls */}
-      <div className="sticky top-0 mb-8 flex flex-wrap justify-center items-center gap-2 md:gap-4 bg-white px-4 py-2 border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] z-20 mx-4 md:mx-0">
+      <div className="sticky top-0 mb-8 flex flex-wrap justify-center items-center gap-2 md:gap-4 bg-surface px-6 py-3 border border-border shadow-sm rounded-2xl z-20 mx-4 md:mx-0">
         <span className="text-[10px] md:text-xs font-black text-black uppercase hidden sm:block">Theme:</span>
         <input 
           type="color" 
           value={store.themeColor} 
           onChange={(e) => store.setThemeColor(e.target.value)}
-          className="w-6 h-6 md:w-8 md:h-8 cursor-pointer border-2 border-foreground bg-white"
+          className="w-6 h-6 md:w-8 md:h-8 cursor-pointer border border-border rounded-lg bg-white overflow-hidden"
         />
         <div className="w-px h-6 bg-foreground hidden sm:block" />
         <span className="text-[10px] md:text-xs font-black text-black uppercase">Scale:</span>
@@ -73,7 +75,7 @@ export function CVCanvas({ contentRef }: { contentRef?: React.Ref<HTMLDivElement
       >
         <div 
           ref={contentRef}
-          className="bg-white text-black border-4 border-foreground shadow-[16px_16px_0_0_#0F0F0F] relative page-gaps"
+          className="bg-white text-black border border-border shadow-2xl relative page-gaps"
           style={{
             width: '210mm',
             minHeight: '297mm',
@@ -86,6 +88,8 @@ export function CVCanvas({ contentRef }: { contentRef?: React.Ref<HTMLDivElement
           {store.templateId === 2 && <Template2 />}
           {store.templateId === 3 && <Template3 />}
           {store.templateId === 4 && <Template4 />}
+          {store.templateId === 5 && <Template5 />}
+          {store.templateId === 6 && <Template6 />}
         </div>
       </div>
     </div>

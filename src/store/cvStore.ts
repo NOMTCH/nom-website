@@ -36,6 +36,11 @@ export interface CVStore {
   summary: string;
   photoUrl: string | null;
 
+  // Photo Adjustments
+  photoZoom: number;
+  photoPanX: number;
+  photoPanY: number;
+
   // Labels
   labels: {
     about: string;
@@ -59,6 +64,7 @@ export interface CVStore {
   setTemplateId: (id: number) => void;
   setThemeColor: (color: string) => void;
   setPhotoStyle: (style: PhotoStyle) => void;
+  setPhotoAdjustments: (zoom: number, panX: number, panY: number) => void;
   updateField: <K extends keyof CVStore>(field: K, value: CVStore[K]) => void;
   updateLabel: (key: keyof CVStore['labels'], value: string) => void;
   addExperience: () => void;
@@ -79,17 +85,20 @@ export const useCVStore = create<CVStore>()(
   persist(
     (set) => ({
       templateId: 1,
-      themeColor: '#00FF00',
+      themeColor: '#000000',
       photoStyle: 'square',
-      fullName: 'MAMAN RACING',
-      role: 'Tukang Setting Mesin Kanan',
-      phone: '0812 3456 NGENG',
-      email: 'maman@ngeng.com',
-      address: '',
+      photoZoom: 1,
+      photoPanX: 50,
+      photoPanY: 50,
+      fullName: 'JOSE UJANG DOS SANTOS',
+      role: 'Tukang Ketik Kode (Fullstack Dev)',
+      phone: '0812-3456-7890 (Kalo Gak Sibuk Mabar)',
+      email: 'ujang.ronaldo@warnet.net',
+      address: 'Kp. Bojong Gede, RT 07 / RW 08',
       photoUrl: null,
-      summary: 'Seorang spesialis mesin kanan yang hobi sunmori tiap minggu pagi. Berdedikasi tinggi terhadap kecepatan dan estetika motor. Moto hidup: \'Mending nyesel beli daripada nyesel gak beli\'. Selalu siap gasspoll dalam setiap project yang diberikan!',
+      summary: 'Developer penuh waktu, rebahan paruh waktu. Punya cita-cita bikin startup unicorn tapi masih sering typo pas ngetik "console.log()". Walaupun begitu, kalau disogok kopi, kode serumit apapun bakal jalan (walau gua sendiri kadang gak tau kenapa bisa jalan).',
       labels: {
-        about: 'About',
+        about: 'About Us',
         experience: 'Experience',
         education: 'Education',
         skills: 'Skills',
@@ -102,36 +111,33 @@ export const useCVStore = create<CVStore>()(
       experiences: [
         {
           id: '1',
-          title: 'KEPALA MEKANIK BALAP',
-          companyDuration: 'Bengkel Ngeng Racing | 2018 - 2024',
-          description: 'Mengatur dan menyetting karburator pe28 dan blok seher agar tarikan motor semakin ngacir dan gampang wheelie di lampu merah. Juga berpengalaman modif knalpot mberr.',
+          title: 'SENIOR COPY-PASTER',
+          companyDuration: 'StackOverflow Univ | 2021 - Present',
+          description: 'Mengimplementasikan solusi tingkat tinggi dari internet ke dalam sistem perusahaan. Kalau error, ya cari lagi di Google sampai dapet yang centang ijo.',
         },
     {
       id: '2',
-      title: 'ASISTEN TUKANG TAMBAL BAN',
-      companyDuration: 'Tambal Ban Mas Bro | 2015 - 2018',
-      description: 'Membantu menambal ban bocor dengan metode tubles maupun dibakar. Spesialis nambal ban truk dan motor matic pake karet ban dalem bekas.',
+      title: 'TEKNISI WARNET IT SUPPORT',
+      companyDuration: 'Warnet Barokah | 2018 - 2020',
+      description: 'Ngebenerin billing yang nge-bug, nyolokin kabel LAN yang kendor digigit tikus, dan jadi penengah kalau bocil lagi berantem rebutan PC.',
     }
   ],
   educations: [
-    { id: '1', name: 'UNIVERSITAS BALAP LIAR, S.T', year: '2015 - 2019' },
-    { id: '2', name: 'SMKN 1 OTOMOTIF', year: '2012 - 2015' },
-    { id: '3', name: 'SMPN 1 JALUR LURUS', year: '2009 - 2012' },
-    { id: '4', name: 'SD INPRES NGENG NGENG', year: '2003 - 2009' }
+    { id: '1', name: 'UNIVERSITAS KEHIDUPAN (JURUSAN TAHAN BANTING)', year: '2015 - 2019' },
+    { id: '2', name: 'YOUTUBE TUTORIAL (FAKULTAS WEB DEV)', year: '2019 - Present' }
   ],
   hardSkills: [
-    { name: 'SETTING KARBU PE28', percent: 95 },
-    { name: 'NYETEL KLEP MOTOR', percent: 90 },
-    { name: 'MODIF KNALPOT MBERR', percent: 100 },
-    { name: 'GANTI OLI GARDAN', percent: 85 },
-    { name: 'NGECAT VELG KALENG', percent: 80 }
+    { name: 'NGASAL KETIK JALAN', percent: 99 },
+    { name: 'COPY PASTE KODE', percent: 95 },
+    { name: 'CSS CENTERING DIV', percent: 10 },
+    { name: 'NGELOBI HRD', percent: 85 }
   ],
-  softSkills: ['Leadership', 'Communication'],
-
+  softSkills: ['Jago Ngeles pas Bug', 'Tahan Begadang', 'Pura-pura Sibuk pas Bos Lewat'],
 
   setTemplateId: (id) => set({ templateId: id }),
   setThemeColor: (color) => set({ themeColor: color }),
   setPhotoStyle: (style) => set({ photoStyle: style }),
+  setPhotoAdjustments: (zoom, panX, panY) => set({ photoZoom: zoom, photoPanX: panX, photoPanY: panY }),
   updateField: (field, value) => set({ [field]: value }),
   updateLabel: (key, value) => set((state) => ({ labels: { ...state.labels, [key]: value } })),
   
@@ -195,7 +201,15 @@ export const useCVStore = create<CVStore>()(
     }),
     {
       name: 'cv-storage',
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version === 0) {
+          return undefined; // Discard old cache, use initial state
+        }
+        return persistedState;
+      },
       merge: (persistedState: unknown, currentState: CVStore) => {
+        if (!persistedState) return currentState;
         const persisted = persistedState as Partial<CVStore>;
         return {
           ...currentState,

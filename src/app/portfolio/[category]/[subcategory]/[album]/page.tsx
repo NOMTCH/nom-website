@@ -4,6 +4,21 @@ import { Breadcrumbs } from '@/components/portfolio/Breadcrumbs';
 import { MasonryGallery } from '@/components/portfolio/MasonryGallery';
 import { getAlbum } from '@/lib/data/portfolio';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ category: string, subcategory: string, album: string }> }): Promise<Metadata> {
+  const { category, subcategory, album: albumId } = await params;
+  const album = await getAlbum(category, subcategory, albumId);
+  if (!album) {
+    return { title: 'Album Not Found | NOMSTD' };
+  }
+
+  return {
+    title: `Album ${album.title} (${album.date}) | NOMSTD`,
+    description: `Lihat seluruh galeri foto dokumentasi dan karya ${album.title} yang dirilis pada ${album.date} oleh NOMSTD.`,
+    keywords: [album.title.toLowerCase(), "galeri foto", "album nomstd", albumId],
+  };
+}
 
 export default async function AlbumPage({ params }: { params: Promise<{ category: string, subcategory: string, album: string }> }) {
   const { category, subcategory, album: albumId } = await params;

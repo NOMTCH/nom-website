@@ -28,16 +28,16 @@ export default function AdminPricingPage() {
   const [sortOrder, setSortOrder] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchPackages();
-  }, []);
-
   const fetchPackages = async () => {
     setLoading(true);
     const data = await getPricingPackages();
     setPackages(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
 
   const handleOpenModal = (pkg?: PricingPackage) => {
     if (pkg) {
@@ -126,7 +126,7 @@ export default function AdminPricingPage() {
   if (loading) {
     return (
       <div className="flex-1 p-8 md:p-12 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-foreground border-t-accent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border border-border rounded-2xl border-t-accent animate-spin"></div>
       </div>
     );
   }
@@ -143,7 +143,7 @@ export default function AdminPricingPage() {
           </div>
           <button 
             onClick={() => handleOpenModal()}
-            className="bg-accent text-black font-black uppercase tracking-widest px-6 py-4 flex items-center gap-2 hover:bg-black hover:text-accent transition-colors border-4 border-black shadow-[8px_8px_0_0_#0F0F0F] active:translate-x-1 active:translate-y-1 active:shadow-[0px_0px_0_0_#0F0F0F]"
+            className="bg-accent text-white px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-accent/90 transition-all flex items-center gap-1.5"
           >
             <Plus weight="bold" size={20} /> Add Package
           </button>
@@ -151,12 +151,12 @@ export default function AdminPricingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg) => (
-            <div key={pkg.id} className="bg-surface border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] p-6 relative flex flex-col group mt-4">
-              <div className="absolute -top-4 -left-4 bg-foreground text-white px-3 py-1 text-xs font-bold uppercase tracking-widest border-2 border-foreground shadow-[4px_4px_0_0_#F7DF1E]">
+            <div key={pkg.id} className="bg-surface border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6 relative flex flex-col group mt-4">
+              <div className="absolute -top-4 -left-4 bg-slate-900 text-white px-3 py-1 text-xs font-semibold uppercase tracking-widest border border-border rounded-xl shadow-sm">
                 {pkg.category}
               </div>
               {pkg.is_popular && (
-                <div className="absolute -top-4 -right-4 bg-accent text-black font-black text-xs uppercase tracking-widest px-3 py-1 border-2 border-foreground shadow-[4px_4px_0_0_#0F0F0F] transform rotate-3">
+                <div className="absolute -top-4 -right-4 bg-accent text-white font-bold text-xs uppercase tracking-widest px-3 py-1 border border-border rounded-xl shadow-sm">
                   Populer
                 </div>
               )}
@@ -164,10 +164,10 @@ export default function AdminPricingPage() {
               <div className="flex justify-between items-start mb-4">
                 <h3 className="font-display font-black text-2xl uppercase tracking-tight pr-4">{pkg.name}</h3>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => handleOpenModal(pkg)} className="p-2 hover:bg-accent hover:text-black transition-colors rounded-none border-2 border-transparent hover:border-black">
+                  <button onClick={() => handleOpenModal(pkg)} className="p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-colors rounded-xl border border-transparent">
                     <PencilSimple weight="bold" size={20} />
                   </button>
-                  <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 hover:bg-red-500 hover:text-white transition-colors rounded-none border-2 border-transparent hover:border-black text-red-500">
+                  <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 text-red-500 hover:bg-red-50 transition-colors rounded-xl border border-transparent">
                     <Trash weight="bold" size={20} />
                   </button>
                 </div>
@@ -190,15 +190,15 @@ export default function AdminPricingPage() {
                 )}
               </div>
               
-              <div className="mt-auto pt-6 border-t-4 border-dashed border-border flex items-center justify-between text-xs font-bold text-muted uppercase">
+              <div className="mt-auto pt-6 border-dashed border-border flex items-center justify-between text-xs font-bold text-muted uppercase">
                 <span>Order: {pkg.sort_order}</span>
               </div>
             </div>
           ))}
 
           {packages.length === 0 && (
-            <div className="col-span-full p-12 text-center border-4 border-dashed border-border flex flex-col items-center">
-              <p className="text-xl font-bold mb-4 uppercase tracking-widest text-muted">Belum ada paket harga</p>
+            <div className="col-span-full p-12 text-center border border-dashed border-gray-300 rounded-3xl flex flex-col items-center bg-gray-50/50">
+              <p className="text-lg font-bold mb-2 uppercase tracking-widest text-muted">Belum ada paket harga</p>
             </div>
           )}
         </div>
@@ -206,12 +206,12 @@ export default function AdminPricingPage() {
         {/* Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div className="bg-background border-4 border-foreground shadow-[16px_16px_0_0_#0F0F0F] p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-8 border-b-4 border-foreground pb-4">
+            <div className="bg-background border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
                 <h2 className="text-3xl font-display font-black uppercase tracking-tight">
                   {editingId ? 'Edit Package' : 'New Package'}
                 </h2>
-                <button onClick={handleCloseModal} className="p-2 hover:bg-red-500 hover:text-white transition-colors border-2 border-transparent hover:border-black">
+                <button onClick={handleCloseModal} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
                   <Trash weight="bold" size={24} />
                 </button>
               </div>
@@ -225,7 +225,7 @@ export default function AdminPricingPage() {
                       required
                       value={name}
                       onChange={e => setName(e.target.value)}
-                      className="w-full bg-surface border-4 border-foreground p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                      className="w-full bg-surface border border-border rounded-2xl p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
                       placeholder="e.g. UMKM Starter"
                     />
                   </div>
@@ -238,7 +238,7 @@ export default function AdminPricingPage() {
                         required
                         value={price}
                         onChange={e => setPrice(e.target.value)}
-                        className="w-full bg-surface border-4 border-foreground p-3 pl-12 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                        className="w-full bg-surface border border-border rounded-2xl p-3 pl-12 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
                         placeholder="1500000"
                       />
                     </div>
@@ -250,7 +250,7 @@ export default function AdminPricingPage() {
                   <select 
                     value={category}
                     onChange={e => setCategory(e.target.value)}
-                    className="w-full bg-surface border-4 border-foreground p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                    className="w-full bg-surface border border-border rounded-2xl p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
                   >
                     <option value="Graphic Design">Graphic Design</option>
                     <option value="Photography">Photography</option>
@@ -265,7 +265,7 @@ export default function AdminPricingPage() {
                   <textarea 
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    className="w-full bg-surface border-4 border-foreground p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
+                    className="w-full bg-surface border border-border rounded-2xl p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
                     placeholder="Short description for this package"
                     rows={2}
                   />
@@ -279,15 +279,15 @@ export default function AdminPricingPage() {
                       required
                       value={sortOrder}
                       onChange={e => setSortOrder(parseInt(e.target.value))}
-                      className="w-full bg-surface border-4 border-foreground p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
+                      className="w-full bg-surface border border-border rounded-2xl p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
                     />
                   </div>
-                  <label className="flex-1 flex items-center gap-3 p-3 bg-surface border-4 border-foreground cursor-pointer hover:bg-accent/10 h-[56px]">
+                  <label className="flex-1 flex items-center gap-3 p-3 bg-surface border border-border rounded-2xl cursor-pointer hover:bg-accent/10 h-[56px]">
                     <input 
                       type="checkbox" 
                       checked={isPopular}
                       onChange={e => setIsPopular(e.target.checked)}
-                      className="w-6 h-6 border-4 border-foreground bg-white text-accent focus:ring-0 rounded-none cursor-pointer"
+                      className="w-6 h-6 border border-border rounded-2xl bg-white text-accent focus:ring-0 cursor-pointer"
                     />
                     <span className="font-black uppercase tracking-widest text-sm">Mark as Popular</span>
                   </label>
@@ -311,13 +311,13 @@ export default function AdminPricingPage() {
                           type="text" 
                           value={f}
                           onChange={e => handleFeatureChange(i, e.target.value)}
-                          className="flex-1 bg-surface border-4 border-foreground p-2 font-bold text-sm focus:outline-none focus:border-accent"
+                          className="flex-1 bg-surface border border-border rounded-2xl p-2 font-bold text-sm focus:outline-none focus:border-accent"
                           placeholder="Feature detail..."
                         />
                         <button 
                           type="button" 
                           onClick={() => handleRemoveFeature(i)}
-                          className="p-2 border-4 border-foreground hover:bg-red-500 hover:text-white transition-colors"
+                          className="p-2 border border-border rounded-2xl hover:bg-red-500 hover:text-white transition-colors"
                         >
                           <Trash weight="bold" />
                         </button>
@@ -326,18 +326,18 @@ export default function AdminPricingPage() {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t-4 border-foreground flex justify-end gap-4">
+                <div className="pt-6 border-t border-border flex justify-end gap-4">
                   <button 
                     type="button"
                     onClick={handleCloseModal}
-                    className="px-6 py-3 font-black uppercase tracking-widest border-4 border-transparent hover:border-foreground"
+                    className="px-6 py-3 text-sm font-bold uppercase tracking-wider text-gray-500 hover:text-gray-800 transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-accent text-black font-black uppercase tracking-widest px-8 py-3 border-4 border-black hover:bg-black hover:text-accent transition-colors disabled:opacity-50"
+                    className="bg-accent text-white font-bold uppercase tracking-widest px-8 py-3 rounded-xl hover:bg-accent/90 transition-all shadow-sm disabled:opacity-50 text-xs"
                   >
                     {isSubmitting ? 'Saving...' : 'Save Package'}
                   </button>
@@ -350,11 +350,11 @@ export default function AdminPricingPage() {
         {/* Brutal Delete Modal */}
         {packageToDelete && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-surface border-8 border-foreground shadow-[16px_16px_0_0_#FF6138] w-full max-w-md my-8 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]">
-              <div className="absolute top-0 left-0 right-0 h-4 bg-[repeating-linear-gradient(45deg,#0F0F0F,#0F0F0F_10px,#F7DF1E_10px,#F7DF1E_20px)] border-b-4 border-foreground" />
+            <div className="bg-surface border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]">
               
-              <div className="p-8 pt-12 text-center">
-                <div className="w-20 h-20 bg-red-500 mx-auto border-4 border-foreground shadow-[8px_8px_0_0_#0F0F0F] flex items-center justify-center mb-6">
+              
+              <div className="p-6 text-center">
+                <div className="w-20 h-20 bg-red-500 mx-auto border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center mb-6">
                   <Trash weight="fill" size={40} className="text-white" />
                 </div>
                 <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">HAPUS PAKET IEU?</h2>
@@ -363,13 +363,13 @@ export default function AdminPricingPage() {
                 <div className="flex gap-4">
                   <button 
                     onClick={() => setPackageToDelete(null)}
-                    className="flex-1 py-4 bg-white border-4 border-foreground font-black uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-[4px_4px_0_0_#0F0F0F] active:translate-y-1 active:shadow-[0_0_0_0_#0F0F0F]"
+                    className="flex-1 py-3.5 bg-gray-50 border border-gray-200/80 rounded-xl font-bold uppercase text-xs tracking-wider text-gray-700 hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-sm"
                   >
                     TEU JADI
                   </button>
                   <button 
                     onClick={confirmDelete}
-                    className="flex-1 py-4 bg-red-500 text-white border-4 border-foreground font-black uppercase tracking-widest shadow-[4px_4px_0_0_#0F0F0F] hover:bg-red-600 active:translate-y-1 active:shadow-[0_0_0_0_#0F0F0F] transition-all"
+                    className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all"
                   >
                     HAPUS LAH!
                   </button>
