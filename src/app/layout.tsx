@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { MonoAssistant } from "@/components/MonoAssistant";
 import { JsonLd } from "@/components/JsonLd";
+import Script from "next/script";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -67,6 +68,14 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${jakarta.variable} h-full antialiased`}
     >
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1093659666783969"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground relative">
         <JsonLd schema={orgSchema} />
         {children}
