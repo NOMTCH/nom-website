@@ -17,6 +17,7 @@ import {
   Info,
   Coffee
 } from "@phosphor-icons/react";
+import { NeoAdSlot } from '@/components/blog/NeoAdSlot';
 
 export default function ImageCompressorPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -357,11 +358,8 @@ export default function ImageCompressorPage() {
             </div>
 
             {/* AdSense Placeholder Sidebar */}
-            <div className="border-4 border-dashed border-border bg-[#F9F9F9] rounded-[2rem] p-6 text-center text-muted text-xs font-bold relative min-h-[150px] flex flex-col justify-center items-center">
-              <span className="absolute top-2 right-4 px-2 py-0.5 bg-border text-[9px] uppercase tracking-widest text-muted-foreground rounded-full">Ads</span>
-              <ImageIcon size={32} className="opacity-30 mb-2" />
-              <span>Space Iklan AdSense Kiri</span>
-              <span className="text-[10px] opacity-50 mt-1">Sponsor Web NOMSTD</span>
+            <div className="w-full">
+              <NeoAdSlot format="rectangle" />
             </div>
 
           </div>
@@ -484,11 +482,8 @@ export default function ImageCompressorPage() {
                 )}
 
                 {/* AdSense Placeholder Banner (Under results) */}
-                <div className="border-4 border-dashed border-border bg-[#F9F9F9] rounded-[2rem] p-8 text-center text-muted text-xs font-bold relative min-h-[120px] flex flex-col justify-center items-center">
-                  <span className="absolute top-2 right-4 px-2 py-0.5 bg-border text-[9px] uppercase tracking-widest text-muted-foreground rounded-full">Ads</span>
-                  <ImageIcon size={32} className="opacity-30 mb-2" />
-                  <span>Space Iklan AdSense Banner Bawah</span>
-                  <span className="text-[10px] opacity-50 mt-1">Sponsor Banner Horizontal (728x90)</span>
+                <div className="w-full">
+                  <NeoAdSlot format="horizontal" />
                 </div>
 
               </div>

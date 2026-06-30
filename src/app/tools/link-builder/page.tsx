@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash, Link as LinkIcon, Image as ImageIcon, Copy, Check, Info, UploadSimple, Spinner, InstagramLogo, TiktokLogo, TwitterLogo, YoutubeLogo, FacebookLogo, LinkedinLogo, GithubLogo, ShoppingBag, ShoppingCart, Globe, ArrowUpRight } from "@phosphor-icons/react";
 import Link from 'next/link';
+import { NeoAdSlot } from '@/components/blog/NeoAdSlot';
 
 type LinkItem = {
   id: string;
@@ -310,9 +311,8 @@ export default function LinkBuilderPage() {
             </div>
 
             {/* AdSense Placeholder Builder page */}
-            <div className="border-4 border-dashed border-border bg-[#F9F9F9] rounded-2xl p-6 text-center text-muted text-xs font-bold relative min-h-[100px] flex flex-col justify-center items-center">
-              <span className="absolute top-2 right-4 px-2 py-0.5 bg-border text-[9px] uppercase tracking-widest text-muted-foreground rounded-full">Ads</span>
-              <span className="text-[10px] opacity-75">Space Iklan AdSense (Side Banner)</span>
+            <div className="w-full">
+              <NeoAdSlot format="horizontal" />
             </div>
 
             {/* Mobile Preview Frame */}
