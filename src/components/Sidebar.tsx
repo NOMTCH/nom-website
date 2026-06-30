@@ -419,6 +419,13 @@ export function Sidebar() {
           </div>
         </div>
 
+        {/* AdSense Placeholder Sidebar */}
+        <div className="print:hidden border-4 border-dashed border-border bg-white rounded-2xl p-4 text-center text-muted text-xs font-bold relative min-h-[120px] flex flex-col justify-center items-center mt-4">
+          <span className="absolute top-2 right-4 px-2 py-0.5 bg-border text-[9px] uppercase tracking-widest text-muted-foreground rounded-full">Ads</span>
+          <span className="text-[10px] opacity-75">Space Iklan AdSense Sidebar</span>
+          <span className="text-[9px] opacity-50 mt-1">print:hidden (tidak dicetak di PDF)</span>
+        </div>
+
       </div>
       </aside>
     </>

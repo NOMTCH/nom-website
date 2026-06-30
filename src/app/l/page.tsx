@@ -165,6 +165,21 @@ function LinkViewer() {
           </a>
         </div>
 
+        {/* AdSense Placement at the bottom of dynamic links */}
+        <div className={`mt-10 mx-auto w-full max-w-[300px] border-2 border-dashed p-3 text-center text-[10px] font-bold relative rounded-xl ${
+          theme === 'dark' ? 'border-zinc-800 text-zinc-600 bg-zinc-950/50' :
+          theme === 'brutal-green' ? 'border-[#00FF00]/30 text-[#00FF00]/50 bg-black/40' :
+          theme === 'brutal-cyberpunk' ? 'border-black/30 text-black/50 bg-[#FCE100]' :
+          'border-gray-200 text-gray-400 bg-white/50'
+        }`}>
+          <span className={`absolute -top-2.5 left-4 px-1.5 py-0.5 text-[8px] uppercase tracking-widest rounded border ${
+            theme === 'dark' ? 'bg-black text-zinc-600 border-zinc-800' :
+            theme === 'brutal-green' ? 'bg-black text-[#00FF00]/50 border-[#00FF00]/30' :
+            'bg-white text-gray-400 border-gray-200'
+          }`}>Ads</span>
+          <span>Space Iklan Sponsor (NOMSTD Premium)</span>
+        </div>
+
       </div>
     </div>
   );

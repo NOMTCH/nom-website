@@ -94,7 +94,7 @@ export default function LinkBuilderPage() {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const response = await fetch("https://api.imgbb.com/1/upload?key=e0fb5dd9ebb00d24695fbf9a7ec348d9", {
+      const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
@@ -307,6 +307,12 @@ export default function LinkBuilderPage() {
                 <Info size={24} className="shrink-0" />
                 <span>Simpan URL ini! URL ini nyimpen seluruh pengaturan profil lo. Kalau hilang, lo harus bikin dari awal lagi. Jangan sampai lupa ya!</span>
               </div>
+            </div>
+
+            {/* AdSense Placeholder Builder page */}
+            <div className="border-4 border-dashed border-border bg-[#F9F9F9] rounded-2xl p-6 text-center text-muted text-xs font-bold relative min-h-[100px] flex flex-col justify-center items-center">
+              <span className="absolute top-2 right-4 px-2 py-0.5 bg-border text-[9px] uppercase tracking-widest text-muted-foreground rounded-full">Ads</span>
+              <span className="text-[10px] opacity-75">Space Iklan AdSense (Side Banner)</span>
             </div>
 
             {/* Mobile Preview Frame */}

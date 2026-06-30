@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Tag } from '@phosphor-icons/react';
 
@@ -20,6 +21,7 @@ const serviceLinks = {
 };
 
 export function Navbar() {
+  const pathname = usePathname();
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
@@ -103,31 +105,57 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 h-full">
-            <Link href="/" onMouseEnter={() => setIsServicesOpen(false)} className="text-sm font-semibold text-muted hover:text-foreground transition-colors py-2">
-              Home
-            </Link>
-            <Link href="/about" onMouseEnter={() => setIsServicesOpen(false)} className="text-sm font-semibold text-muted hover:text-foreground transition-colors py-2">
-              About Us
-            </Link>
-            <Link href="/blog" onMouseEnter={() => setIsServicesOpen(false)} className="text-sm font-semibold text-muted hover:text-foreground transition-colors py-2">
-              Blog
-            </Link>
+            {[
+              { name: 'Home', href: '/', isActive: pathname === '/' },
+              { name: 'About Us', href: '/about', isActive: pathname?.startsWith('/about') },
+              { name: 'Blog', href: '/blog', isActive: pathname?.startsWith('/blog') }
+            ].map((item) => (
+              <Link 
+                key={item.name}
+                href={item.href} 
+                onMouseEnter={() => setIsServicesOpen(false)} 
+                className={`relative text-sm font-bold transition-colors py-2 ${item.isActive ? 'text-accent' : 'text-muted hover:text-foreground'}`}
+              >
+                {item.name}
+                {item.isActive && (
+                  <motion.div 
+                    layoutId="nav-dot"
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-accent"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
+              </Link>
+            ))}
             
             <div 
               className="h-full flex items-center cursor-pointer group relative"
               onMouseEnter={() => setIsServicesOpen(true)}
             >
-              <span className={`text-sm font-semibold transition-colors flex items-center gap-1 py-2 ${isServicesOpen ? 'text-accent-secondary' : 'text-muted hover:text-foreground'}`}>
+              <span className={`relative text-sm font-bold transition-colors flex items-center gap-1 py-2 ${(pathname?.startsWith('/services') || isServicesOpen) ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
                 Services
                 <motion.svg animate={{ rotate: isServicesOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M12 5v14M19 12l-7 7-7-7"/>
                 </motion.svg>
+                {pathname?.startsWith('/services') && (
+                  <motion.div 
+                    layoutId="nav-dot"
+                    className="absolute -bottom-1 left-[calc(50%-10px)] -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-accent"
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  />
+                )}
               </span>
             </div>
 
-            <Link href="/#tools" onMouseEnter={() => setIsServicesOpen(false)} className="text-sm font-semibold text-muted hover:text-foreground transition-colors flex items-center gap-2 py-2">
+            <Link href="/#tools" onMouseEnter={() => setIsServicesOpen(false)} className={`relative text-sm font-bold transition-colors flex items-center gap-2 py-2 ${pathname?.includes('/tools') ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
               Free Tools 
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-accent/10 text-accent">New</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-accent/10 text-accent uppercase tracking-widest">New</span>
+              {pathname?.includes('/tools') && (
+                <motion.div 
+                  layoutId="nav-dot"
+                  className="absolute -bottom-1 left-[calc(50%-22px)] -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-accent"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                />
+              )}
             </Link>
           </nav>
 
@@ -260,13 +288,13 @@ export function Navbar() {
             className="md:hidden fixed inset-0 h-[100svh] w-full bg-white/95 backdrop-blur-xl z-40 overflow-y-auto pt-28"
           >
             <div className="flex flex-col px-8 pb-12 gap-6">
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-display font-black text-foreground">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname === '/' ? 'text-accent' : 'text-foreground'}`}>
                 Home
               </Link>
-              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-display font-black text-foreground">
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname?.startsWith('/about') ? 'text-accent' : 'text-foreground'}`}>
                 About Us
               </Link>
-              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-display font-black text-foreground">
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname?.startsWith('/blog') ? 'text-accent' : 'text-foreground'}`}>
                 Blog
               </Link>
               
@@ -274,7 +302,7 @@ export function Navbar() {
               <div className="flex flex-col">
                 <button 
                   onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                  className="flex items-center justify-between text-3xl font-display font-black text-foreground"
+                  className={`flex items-center justify-between text-3xl font-display font-black ${pathname?.startsWith('/services') ? 'text-accent' : 'text-foreground'}`}
                 >
                   Services
                   <motion.svg animate={{ rotate: isMobileServicesOpen ? 180 : 0 }} className="w-6 h-6 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -318,7 +346,7 @@ export function Navbar() {
                 </AnimatePresence>
               </div>
 
-              <Link href="/#tools" onClick={() => setIsMobileMenuOpen(false)} className="text-3xl font-display font-black text-foreground flex items-center gap-3">
+              <Link href="/#tools" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black flex items-center gap-3 ${pathname?.includes('/tools') ? 'text-accent' : 'text-foreground'}`}>
                 Free Tools
                 <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">New</span>
               </Link>

@@ -6,6 +6,10 @@ import remarkGfm from 'remark-gfm';
 import { ArrowLeft, ArrowRight, WhatsappLogo, TwitterLogo, FacebookLogo } from '@phosphor-icons/react/dist/ssr';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { ReadingProgress } from '@/components/blog/ReadingProgress';
+import { AudioPlayer } from '@/components/blog/AudioPlayer';
+import { NeoAdSlot } from '@/components/blog/NeoAdSlot';
+import { InlineTextTool } from '@/components/blog/InlineTool';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -38,6 +42,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <>
+      <ReadingProgress />
       <Navbar />
       <main className="min-h-screen bg-background pt-[120px] pb-0 relative selection:bg-accent selection:text-white">
         
@@ -75,19 +80,49 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             )}
           </header>
 
+          <AudioPlayer content={post.content} title={post.title} />
+          <NeoAdSlot format="horizontal" />
+
           {/* Prose Content */}
-          <article className="prose md:prose-lg lg:prose-xl prose-headings:font-display prose-headings:font-black prose-headings:tracking-tight prose-a:text-accent hover:prose-a:text-accent/80 prose-a:font-bold prose-img:border prose-img:border-border prose-img:shadow-sm prose-img:rounded-3xl max-w-none prose-p:font-sans prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:font-medium prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-gray-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:font-bold prose-blockquote:text-gray-800 prose-blockquote:rounded-r-3xl mb-24">
+          <article className="prose md:prose-lg lg:prose-xl prose-headings:font-display prose-headings:font-black prose-headings:tracking-tight prose-a:text-accent hover:prose-a:text-accent/80 prose-a:font-bold prose-img:border prose-img:border-border prose-img:shadow-sm prose-img:rounded-3xl max-w-none prose-p:font-sans prose-p:text-gray-700 prose-p:leading-[1.8] prose-p:font-medium prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-gray-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:font-bold prose-blockquote:text-gray-800 prose-blockquote:rounded-r-3xl mb-16">
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]}
               components={{
                 a: ({ node, ...props }) => (
                   <a target="_blank" rel="noopener noreferrer" {...props} />
                 ),
+                p: ({ node, children, ...props }) => {
+                  if (typeof children === 'string' && children.includes('[TOOL:text]')) {
+                    return (
+                      <>
+                        <p {...props}>{children.replace('[TOOL:text]', '')}</p>
+                        <InlineTextTool />
+                      </>
+                    );
+                  }
+                  if (Array.isArray(children)) {
+                    const hasTool = children.some(child => typeof child === 'string' && child.includes('[TOOL:text]'));
+                    if (hasTool) {
+                      const filtered = children.map(child => 
+                        typeof child === 'string' ? child.replace('[TOOL:text]', '') : child
+                      );
+                      return (
+                        <>
+                          <p {...props}>{filtered}</p>
+                          <InlineTextTool />
+                        </>
+                      );
+                    }
+                  }
+                  return <p {...props}>{children}</p>;
+                }
               }}
             >
               {post.content}
             </ReactMarkdown>
           </article>
+
+          <NeoAdSlot format="horizontal" />
 
           {/* Share Section */}
           <div className="pt-12 border-t border-gray-100 mb-24">

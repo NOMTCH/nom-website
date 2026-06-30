@@ -2,6 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { 
+  Palette, 
+  Camera, 
+  VideoCamera, 
+  Code, 
+  Laptop, 
+  EnvelopeOpen 
+} from "@phosphor-icons/react";
 
 const services = [
   {
@@ -9,7 +17,7 @@ const services = [
     title: 'Graphic Design',
     desc: 'Logo, Branding, Brosur, Social Media Management. Bikin identitas visual yang nancep di kepala audiens. (We focus on layout and branding).',
     color: 'text-[#FF3B30]',
-    icon: '/assets/icons/Portfolio Icon/design.svg',
+    icon: Palette,
     href: '/services/graphic-design'
   },
   {
@@ -17,7 +25,7 @@ const services = [
     title: 'Photography',
     desc: 'Dari momen epic Wedding, Corporate Event, Perpisahan Sekolah, sampai foto Produk komersial dengan lighting mahal.',
     color: 'text-[#34C759]',
-    icon: '/assets/icons/Portfolio Icon/camera.svg',
+    icon: Camera,
     href: '/services/photography'
   },
   {
@@ -25,7 +33,7 @@ const services = [
     title: 'Videography',
     desc: 'Shooting dan video editing profesional. Cinematic wedding, aftermovie event, sampai paket Reels/TikTok yang hook-nya dapet banget.',
     color: 'text-[#FF9500]',
-    icon: '/assets/icons/Portfolio Icon/video.svg',
+    icon: VideoCamera,
     href: '/services/videography'
   },
   {
@@ -33,7 +41,7 @@ const services = [
     title: 'Web Development',
     desc: 'Bikin Landing Page, Company Profile, atau web app kekinian yang ngebut dan responsif (Powered by modern stacks).',
     color: 'text-[#5856D6]',
-    icon: '/assets/icons/Portfolio Icon/web.svg',
+    icon: Code,
     href: '/services/web-development'
   },
   {
@@ -41,7 +49,7 @@ const services = [
     title: 'IT Solutions',
     desc: 'Service laptop lemot, upgrade SSD/RAM, rakit PC custom idaman, dan maintenance jaringan buat kantor lo.',
     color: 'text-[#007AFF]',
-    icon: '/assets/icons/Portfolio Icon/laptop.svg',
+    icon: Laptop,
     href: '/services/it-solutions'
   },
   {
@@ -49,7 +57,7 @@ const services = [
     title: 'Digital Invitation',
     desc: 'Bikin tamu lo kena mental. Undangan digital eksklusif dengan tema premium, RSVP, kado cashless, dan animasi dewa.',
     color: 'text-[#AF52DE]',
-    icon: '/assets/icons/Portfolio Icon/web.svg',
+    icon: EnvelopeOpen,
     href: '/services/digital-invitation'
   }
 ];
@@ -100,7 +108,7 @@ export function Services() {
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
                   <div className="w-16 h-16 rounded-2xl bg-background border border-border flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
-                    <img src={srv.icon} alt={srv.title} className="w-8 h-8 object-contain" />
+                    <srv.icon size={28} className={`${srv.color} transition-colors duration-300`} weight="duotone" />
                   </div>
                   <span className="text-4xl font-display font-black text-muted/20 group-hover:text-accent/20 transition-colors duration-300">
                     {srv.id}
