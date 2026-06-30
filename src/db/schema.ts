@@ -39,3 +39,12 @@ export const promos = pgTable('promos', {
   isActive: boolean('is_active').notNull().default(true),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+export const pageViews = pgTable('page_views', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  path: text('path').notNull(),
+  ipHash: text('ip_hash'),
+  userAgent: text('user_agent'),
+  deviceType: text('device_type').notNull().default('desktop'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});

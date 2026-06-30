@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt } from '@phosphor-icons/react';
+import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt, ChartLineUp, Eye, UserCircle } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { getTrafficStats } from './actions';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -16,6 +17,12 @@ export default function AdminDashboard() {
     totalRevenue: 0,
     totalOutstanding: 0,
     invoicesCount: 0
+  });
+
+  const [traffic, setTraffic] = useState({
+    totalViews: 0,
+    uniqueVisitors: 0,
+    viewsToday: 0
   });
 
   const [greeting, setGreeting] = useState(() => {
@@ -43,6 +50,10 @@ export default function AdminDashboard() {
         cvUsers: usersCount || 0,
         templates: 4
       });
+
+      // Load traffic stats
+      const trafficStats = await getTrafficStats();
+      setTraffic(trafficStats);
 
       // Load invoices
       const { data: invoicesData } = await supabase
@@ -76,6 +87,53 @@ export default function AdminDashboard() {
         <h1 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tight text-gray-900 leading-none">System Overview</h1>
         
       </header>
+
+      {/* Traffic Overview */}
+      <div>
+        <h2 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">
+          <ChartLineUp weight="bold" /> Real-time Traffic
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Total Views Card */}
+          <div className="bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center">
+                <Eye weight="fill" size={24} className="text-indigo-600" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Total Halaman Dibuka</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">
+              {new Intl.NumberFormat('id-ID').format(traffic.totalViews)}
+            </p>
+          </div>
+
+          {/* Unique Visitors Card */}
+          <div className="bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center">
+                <UserCircle weight="fill" size={24} className="text-pink-600" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Total Pengunjung (Unik)</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">
+              {new Intl.NumberFormat('id-ID').format(traffic.uniqueVisitors)}
+            </p>
+          </div>
+
+          {/* Views Today */}
+          <div className="bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center">
+                <ChartLineUp weight="bold" size={24} className="text-sky-600" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Dilihat Hari Ini</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">
+              {new Intl.NumberFormat('id-ID').format(traffic.viewsToday)}
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Financial CRM Overview */}
       <div>
