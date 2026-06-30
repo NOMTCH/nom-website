@@ -11,10 +11,12 @@ import {
   TextT, 
   QrCode as QrIcon, 
   ArrowRight,
-  Sparkle
+  Sparkle,
+  SquaresFour,
+  Images
 } from "@phosphor-icons/react";
 
-type ToolType = 'cv' | 'link' | 'compress' | 'text' | 'qr';
+type ToolType = 'cv' | 'link' | 'compress' | 'text' | 'qr' | 'grid';
 
 export function FreeTools() {
   const [activeTab, setActiveTab] = useState<ToolType>('qr'); // Default to QR as it's the newest & most visual
@@ -35,6 +37,9 @@ export function FreeTools() {
   // 5. QR Generator State
   const [qrInput, setQrInput] = useState<string>('https://nomstd.my.id');
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 6. Grid Maker State
+  const [gridImagesCount, setGridImagesCount] = useState<number>(4);
 
   // Draw QR code on the homepage playground dynamically
   useEffect(() => {
@@ -98,6 +103,14 @@ export function FreeTools() {
       desc: 'Pengubah huruf & live word counter.',
       icon: TextT,
       bgColor: 'bg-rose-500',
+      textColor: 'text-white'
+    },
+    {
+      id: 'grid' as ToolType,
+      label: 'Photo Grid',
+      desc: 'Gabungkan banyak foto bergaya Neo-Brutalist.',
+      icon: SquaresFour,
+      bgColor: 'bg-blue-500',
       textColor: 'text-white'
     }
   ];
@@ -437,6 +450,37 @@ export function FreeTools() {
                     </div>
                   )}
 
+                  {/* TAB 6: PHOTO GRID MAKER */}
+                  {activeTab === 'grid' && (
+                    <div className="w-full flex flex-col sm:flex-row gap-6 sm:gap-8 items-center max-w-xl">
+                      <div className="flex-1 space-y-4 w-full">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Simulasi Grid Layout</label>
+                        <div className="flex gap-2">
+                          {[1, 2, 3, 4, 5, 6].map(num => (
+                            <button
+                              key={num}
+                              onClick={() => setGridImagesCount(num)}
+                              className={`w-8 h-8 rounded-lg font-bold text-xs flex items-center justify-center border-2 transition-all ${
+                                gridImagesCount >= num ? 'bg-accent text-white border-accent' : 'bg-white text-muted border-border'
+                              }`}
+                            >
+                              {num}
+                            </button>
+                          ))}
+                        </div>
+                        <p className="text-[10px] font-bold text-muted leading-relaxed">Klik angka di atas buat simulasi nambah foto ke canvas! Fitur ini menggabungkan semua fotomu ke dalam 1 grid atau gaya polaroid keren.</p>
+                      </div>
+
+                      <div className="shrink-0 w-[200px] h-[200px] bg-white border-2 border-foreground rounded-2xl shadow-[4px_4px_0_0_#000000] flex flex-wrap gap-1 p-2 overflow-hidden relative">
+                        {Array.from({ length: Math.max(1, gridImagesCount) }).map((_, idx) => (
+                          <div key={idx} className="flex-1 min-w-[45%] h-[45%] bg-blue-100 border border-blue-300 rounded flex items-center justify-center">
+                            <Images className="text-blue-400" size={24} weight="fill" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -451,6 +495,7 @@ export function FreeTools() {
                   {activeTab === 'link' && 'Buat halaman bio link & pasang di media sosial.'}
                   {activeTab === 'compress' && 'Mulai kompresi file foto batch tak terbatas.'}
                   {activeTab === 'text' && 'Gunakan tool pengubah text case & pembersih spasi.'}
+                  {activeTab === 'grid' && 'Buat kolase foto Aesthetic sekarang juga!'}
                 </p>
               </div>
               
@@ -460,6 +505,7 @@ export function FreeTools() {
                   activeTab === 'cv' ? '/tools/cv-generator' :
                   activeTab === 'link' ? '/tools/link-builder' :
                   activeTab === 'compress' ? '/tools/image-compressor' :
+                  activeTab === 'grid' ? '/tools/photo-grid' :
                   '/tools/text-tool'
                 }
                 target="_blank"
