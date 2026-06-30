@@ -10,6 +10,7 @@ import { ReadingProgress } from '@/components/blog/ReadingProgress';
 import { AudioPlayer } from '@/components/blog/AudioPlayer';
 import { NeoAdSlot } from '@/components/blog/NeoAdSlot';
 import { InlineTextTool } from '@/components/blog/InlineTool';
+import { headers } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -35,6 +36,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post || !post.is_published) {
     notFound();
   }
+
+  const headersList = await headers();
+  const domain = headersList.get('host') || 'nomstd.com';
+  const protocol = headersList.get('x-forwarded-proto') || (domain.includes('localhost') ? 'http' : 'https');
+  const shareUrl = `${protocol}://${domain}/blog/${post.slug}`;
 
   // Fetch other posts for the bottom section
   const allPosts = await getBlogPosts(true);
@@ -129,7 +135,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <h3 className="font-display font-black text-2xl uppercase tracking-tighter text-gray-900 mb-6 text-center sm:text-left">Bagikan Artikel</h3>
             <div className="flex flex-row justify-center sm:justify-start gap-4">
               <a 
-                href={`https://wa.me/?text=Cek artikel keren ini: ${post.title} - https://nomstd.com/blog/${post.slug}`} 
+                href={`https://wa.me/?text=Cek artikel keren ini: ${post.title} - ${shareUrl}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-14 h-14 flex items-center justify-center bg-[#25D366] text-white border border-[#25D366] hover:bg-white hover:text-[#25D366] rounded-2xl shadow-sm hover:-translate-y-1 transition-all"
@@ -138,7 +144,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <WhatsappLogo weight="fill" size={28} />
               </a>
               <a 
-                href={`https://twitter.com/intent/tweet?text=Cek artikel ini: ${post.title}&url=https://nomstd.com/blog/${post.slug}`} 
+                href={`https://twitter.com/intent/tweet?text=Cek artikel ini: ${post.title}&url=${shareUrl}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-14 h-14 flex items-center justify-center bg-gray-900 text-white border border-gray-900 hover:bg-white hover:text-gray-900 rounded-2xl shadow-sm hover:-translate-y-1 transition-all"
@@ -147,7 +153,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <TwitterLogo weight="fill" size={28} />
               </a>
               <a 
-                href={`https://www.facebook.com/sharer/sharer.php?u=https://nomstd.com/blog/${post.slug}`} 
+                href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="w-14 h-14 flex items-center justify-center bg-[#1877F2] text-white border border-[#1877F2] hover:bg-white hover:text-[#1877F2] rounded-2xl shadow-sm hover:-translate-y-1 transition-all"
