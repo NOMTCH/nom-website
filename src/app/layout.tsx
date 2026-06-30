@@ -5,6 +5,7 @@ import { MonoAssistant } from "@/components/MonoAssistant";
 import { JsonLd } from "@/components/JsonLd";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import Script from "next/script";
+import { Suspense } from "react";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -82,7 +83,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground relative">
         <JsonLd schema={orgSchema} />
-        <VisitorTracker />
+        <Suspense fallback={null}>
+          <VisitorTracker />
+        </Suspense>
         {children}
         <MonoAssistant />
       </body>
