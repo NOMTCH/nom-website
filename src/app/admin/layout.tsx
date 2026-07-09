@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { type Session } from '@supabase/supabase-js';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article, FileText } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -169,6 +169,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Receipt weight="bold" size={20} className="shrink-0" />
             {sidebarOpen && "Invoices"}
+          </Link>
+          <Link 
+            href="/admin/proposals" 
+            className={`flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all ${pathname.includes('/admin/proposals') ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`}
+          >
+            <FileText weight="bold" size={20} className="shrink-0" />
+            {sidebarOpen && "Proposals"}
           </Link>
           <Link 
             href="/admin/invitations" 
