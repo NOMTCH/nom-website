@@ -46,8 +46,22 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'No RSS items found' }, { status: 404 });
     }
 
-    // Pilih artikel terbaru (paling atas)
-    const latestNews = feed.items[0];
+    // Filter & Sort: Ambil artikel yang benar-benar terbaru (Bukan artikel pinned yang jadul)
+    // Urutkan berdasarkan tanggal dari yang paling baru (2026) ke lama
+    const sortedItems = feed.items
+      .filter(item => item.isoDate || item.pubDate) 
+      .sort((a, b) => {
+        const dateA = new Date(a.isoDate || a.pubDate || 0).getTime();
+        const dateB = new Date(b.isoDate || b.pubDate || 0).getTime();
+        return dateB - dateA; // Descending (Terbaru di atas)
+      });
+      
+    if (sortedItems.length === 0) {
+      return NextResponse.json({ error: 'No valid dated RSS items found' }, { status: 404 });
+    }
+
+    // Pilih artikel yang beneran paling baru (menghindari berita kolot)
+    const latestNews = sortedItems[0];
     const newsTitle = latestNews.title;
     const newsContent = latestNews.contentSnippet || latestNews.content || latestNews.summary;
 
@@ -59,6 +73,7 @@ export async function GET(request: Request) {
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
 Tugas Anda adalah menulis ulang konten di bawah ini menjadi sebuah artikel blog SEO yang panjang dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
+Sebagai informasi, hari ini adalah tahun 2026. Pastikan tulisan Anda terasa modern, fresh, dan relevan dengan tren masa kini.
 
 Kategori Artikel: ${randomSource.category}
 
