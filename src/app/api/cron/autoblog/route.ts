@@ -198,12 +198,17 @@ Aturan Penulisan:
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)+/g, '') + '-' + Math.floor(Math.random() * 1000);
 
+    // Generate Gambar Oretan (Doodle) Gratisan pakai AI Pollinations (Tanpa API Key, format URL statis)
+    const promptGambar = `minimalist flat vector illustration, doodle sketch, abstract creative concept of ${title}`;
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(promptGambar)}?width=1200&height=630&nologo=true`;
+
     // 4. Masukkan ke Database (Supabase)
     const { error: dbError } = await supabase.from('blogs').insert({
       title: title,
       slug: slug,
-      category: 'Tech News',
+      category: randomSource.category, // Benerin category yang sebelumnya hardcoded
       content: content,
+      cover_image: imageUrl, // Masukin link gambar doodle AI
       is_published: true
     });
 
