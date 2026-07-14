@@ -22,10 +22,16 @@ export default function AdminDashboard() {
     invoicesCount: 0
   });
 
-  const [traffic, setTraffic] = useState({
+  const [traffic, setTraffic] = useState<{
+    totalViews: number;
+    uniqueVisitors: number;
+    viewsToday: number;
+    topPages: Array<{path: string; views: number}>;
+  }>({
     totalViews: 0,
     uniqueVisitors: 0,
-    viewsToday: 0
+    viewsToday: 0,
+    topPages: []
   });
 
   const [greeting, setGreeting] = useState(() => {
@@ -161,6 +167,31 @@ export default function AdminDashboard() {
             </p>
           </div>
         </div>
+
+        {/* Top Pages List */}
+        {traffic.topPages && traffic.topPages.length > 0 && (
+          <div className="mt-6 bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Halaman Paling Sering Dibuka (Top 5)</h2>
+            <div className="space-y-3">
+              {traffic.topPages.map((page, idx) => (
+                <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-black text-gray-500 shrink-0">
+                      {idx + 1}
+                    </div>
+                    <span className="font-mono text-sm font-bold text-gray-700 truncate" title={page.path}>
+                      {page.path}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Eye size={16} weight="bold" className="text-gray-400" />
+                    <span className="font-black text-gray-900">{page.views}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Financial CRM Overview */}

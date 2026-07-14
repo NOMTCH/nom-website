@@ -34,14 +34,35 @@ export async function getTrafficStats() {
       .select('*', { count: 'exact', head: true })
       .gte('created_at', today.toISOString());
 
+    // 4. Top Pages (fetch paths and count in memory since traffic is manageable)
+    const { data: allPaths } = await supabase
+      .from('page_views')
+      .select('path')
+      .order('created_at', { ascending: false })
+      .limit(1000); // Analyze last 1000 pageviews
+
+    const pathCounts: Record<string, number> = {};
+    if (allPaths) {
+      allPaths.forEach(p => {
+        const path = p.path || '/';
+        pathCounts[path] = (pathCounts[path] || 0) + 1;
+      });
+    }
+
+    const topPages = Object.entries(pathCounts)
+      .map(([path, views]) => ({ path, views }))
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 5); // Top 5 pages
+
     return { 
       totalViews: totalViews || 0, 
       uniqueVisitors: uniqueVisitors || 0, 
-      viewsToday: viewsToday || 0 
+      viewsToday: viewsToday || 0,
+      topPages
     };
   } catch (error: any) {
     console.error('Error fetching traffic stats:', error);
     // Silent fail if table doesn't exist yet (e.g. before migration)
-    return { totalViews: 0, uniqueVisitors: 0, viewsToday: 0, error: error.message || String(error) };
+    return { totalViews: 0, uniqueVisitors: 0, viewsToday: 0, topPages: [], error: error.message || String(error) };
   }
 }
