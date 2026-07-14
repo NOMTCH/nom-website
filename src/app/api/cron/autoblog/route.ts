@@ -94,15 +94,24 @@ Aturan Penulisan:
 5. Di akhir, sisipkan kalimat promosi singkat (1 kalimat) tentang layanan NOMSTD (pembuatan website/UI UX) dan ajak pembaca menghubungi NOMSTD jika butuh solusi IT.
 `;
 
-    // Daftar model gratis dari OpenRouter. Kita kasih banyak opsi biar kalau satu server mati, lanjut ke yang lain.
-    const modelsToTry = [
-      "meta-llama/llama-3.1-8b-instruct:free",
-      "microsoft/phi-3-mini-128k-instruct:free",
-      "qwen/qwen-2-7b-instruct:free",
-      "huggingfaceh4/zephyr-7b-beta:free",
-      "mistralai/mistral-7b-instruct:free",
-      "google/gemma-2-9b-it:free"
-    ];
+    // Ambil daftar model gratis langsung dari OpenRouter secara dinamis!
+    let modelsToTry = [];
+    try {
+      const orModelsRes = await fetch("https://openrouter.ai/api/v1/models");
+      const orModelsData = await orModelsRes.json();
+      // Cari model yang harganya 0 (gratis 100%)
+      modelsToTry = orModelsData.data
+        .filter((m: any) => m.pricing && m.pricing.prompt === "0" && m.pricing.completion === "0")
+        .map((m: any) => m.id)
+        .slice(0, 5); // Ambil 5 model gratis teratas buat dicoba
+    } catch (e) {
+      // Fallback darurat kalau gagal ambil list
+      modelsToTry = ["meta-llama/llama-3-8b-instruct:free", "google/gemma-2-9b-it:free"];
+    }
+
+    if (modelsToTry.length === 0) {
+      modelsToTry = ["meta-llama/llama-3-8b-instruct:free"];
+    }
 
     let text = "";
     let usedModel = "";
