@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { pageViews } from '@/db/schema';
 import crypto from 'crypto';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
   try {
@@ -25,18 +26,27 @@ export async function POST(req: Request) {
     if (/mobile/i.test(userAgent)) deviceType = 'mobile';
     if (/tablet/i.test(userAgent) || /ipad/i.test(userAgent)) deviceType = 'tablet';
 
-    // Insert to database using Drizzle
-    await db.insert(pageViews).values({
+    // Initialize Supabase client
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Insert to database using Supabase client to bypass IPv4 pooler issues
+    const { error } = await supabase.from('page_views').insert([{
       path,
-      ipHash,
-      userAgent,
-      deviceType,
-    });
+      ip_hash: ipHash,
+      user_agent: userAgent,
+      device_type: deviceType,
+    }]);
+
+    if (error) {
+      console.error('Supabase insert error:', error);
+    }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Tracking error:', error);
-    // Always return 200 to prevent client-side errors from disrupting the user experience
-    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 200 });
+    // Return error for debugging
+    return NextResponse.json({ success: false, error: error.message || String(error) }, { status: 200 });
   }
 }

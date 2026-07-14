@@ -19,6 +19,7 @@ export interface Invoice {
   items: InvoiceItem[];
   subtotal: number;
   tax_rate: number;
+  down_payment?: number;
   total: number;
   status: 'unpaid' | 'paid' | 'cancelled';
   created_at?: string;
@@ -88,7 +89,7 @@ export async function updateInvoice(id: string, invoice: Partial<Omit<Invoice, '
     .single();
 
   if (error) {
-    console.error("Supabase Update Error:", error);
+    console.error("Supabase Update Error:", JSON.stringify(error, null, 2), error);
     throw error;
   }
   return data as Invoice;

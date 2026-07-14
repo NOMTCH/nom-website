@@ -87,7 +87,7 @@ export function Pricing() {
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1, duration: 0.5 }}
                     className={`
-                      relative p-8 md:p-10 flex flex-col h-full rounded-[2.5rem] transition-all duration-300
+                      relative p-6 md:p-8 flex flex-col h-full rounded-3xl transition-all duration-300
                       ${pkg.is_popular 
                         ? 'bg-foreground text-white border-none shadow-[0_20px_40px_rgba(0,0,0,0.15)] scale-100 lg:scale-105 z-10' 
                         : 'bg-white text-foreground border border-border shadow-sm hover:shadow-xl hover:-translate-y-2'
@@ -95,24 +95,24 @@ export function Pricing() {
                     `}
                   >
                     {pkg.is_popular && (
-                      <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white font-bold text-xs uppercase tracking-wider px-6 py-2 rounded-full shadow-lg flex items-center gap-2 z-20">
-                        <Star weight="fill" size={16} /> Paling Laris
+                      <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white font-bold text-[10px] uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 z-20">
+                        <Star weight="fill" size={14} /> Paling Laris
                       </div>
                     )}
 
-                    <div className="mb-8 text-center">
-                      <h3 className={`text-2xl font-bold tracking-tight mb-3 ${pkg.is_popular ? 'text-white' : 'text-foreground'}`}>
+                    <div className="mb-6 text-center">
+                      <h3 className={`text-xl font-bold tracking-tight mb-2 ${pkg.is_popular ? 'text-white' : 'text-foreground'}`}>
                         {pkg.name}
                       </h3>
-                      <p className={`text-sm h-12 leading-relaxed ${pkg.is_popular ? 'text-gray-300' : 'text-muted'}`}>
+                      <p className={`text-xs min-h-[2.5rem] leading-relaxed ${pkg.is_popular ? 'text-gray-300' : 'text-muted'}`}>
                         {pkg.description}
                       </p>
                     </div>
 
-                    <div className="mb-10 text-center">
+                    <div className="mb-8 text-center">
                       <div className="flex items-start justify-center gap-1 mb-2">
-                        <span className="text-xl md:text-2xl font-bold mt-2">Rp</span>
-                        <span className="text-5xl md:text-6xl font-black tracking-tighter leading-none">
+                        <span className="text-lg font-bold mt-1">Rp</span>
+                        <span className="text-3xl md:text-4xl font-black tracking-tighter leading-none">
                           {!isNaN(Number(pkg.price)) && pkg.price.trim() !== ''
                             ? new Intl.NumberFormat('id-ID').format(Number(pkg.price))
                             : pkg.price.replace(/Rp\.?\s?/i, '')}
@@ -120,17 +120,17 @@ export function Pricing() {
                       </div>
                     </div>
 
-                    <div className="flex-1 mb-10">
-                      <p className={`text-xs font-bold uppercase tracking-wider mb-6 ${pkg.is_popular ? 'text-white' : 'text-muted'}`}>
+                    <div className="flex-1 mb-8">
+                      <p className={`text-[10px] font-bold uppercase tracking-wider mb-4 ${pkg.is_popular ? 'text-white' : 'text-muted'}`}>
                         Yang didapet:
                       </p>
-                      <ul className="space-y-4">
+                      <ul className="space-y-3">
                         {pkg.features.map((feature, i) => (
-                          <li key={i} className="flex items-start gap-4">
+                          <li key={i} className="flex items-start gap-3">
                             <div className={`mt-0.5 shrink-0 ${pkg.is_popular ? 'text-accent' : 'text-accent'}`}>
-                              <Check weight="bold" size={20} />
+                              <Check weight="bold" size={16} />
                             </div>
-                            <span className={`font-semibold text-sm leading-relaxed ${pkg.is_popular ? 'text-gray-200' : 'text-foreground'}`}>
+                            <span className={`font-semibold text-xs leading-relaxed ${pkg.is_popular ? 'text-gray-200' : 'text-foreground'}`}>
                               {feature}
                             </span>
                           </li>

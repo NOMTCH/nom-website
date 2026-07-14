@@ -22,6 +22,7 @@ export default function CreateInvoicePage() {
     { id: '1', description: '', quantity: 1, price: 0, total: 0 }
   ]);
   const [taxRate, setTaxRate] = useState(0);
+  const [downPayment, setDownPayment] = useState(0);
 
   const calculateSubtotal = () => {
     return items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
@@ -29,7 +30,7 @@ export default function CreateInvoicePage() {
 
   const calculateTotal = () => {
     const sub = calculateSubtotal();
-    return sub + (sub * (taxRate / 100));
+    return sub + (sub * (taxRate / 100)) - downPayment;
   };
 
   const handleItemChange = (index: number, field: keyof InvoiceItem, value: string | number) => {
@@ -82,6 +83,7 @@ export default function CreateInvoicePage() {
         items,
         subtotal: calculateSubtotal(),
         tax_rate: taxRate,
+        down_payment: downPayment,
         total: calculateTotal(),
         status: 'unpaid' as const
       };
@@ -216,12 +218,21 @@ export default function CreateInvoicePage() {
             </div>
 
             <div className="mt-8 pt-8 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Tax Rate (%)</label>
-                <input 
-                  type="number" min="0" max="100" value={taxRate} onChange={e => setTaxRate(Number(e.target.value))}
-                  className="w-full md:w-1/2 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
-                />
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Tax Rate (%)</label>
+                  <input 
+                    type="number" min="0" max="100" value={taxRate} onChange={e => setTaxRate(Number(e.target.value))}
+                    className="w-full md:w-3/4 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Down Payment (Rp)</label>
+                  <input 
+                    type="number" min="0" value={downPayment} onChange={e => setDownPayment(Number(e.target.value))}
+                    className="w-full md:w-3/4 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  />
+                </div>
               </div>
               <div className="bg-gray-950 text-white p-6 rounded-2xl flex flex-col gap-3 font-semibold text-xs tracking-wider uppercase relative shadow-md">
                 <div className="flex justify-between border-b border-white/10 pb-2">
@@ -232,6 +243,12 @@ export default function CreateInvoicePage() {
                   <div className="flex justify-between border-b border-white/10 pb-2">
                     <span className="text-gray-400">Tax ({taxRate}%):</span>
                     <span className="font-bold font-display text-sm text-white">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal() * (taxRate / 100))}</span>
+                  </div>
+                )}
+                {downPayment > 0 && (
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span className="text-gray-400">Down Payment (DP):</span>
+                    <span className="font-bold font-display text-sm text-red-400">- Rp {new Intl.NumberFormat('id-ID').format(downPayment)}</span>
                   </div>
                 )}
                 <div className="flex justify-between items-center pt-2">

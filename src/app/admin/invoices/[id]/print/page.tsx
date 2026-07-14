@@ -188,6 +188,12 @@ export default function PrintInvoicePage() {
                   <span className="font-display font-bold text-gray-700 text-sm">Rp {new Intl.NumberFormat('id-ID').format(invoice.subtotal * (invoice.tax_rate / 100))}</span>
                 </div>
               )}
+              {(invoice.down_payment ?? 0) > 0 && (
+                <div className="flex justify-between mb-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 border-b border-dashed border-gray-100 pb-3">
+                  <span>Down Payment (DP)</span>
+                  <span className="font-display font-bold text-rose-600 text-sm">- Rp {new Intl.NumberFormat('id-ID').format(invoice.down_payment!)}</span>
+                </div>
+              )}
               <div className="flex justify-between items-center text-sm font-bold uppercase tracking-wider text-gray-900 mt-3 pt-3 border-t border-gray-100">
                 <span>Total Due</span>
                 <span className="font-display font-black text-lg text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100">Rp {new Intl.NumberFormat('id-ID').format(invoice.total)}</span>

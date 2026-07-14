@@ -149,58 +149,69 @@ export default function AdminPricingPage() {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {packages.map((pkg) => (
-            <div key={pkg.id} className="bg-surface border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6 relative flex flex-col group mt-4">
-              <div className="absolute -top-4 -left-4 bg-slate-900 text-white px-3 py-1 text-xs font-semibold uppercase tracking-widest border border-border rounded-xl shadow-sm">
-                {pkg.category}
-              </div>
-              {pkg.is_popular && (
-                <div className="absolute -top-4 -right-4 bg-accent text-white font-bold text-xs uppercase tracking-widest px-3 py-1 border border-border rounded-xl shadow-sm">
-                  Populer
-                </div>
-              )}
-              
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="font-display font-black text-2xl uppercase tracking-tight pr-4">{pkg.name}</h3>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => handleOpenModal(pkg)} className="p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-colors rounded-xl border border-transparent">
-                    <PencilSimple weight="bold" size={20} />
-                  </button>
-                  <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 text-red-500 hover:bg-red-50 transition-colors rounded-xl border border-transparent">
-                    <Trash weight="bold" size={20} />
-                  </button>
-                </div>
-              </div>
-              
-              <div className="text-4xl font-black mb-2">{pkg.price}</div>
-              <p className="text-muted text-sm mb-6 h-10">{pkg.description}</p>
-              
-              <div className="space-y-3 mb-6 flex-1">
-                {pkg.features.slice(0, 4).map((f, i) => (
-                  <div key={i} className="flex items-start gap-3 text-sm font-bold">
-                    <Check weight="bold" className="text-accent shrink-0 mt-0.5" size={16} />
-                    <span>{f}</span>
-                  </div>
+        <div className="bg-white border border-gray-200/80 rounded-2xl overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200/80 text-xs font-bold uppercase tracking-widest text-gray-500">
+                  <th className="p-4">Package Name</th>
+                  <th className="p-4">Category</th>
+                  <th className="p-4 text-right">Price</th>
+                  <th className="p-4 text-center">Popular</th>
+                  <th className="p-4 text-center">Order</th>
+                  <th className="p-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {packages.map((pkg) => (
+                  <tr key={pkg.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
+                    <td className="p-4">
+                      <div className="font-bold text-gray-900">{pkg.name}</div>
+                      <div className="text-xs text-gray-500 truncate max-w-xs">{pkg.description}</div>
+                    </td>
+                    <td className="p-4">
+                      <span className="inline-block bg-gray-100 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                        {pkg.category}
+                      </span>
+                    </td>
+                    <td className="p-4 text-right font-black text-gray-900">
+                      Rp {new Intl.NumberFormat('id-ID').format(Number(pkg.price))}
+                    </td>
+                    <td className="p-4 text-center">
+                      {pkg.is_popular ? (
+                        <span className="inline-block bg-accent/10 text-accent px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                          Yes
+                        </span>
+                      ) : (
+                        <span className="inline-block text-gray-300">-</span>
+                      )}
+                    </td>
+                    <td className="p-4 text-center text-sm font-bold text-gray-500">
+                      {pkg.sort_order}
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="flex justify-end gap-2">
+                        <button onClick={() => handleOpenModal(pkg)} className="p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900 transition-colors rounded-xl">
+                          <PencilSimple weight="bold" size={18} />
+                        </button>
+                        <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 text-red-500 hover:bg-red-50 transition-colors rounded-xl">
+                          <Trash weight="bold" size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
-                {pkg.features.length > 4 && (
-                  <div className="text-xs text-muted font-bold italic">
-                    + {pkg.features.length - 4} more features
-                  </div>
+                
+                {packages.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="p-12 text-center text-gray-400 font-bold uppercase tracking-widest text-sm">
+                      Belum ada paket harga
+                    </td>
+                  </tr>
                 )}
-              </div>
-              
-              <div className="mt-auto pt-6 border-dashed border-border flex items-center justify-between text-xs font-bold text-muted uppercase">
-                <span>Order: {pkg.sort_order}</span>
-              </div>
-            </div>
-          ))}
-
-          {packages.length === 0 && (
-            <div className="col-span-full p-12 text-center border border-dashed border-gray-300 rounded-3xl flex flex-col items-center bg-gray-50/50">
-              <p className="text-lg font-bold mb-2 uppercase tracking-widest text-muted">Belum ada paket harga</p>
-            </div>
-          )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Modal */}

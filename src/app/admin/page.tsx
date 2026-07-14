@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt, ChartLineUp, Eye, UserCircle } from '@phosphor-icons/react';
+import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt, ChartLineUp, Eye, UserCircle, Wallet } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { getTrafficStats } from './actions';
 
@@ -10,12 +10,15 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState({
     projects: 0,
     cvUsers: 0,
+    cvProfiles: 0,
+    pricingPackages: 0,
     templates: 4
   });
   
   const [finances, setFinances] = useState({
     totalRevenue: 0,
     totalOutstanding: 0,
+    grandTotal: 0,
     invoicesCount: 0
   });
 
@@ -45,9 +48,21 @@ export default function AdminDashboard() {
         .from('users')
         .select('*', { count: 'exact', head: true });
 
+      // Load cv profiles count (how many CVs actually created)
+      const { count: cvProfilesCount } = await supabase
+        .from('cv_profiles')
+        .select('*', { count: 'exact', head: true });
+
+      // Load pricing packages count
+      const { count: pricingCount } = await supabase
+        .from('pricing_packages')
+        .select('*', { count: 'exact', head: true });
+
       setStats({
         projects: projectsCount || 0,
         cvUsers: usersCount || 0,
+        cvProfiles: cvProfilesCount || 0,
+        pricingPackages: pricingCount || 0,
         templates: 4
       });
 
@@ -58,21 +73,34 @@ export default function AdminDashboard() {
       // Load invoices
       const { data: invoicesData } = await supabase
         .from('invoices')
-        .select('total, status');
+        .select('total, status, down_payment');
         
       let revenue = 0;
       let outstanding = 0;
+      let totalOmset = 0;
       
       if (invoicesData) {
         invoicesData.forEach(inv => {
-          if (inv.status === 'paid') revenue += Number(inv.total);
-          if (inv.status === 'unpaid') outstanding += Number(inv.total);
+          const totalVal = Number(inv.total) || 0;
+          const dpVal = Number(inv.down_payment) || 0;
+          
+          if (inv.status === 'paid') {
+            // Kalau udah lunas, berarti (Sisa Total + DP) udah masuk semua ke kantong
+            revenue += (totalVal + dpVal);
+            totalOmset += (totalVal + dpVal);
+          } else if (inv.status === 'unpaid') {
+            // Kalau belum lunas, DP-nya udah masuk ke kantong, sisanya nunggak
+            revenue += dpVal;
+            outstanding += totalVal;
+            totalOmset += (totalVal + dpVal);
+          }
         });
       }
 
       setFinances({
         totalRevenue: revenue,
         totalOutstanding: outstanding,
+        grandTotal: totalOmset,
         invoicesCount: invoicesData?.length || 0
       });
     }
@@ -140,7 +168,21 @@ export default function AdminDashboard() {
         <h2 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6 flex items-center gap-2">
           <CurrencyDollar weight="bold" /> Financial Report
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Grand Total Card */}
+          <div className="bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-amber-500/20 transition-all duration-500"></div>
+            <div className="flex items-center gap-4 mb-6 relative">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center shadow-inner">
+                <Wallet weight="fill" size={24} className="text-amber-600 drop-shadow-sm" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-800">Total Omset Kabeh</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-500 relative">
+              Rp {new Intl.NumberFormat('id-ID').format(finances.grandTotal)}
+            </p>
+          </div>
+
           {/* Revenue Card */}
           <div className="bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
@@ -185,7 +227,7 @@ export default function AdminDashboard() {
       {/* System Stats Overview */}
       <div>
         <h2 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6">System Status</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {/* Stat Card 1 */}
           <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
@@ -207,8 +249,30 @@ export default function AdminDashboard() {
             </div>
             <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">{stats.cvUsers}</p>
           </div>
-
+          
           {/* Stat Card 3 */}
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+                <ChartLineUp weight="fill" size={24} className="text-emerald-600" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">CV Nu Dijieun</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">{stats.cvProfiles}</p>
+          </div>
+
+          {/* Stat Card 4 */}
+          <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center">
+                <CurrencyDollar weight="fill" size={24} className="text-rose-600" />
+              </div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Paket Harga</h2>
+            </div>
+            <p className="text-3xl lg:text-4xl font-display font-black text-gray-900">{stats.pricingPackages}</p>
+          </div>
+
+          {/* Stat Card 5 */}
           <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, jsonb, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid, jsonb, boolean, integer } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -46,5 +46,17 @@ export const pageViews = pgTable('page_views', {
   ipHash: text('ip_hash'),
   userAgent: text('user_agent'),
   deviceType: text('device_type').notNull().default('desktop'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const pricingPackages = pgTable('pricing_packages', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  price: text('price').notNull(),
+  description: text('description'),
+  features: jsonb('features').notNull().default('[]'),
+  category: text('category').notNull().default('Graphic Design'),
+  isPopular: boolean('is_popular').notNull().default(false),
+  sortOrder: integer('sort_order').notNull().default(0),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
