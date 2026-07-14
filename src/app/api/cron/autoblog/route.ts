@@ -35,7 +35,9 @@ export async function GET(request: Request) {
       { url: 'https://techcrunch.com/feed/', category: 'Teknologi & Startup' },
       { url: 'https://cointelegraph.com/rss', category: 'Cryptocurrency & Web3' },
       { url: 'https://www.republika.co.id/rss/dunia-islam', category: 'Inspirasi Islami' },
-      { url: 'https://www.smashingmagazine.com/feed/', category: 'Tutorial Desain & Web Dev' }
+      { url: 'https://www.smashingmagazine.com/feed/', category: 'Tutorial Desain & Web Dev' },
+      { url: 'https://www.entrepreneur.com/latest.rss', category: 'Inspirasi Usaha & Bisnis' },
+      { url: 'https://petapixel.com/feed/', category: 'Fotografi & Sinematografi' }
     ];
 
     // Pilih 1 sumber secara acak setiap kali cron jalan
@@ -153,12 +155,28 @@ Aturan Penulisan:
       }, { status: 500 });
     }
 
-    const lines = text.split('\n');
-    let title = lines[0].replace(/#+\s*/, '').trim(); // Bersihkan hashtag jika ada
+    // Bersihkan teks dari Markdown block (```markdown ... ```)
+    let cleanText = text.trim();
+    if (cleanText.toLowerCase().startsWith('```markdown')) {
+      cleanText = cleanText.substring(11).trim();
+    } else if (cleanText.startsWith('```')) {
+      cleanText = cleanText.substring(3).trim();
+    }
+    if (cleanText.endsWith('```')) {
+      cleanText = cleanText.substring(0, cleanText.length - 3).trim();
+    }
+
+    // Ambil baris-baris yang ada isinya (bukan baris kosong)
+    const lines = cleanText.split('\n').map(l => l.trim()).filter(l => l !== '');
+    
+    // Judul pasti ada di baris pertama
+    let title = lines[0].replace(/#+\s*/g, '').replace(/\*\*/g, '').trim(); 
     if (title.toLowerCase().startsWith('judul:')) {
       title = title.substring(6).trim();
     }
-    const content = lines.slice(1).join('\n').trim();
+    
+    // Gabungin sisa baris jadi konten artikel
+    const content = lines.slice(1).join('\n\n').trim();
 
     // Generate Slug dari judul
     const slug = title
