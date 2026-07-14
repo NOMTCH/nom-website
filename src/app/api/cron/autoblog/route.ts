@@ -27,9 +27,19 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'OPENROUTER_API_KEY is missing' }, { status: 500 });
     }
 
-    // 2. Ambil Berita (Scraping RSS)
+    // 2. Ambil Berita (Scraping RSS dari Banyak Sumber)
+    const rssSources = [
+      { url: 'https://techcrunch.com/feed/', category: 'Teknologi & Startup' },
+      { url: 'https://cointelegraph.com/rss', category: 'Cryptocurrency & Web3' },
+      { url: 'https://www.republika.co.id/rss/dunia-islam', category: 'Inspirasi Islami' },
+      { url: 'https://www.smashingmagazine.com/feed/', category: 'Tutorial Desain & Web Dev' }
+    ];
+
+    // Pilih 1 sumber secara acak setiap kali cron jalan
+    const randomSource = rssSources[Math.floor(Math.random() * rssSources.length)];
+    const feedUrl = randomSource.url;
+    
     const parser = new Parser();
-    const feedUrl = 'https://techcrunch.com/feed/'; // Contoh ngambil dari TechCrunch
     const feed = await parser.parseURL(feedUrl);
     
     if (!feed.items || feed.items.length === 0) {
@@ -48,18 +58,21 @@ export async function GET(request: Request) {
     // 3. Rewrite Pakai AI (OpenRouter)
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
-Tugas Anda adalah menulis ulang berita teknologi bahasa Inggris di bawah ini menjadi sebuah artikel blog SEO yang panjang dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
+Tugas Anda adalah menulis ulang konten di bawah ini menjadi sebuah artikel blog SEO yang panjang dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
 
-Berita Asli:
+Kategori Artikel: ${randomSource.category}
+
+Berita/Konten Asli:
 Judul: ${newsTitle}
 Konten: ${newsContent}
 
 Aturan Penulisan:
-1. Tulis judul (Title) yang sangat *clickbait* tapi profesional, tanpa tanda kutip. (Simpan di baris pertama).
+1. Tulis judul (Title) yang sangat *clickbait* tapi nyambung dengan isinya, tanpa tanda kutip. (Simpan di baris pertama).
 2. Mulai baris ketiga, tulis artikel lengkap dengan format Markdown.
 3. Pisahkan ke dalam beberapa paragraf dan subjudul (H2).
-4. Di bagian akhir, sisipkan kalimat promosi halus tentang layanan NOMSTD (contoh: pembuatan website, UI/UX, desain) dan ajak pembaca menghubungi NOMSTD jika mereka butuh solusi IT.
-5. Gunakan sapaan santai yang cocok untuk UMKM atau Startup.
+4. Sesuaikan gaya bahasa dengan kategori. (Misal: Jika Islami gunakan bahasa yang adem & sopan, jika Crypto gunakan bahasa anak trader/investor, jika Tech/Tutorial gunakan bahasa geek/kreatif).
+5. Di bagian akhir, sisipkan promosi halus (soft-selling) tentang layanan NOMSTD (contoh: pembuatan website, UI/UX, desain) yang relevan dengan topik artikel.
+6. Ajak pembaca menghubungi NOMSTD jika butuh solusi IT.
 `;
 
     const modelsToTry = [
