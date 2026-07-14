@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
 import { createClient } from '@supabase/supabase-js';
 
+// Setup Vercel timeout max duration (supaya nggak 504 pas nunggu AI mikir)
+export const maxDuration = 60; 
+
 // Setup Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''; // Usually we'd use service_role, but anon works if RLS allows inserts or is disabled for this test.
