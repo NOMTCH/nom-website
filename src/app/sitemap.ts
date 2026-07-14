@@ -13,11 +13,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/services/digital-invitation',
     '/tools/cv-generator',
     '/tools/link-builder',
+    '/privacy-policy',
+    '/terms-of-service',
+    '/disclaimer',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    priority: route === '' ? 1.0 : (route.includes('privacy') || route.includes('terms') || route.includes('disclaimer') ? 0.3 : 0.8),
   }));
 
   // Service dynamic routes (hardcoded based on our serviceData slugs)
