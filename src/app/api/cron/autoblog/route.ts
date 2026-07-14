@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import Parser from 'rss-parser';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { createClient } from '@supabase/supabase-js';
 
 // Setup Supabase
@@ -23,9 +22,9 @@ export async function GET(request: Request) {
       }
     }
 
-    const geminiKey = process.env.GEMINI_API_KEY;
-    if (!geminiKey) {
-      return NextResponse.json({ error: 'GEMINI_API_KEY is missing' }, { status: 500 });
+    const openRouterKey = process.env.OPENROUTER_API_KEY;
+    if (!openRouterKey) {
+      return NextResponse.json({ error: 'OPENROUTER_API_KEY is missing' }, { status: 500 });
     }
 
     // 2. Ambil Berita (Scraping RSS)
@@ -46,12 +45,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Article missing title or content' }, { status: 400 });
     }
 
-    // 3. Rewrite Pakai AI (Google Gemini)
-    // 3. Rewrite Pakai AI (Google Gemini)
-    const genAI = new GoogleGenerativeAI(geminiKey);
-    // Kita pakai model gemini-flash-latest yang tersedia di tahun 2026
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
-
+    // 3. Rewrite Pakai AI (OpenRouter)
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
 Tugas Anda adalah menulis ulang berita teknologi bahasa Inggris di bawah ini menjadi sebuah artikel blog SEO yang panjang dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
@@ -70,22 +64,33 @@ Aturan Penulisan:
 
     let text = "";
     try {
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      text = response.text();
-    } catch (modelError: any) {
-      // Jika model gemini-2.5-flash gagal (404), mari kita cek model apa saja yang tersedia untuk API Key ini
-      try {
-        const modelsRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${geminiKey}`);
-        const modelsData = await modelsRes.json();
-        return NextResponse.json({ 
-          error: 'Model Error, please check available models in details', 
-          details: modelError.message, 
-          availableModels: modelsData 
-        }, { status: 500 });
-      } catch (e) {
-        throw modelError; // throw original if fetch fails
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${openRouterKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          // You can change this to any model on OpenRouter (e.g. meta-llama/llama-3-8b-instruct:free)
+          model: "google/gemini-2.5-flash",
+          messages: [
+            { role: "user", content: prompt }
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        throw new Error(`OpenRouter API Error: ${response.status} - ${errorData}`);
       }
+
+      const data = await response.json();
+      text = data.choices[0].message.content;
+    } catch (apiError: any) {
+      return NextResponse.json({ 
+        error: 'Failed to generate content from OpenRouter', 
+        details: apiError.message 
+      }, { status: 500 });
     }
     
     // Parsing response (Baris 1 = Judul, Sisanya = Konten)
