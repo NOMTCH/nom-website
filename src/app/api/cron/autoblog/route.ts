@@ -94,9 +94,14 @@ Aturan Penulisan:
 5. Di akhir, sisipkan kalimat promosi singkat (1 kalimat) tentang layanan NOMSTD (pembuatan website/UI UX) dan ajak pembaca menghubungi NOMSTD jika butuh solusi IT.
 `;
 
+    // Daftar model gratis dari OpenRouter. Kita kasih banyak opsi biar kalau satu server mati, lanjut ke yang lain.
     const modelsToTry = [
-      "meta-llama/llama-3.1-8b-instruct:free", // Super cepat
-      "google/gemma-2-9b-it:free" // Cadangan cepat
+      "meta-llama/llama-3.1-8b-instruct:free",
+      "microsoft/phi-3-mini-128k-instruct:free",
+      "qwen/qwen-2-7b-instruct:free",
+      "huggingfaceh4/zephyr-7b-beta:free",
+      "mistralai/mistral-7b-instruct:free",
+      "google/gemma-2-9b-it:free"
     ];
 
     let text = "";
