@@ -170,22 +170,22 @@ export default function AdminDashboard() {
 
         {/* Top Pages List */}
         {traffic.topPages && traffic.topPages.length > 0 && (
-          <div className="mt-6 bg-white border border-gray-200/80 p-6 rounded-2xl shadow-sm">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">Halaman Paling Sering Dibuka (Top 5)</h2>
-            <div className="space-y-3">
+          <div className="mt-4">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 px-1">Top 5 Halaman</h2>
+            <div className="flex flex-nowrap overflow-x-auto gap-3 pb-2">
               {traffic.topPages.map((page, idx) => (
-                <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-black text-gray-500 shrink-0">
+                <div key={idx} className="flex items-center justify-between p-2.5 px-4 bg-white rounded-full border border-gray-200/80 shadow-sm shrink-0 gap-3 min-w-[180px] max-w-[250px]">
+                  <div className="flex items-center gap-2 overflow-hidden">
+                    <div className="w-5 h-5 rounded-full bg-sky-100 flex items-center justify-center text-[10px] font-black text-sky-600 shrink-0">
                       {idx + 1}
                     </div>
-                    <span className="font-mono text-sm font-bold text-gray-700 truncate" title={page.path}>
+                    <span className="font-mono text-xs font-bold text-gray-600 truncate" title={page.path}>
                       {page.path}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Eye size={16} weight="bold" className="text-gray-400" />
-                    <span className="font-black text-gray-900">{page.views}</span>
+                  <div className="flex items-center gap-1.5 shrink-0 pl-2 border-l border-gray-100">
+                    <Eye size={12} weight="bold" className="text-gray-400" />
+                    <span className="font-black text-sm text-gray-900">{page.views}</span>
                   </div>
                 </div>
               ))}
