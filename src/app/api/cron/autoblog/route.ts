@@ -47,9 +47,10 @@ export async function GET(request: Request) {
     }
 
     // 3. Rewrite Pakai AI (Google Gemini)
+    // 3. Rewrite Pakai AI (Google Gemini)
     const genAI = new GoogleGenerativeAI(geminiKey);
-    // Kita ganti ke gemini-pro yang lebih stabil dukungannya di semua region/versi API
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // Kita pakai model gemini-1.5-flash, tapi jika error, kita list models
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
@@ -67,9 +68,25 @@ Aturan Penulisan:
 5. Gunakan sapaan santai yang cocok untuk UMKM atau Startup.
 `;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    let text = "";
+    try {
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      text = response.text();
+    } catch (modelError: any) {
+      // Jika model gemini-2.5-flash gagal (404), mari kita cek model apa saja yang tersedia untuk API Key ini
+      try {
+        const modelsRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${geminiKey}`);
+        const modelsData = await modelsRes.json();
+        return NextResponse.json({ 
+          error: 'Model Error, please check available models in details', 
+          details: modelError.message, 
+          availableModels: modelsData 
+        }, { status: 500 });
+      } catch (e) {
+        throw modelError; // throw original if fetch fails
+      }
+    }
     
     // Parsing response (Baris 1 = Judul, Sisanya = Konten)
     const lines = text.split('\n');
