@@ -75,7 +75,7 @@ export async function GET(request: Request) {
     // 3. Rewrite Pakai AI (OpenRouter)
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
-Tugas Anda adalah menulis ulang konten di bawah ini menjadi sebuah artikel blog SEO yang panjang dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
+Tugas Anda adalah menulis ulang konten di bawah ini menjadi sebuah artikel blog SEO (sekitar 300-400 kata saja agar ringkas dan cepat dibaca) dalam bahasa Indonesia yang asik, profesional, dan sedikit gaul.
 Sebagai informasi, hari ini adalah tahun 2026. Pastikan tulisan Anda terasa modern, fresh, dan relevan dengan tren masa kini.
 
 Kategori Artikel: ${randomSource.category}
@@ -86,16 +86,15 @@ Konten: ${newsContent}
 
 Aturan Penulisan:
 1. Tulis judul (Title) yang sangat *clickbait* tapi nyambung dengan isinya, tanpa tanda kutip. (Simpan di baris pertama).
-2. Mulai baris ketiga, tulis artikel lengkap dengan format Markdown.
-3. Pisahkan ke dalam beberapa paragraf dan subjudul (H2).
-4. Sesuaikan gaya bahasa dengan kategori. (Misal: Jika Islami gunakan bahasa yang adem & sopan, jika Crypto gunakan bahasa anak trader/investor, jika Tech/Tutorial gunakan bahasa geek/kreatif).
-5. Di bagian akhir, sisipkan promosi halus (soft-selling) tentang layanan NOMSTD (contoh: pembuatan website, UI/UX, desain) yang relevan dengan topik artikel.
-6. Ajak pembaca menghubungi NOMSTD jika butuh solusi IT.
+2. Mulai baris ketiga, tulis artikel pendek dengan format Markdown.
+3. Buat 3-4 paragraf saja yang padat dan menarik.
+4. Sesuaikan gaya bahasa dengan kategori. (Misal: Islami = adem/sopan, Crypto = trader/cuan, Tech = geek/kreatif).
+5. Di akhir, sisipkan kalimat promosi singkat (1 kalimat) tentang layanan NOMSTD (pembuatan website/UI UX) dan ajak pembaca menghubungi NOMSTD jika butuh solusi IT.
 `;
 
     const modelsToTry = [
-      "tencent/hy3:free", 
-      "poolside/laguna-m.1:free"
+      "meta-llama/llama-3.1-8b-instruct:free", // Super cepat
+      "google/gemma-2-9b-it:free" // Cadangan cepat
     ];
 
     let text = "";
@@ -104,20 +103,26 @@ Aturan Penulisan:
 
     for (const modelName of modelsToTry) {
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 detik maksimal tiap AI
+
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${openRouterKey}`,
             "Content-Type": "application/json"
           },
+          signal: controller.signal,
           body: JSON.stringify({
             model: modelName,
-            max_tokens: 2000,
+            max_tokens: 1200, // Turunin max tokens biar AI ga kelamaan mikir
             messages: [
               { role: "user", content: prompt }
             ]
           })
         });
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           const errorData = await response.text();
