@@ -62,42 +62,59 @@ Aturan Penulisan:
 5. Gunakan sapaan santai yang cocok untuk UMKM atau Startup.
 `;
 
+    const modelsToTry = [
+      "google/gemma-2-9b-it:free", 
+      "poolside/laguna-m.1:free"
+    ];
+
     let text = "";
-    try {
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${openRouterKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          // Pake model versi "free" dari OpenRouter + dilimit max_tokens biar nggak kena error 402 "require more credits"
-          model: "google/gemma-2-9b-it:free",
-          max_tokens: 2000,
-          messages: [
-            { role: "user", content: prompt }
-          ]
-        })
-      });
+    let usedModel = "";
+    let lastError = "";
 
-      if (!response.ok) {
-        const errorData = await response.text();
-        throw new Error(`OpenRouter API Error: ${response.status} - ${errorData}`);
+    for (const modelName of modelsToTry) {
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${openRouterKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: modelName,
+            max_tokens: 2000,
+            messages: [
+              { role: "user", content: prompt }
+            ]
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.text();
+          throw new Error(`Status ${response.status}: ${errorData}`);
+        }
+
+        const data = await response.json();
+        const output = data.choices[0]?.message?.content || "";
+        
+        if (output) {
+          text = output;
+          usedModel = modelName;
+          break; // Sukses, keluar dari loop
+        } else {
+          throw new Error("Output kosong (null/empty string)");
+        }
+      } catch (e: any) {
+        console.error(`Gagal pakai model ${modelName}:`, e.message);
+        lastError = e.message;
+        // Lanjut ke model berikutnya di loop
       }
-
-      const data = await response.json();
-      text = data.choices[0]?.message?.content || "";
-    } catch (apiError: any) {
-      return NextResponse.json({ 
-        error: 'Failed to generate content from OpenRouter', 
-        details: apiError.message 
-      }, { status: 500 });
     }
-    
-    // Parsing response (Baris 1 = Judul, Sisanya = Konten)
+
     if (!text) {
-      // Jika text kosong, berarti AI gagal nulis (mungkin diblok filter / error)
-      return NextResponse.json({ error: 'AI returned empty text. Output blocked or model error.', model_used: 'google/gemma-2-9b-it:free' }, { status: 500 });
+      return NextResponse.json({ 
+        error: 'Semua AI gagal memproses artikel (fallback failed)', 
+        details: lastError 
+      }, { status: 500 });
     }
 
     const lines = text.split('\n');
