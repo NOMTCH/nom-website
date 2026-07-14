@@ -48,7 +48,8 @@ export async function GET(request: Request) {
 
     // 3. Rewrite Pakai AI (Google Gemini)
     const genAI = new GoogleGenerativeAI(geminiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // Kita ganti ke gemini-pro yang lebih stabil dukungannya di semua region/versi API
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const prompt = `
 Anda adalah seorang copywriter dari "NOMSTD Creative Studio", sebuah creative agency & IT solutions di Indonesia.
