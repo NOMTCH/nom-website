@@ -72,7 +72,7 @@ Aturan Penulisan:
         },
         body: JSON.stringify({
           // Pake model versi "free" dari OpenRouter + dilimit max_tokens biar nggak kena error 402 "require more credits"
-          model: "tencent/hy3:free",
+          model: "google/gemma-2-9b-it:free",
           max_tokens: 2000,
           messages: [
             { role: "user", content: prompt }
@@ -86,7 +86,7 @@ Aturan Penulisan:
       }
 
       const data = await response.json();
-      text = data.choices[0].message.content;
+      text = data.choices[0]?.message?.content || "";
     } catch (apiError: any) {
       return NextResponse.json({ 
         error: 'Failed to generate content from OpenRouter', 
@@ -95,6 +95,11 @@ Aturan Penulisan:
     }
     
     // Parsing response (Baris 1 = Judul, Sisanya = Konten)
+    if (!text) {
+      // Jika text kosong, berarti AI gagal nulis (mungkin diblok filter / error)
+      return NextResponse.json({ error: 'AI returned empty text. Output blocked or model error.', model_used: 'google/gemma-2-9b-it:free' }, { status: 500 });
+    }
+
     const lines = text.split('\n');
     let title = lines[0].replace(/#+\s*/, '').trim(); // Bersihkan hashtag jika ada
     if (title.toLowerCase().startsWith('judul:')) {
