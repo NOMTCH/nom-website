@@ -72,7 +72,7 @@ Aturan Penulisan:
         },
         body: JSON.stringify({
           // Pake model versi "free" dari OpenRouter + dilimit max_tokens biar nggak kena error 402 "require more credits"
-          model: "google/gemini-2.0-flash-lite-preview-02-05:free",
+          model: "tencent/hy3:free",
           max_tokens: 2000,
           messages: [
             { role: "user", content: prompt }
