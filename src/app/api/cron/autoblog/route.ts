@@ -63,7 +63,7 @@ Aturan Penulisan:
 `;
 
     const modelsToTry = [
-      "google/gemma-2-9b-it:free", 
+      "tencent/hy3:free", 
       "poolside/laguna-m.1:free"
     ];
 
