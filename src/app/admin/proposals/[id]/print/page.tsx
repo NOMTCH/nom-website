@@ -41,8 +41,8 @@ export default function PrintProposalPage() {
 
   if (loading) {
     return (
-      <div className="flex-1 min-h-screen bg-white flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex-1 min-h-screen bg-background flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -50,34 +50,34 @@ export default function PrintProposalPage() {
   if (!proposal) return null;
 
   return (
-    <div className="h-[calc(100vh-2rem)] w-full overflow-y-auto overflow-x-hidden bg-gray-100 print:bg-white flex items-start justify-center pt-8 print:p-0 print:h-auto print:w-full print:overflow-visible relative">
+    <div className="h-[calc(100vh-2rem)] w-full overflow-y-auto overflow-x-hidden bg-background print:bg-white flex items-start justify-center pt-8 print:p-0 print:h-auto print:w-full print:overflow-visible relative">
       
       {/* Floating Action Buttons */}
       <div className="print:hidden fixed top-4 right-4 md:top-8 md:right-8 flex flex-col items-end gap-2 md:gap-4 z-50">
-        <div className="flex bg-white/95 backdrop-blur-sm border border-gray-200/80 shadow-md rounded-2xl items-center text-gray-700 font-bold scale-90 origin-right md:scale-100 overflow-hidden">
-          <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-2.5 md:p-3.5 hover:bg-gray-100 transition-colors border-r border-gray-100">
-            <MagnifyingGlassMinus size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
+        <div className="flex bg-surface/95 backdrop-blur-md border border-border shadow-xl rounded-2xl items-center text-foreground font-bold scale-90 origin-right md:scale-100 overflow-hidden">
+          <button onClick={() => setZoom(z => Math.max(0.2, z - 0.1))} className="p-2.5 md:p-3.5 hover:bg-background transition-colors border-r border-border">
+            <MagnifyingGlassMinus size={18} weight="bold" className="md:w-5 md:h-5 text-muted hover:text-foreground" />
           </button>
-          <div className="px-2 md:px-4 text-xs md:text-sm w-12 md:w-16 text-center select-none">{Math.round(zoom * 100)}%</div>
-          <button onClick={() => setZoom(z => Math.min(2, z + 0.1))} className="p-2.5 md:p-3.5 hover:bg-gray-100 transition-colors border-l border-gray-100">
-            <MagnifyingGlassPlus size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
+          <div className="px-2 md:px-4 text-xs md:text-sm w-12 md:w-16 text-center select-none font-mono text-accent">{Math.round(zoom * 100)}%</div>
+          <button onClick={() => setZoom(z => Math.min(2, z + 0.1))} className="p-2.5 md:p-3.5 hover:bg-background transition-colors border-l border-border">
+            <MagnifyingGlassPlus size={18} weight="bold" className="md:w-5 md:h-5 text-muted hover:text-foreground" />
           </button>
-          <button onClick={fitToScreen} className="p-2.5 md:p-3.5 bg-gray-50 hover:bg-gray-100 transition-colors border-l border-gray-100" title="Fit to Screen">
-            <CornersOut size={18} weight="bold" className="md:w-5 md:h-5 text-gray-600" />
+          <button onClick={fitToScreen} className="p-2.5 md:p-3.5 bg-background hover:bg-accent hover:text-white transition-colors border-l border-border" title="Fit to Screen">
+            <CornersOut size={18} weight="bold" className="md:w-5 md:h-5 text-muted hover:text-white" />
           </button>
         </div>
 
         <div className="flex flex-row gap-2 md:gap-3 items-center">
           <Link 
             href="/admin/proposals"
-            className="bg-white text-gray-700 font-bold uppercase tracking-wider text-xs px-4 py-3 flex items-center gap-2 border border-gray-200/80 shadow-sm rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-200"
+            className="bg-surface text-foreground font-bold uppercase tracking-wider text-xs px-4 py-3 flex items-center gap-2 border border-border shadow-md rounded-xl hover:border-accent hover:text-accent transition-all duration-200"
           >
             <ArrowLeft weight="bold" size={16} /> 
             <span className="hidden sm:block">Back</span>
           </Link>
           <button 
             onClick={() => window.print()}
-            className="bg-gray-900 text-white font-bold uppercase tracking-wider text-xs px-5 py-3 flex items-center gap-2 border border-gray-900 shadow-md rounded-xl hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+            className="bg-accent text-white font-bold uppercase tracking-wider text-xs px-5 py-3 flex items-center gap-2 border border-accent shadow-lg rounded-xl hover:bg-accent/90 transition-all duration-200 cursor-pointer"
           >
             <Printer weight="bold" size={16} /> 
             <span>Print / PDF</span>

@@ -488,7 +488,7 @@ export default function QrGeneratorPage() {
   const previewLines = getCardContentLines();
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-24 pb-28 px-4 md:px-8">
+    <div className="min-h-screen bg-background text-foreground pt-36 pb-28 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-wider text-muted hover:text-accent mb-4">
@@ -526,8 +526,8 @@ export default function QrGeneratorPage() {
           <div className="w-full lg:w-7/12 xl:w-8/12 space-y-6">
             
             {/* Tab Selectors & Data inputs */}
-            <div className="bg-surface border-4 border-foreground p-6 rounded-[2rem] shadow-[6px_6px_0_0_#000000] space-y-6">
-              <h2 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+            <div className="bg-surface border border-border p-6 rounded-3xl shadow-xl space-y-6 text-foreground">
+              <h2 className="text-xl font-black uppercase tracking-tight flex items-center gap-2 text-foreground">
                 <span className="bg-accent text-white px-2 py-0.5 text-sm">1</span> Isi Data QR Code
               </h2>
 
@@ -544,10 +544,10 @@ export default function QrGeneratorPage() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as QRType)}
-                      className={`py-3 px-2 border-2 font-black uppercase text-xs rounded-xl transition-all flex items-center justify-center gap-2 ${
+                      className={`py-3 px-2 border font-bold uppercase text-xs rounded-xl transition-all flex items-center justify-center gap-2 ${
                         activeTab === tab.id 
                           ? 'bg-accent text-white border-accent shadow-sm' 
-                          : 'bg-white border-border text-foreground hover:bg-gray-50'
+                          : 'bg-background border-border text-foreground hover:bg-background/80'
                       }`}
                     >
                       <Icon size={18} weight="bold" />
@@ -572,7 +572,7 @@ export default function QrGeneratorPage() {
                         type="url"
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
-                        className="w-full bg-white border border-border rounded-xl py-3.5 pr-4 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                        className="w-full bg-background border border-border rounded-xl py-3.5 pr-4 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                         style={{ paddingLeft: '3rem' }}
                         placeholder="https://toko-kamu.com/menu"
                       />
@@ -592,7 +592,7 @@ export default function QrGeneratorPage() {
                           type="text"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full bg-white border border-border rounded-xl py-3.5 pr-4 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                          className="w-full bg-background border border-border rounded-xl py-3.5 pr-4 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                           style={{ paddingLeft: '3rem' }}
                           placeholder="6282130704794"
                         />
@@ -603,7 +603,7 @@ export default function QrGeneratorPage() {
                       <textarea
                         value={waMessage}
                         onChange={(e) => setWaMessage(e.target.value)}
-                        className="w-full h-24 bg-white border border-border rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent font-medium text-sm resize-none"
+                        className="w-full h-24 bg-background border border-border rounded-xl p-4 focus:outline-none focus:border-accent font-medium text-sm resize-none text-foreground"
                         placeholder="Halo admin, saya mau order paket 1..."
                       />
                     </div>
@@ -618,7 +618,7 @@ export default function QrGeneratorPage() {
                         type="text"
                         value={wifiSsid}
                         onChange={(e) => setWifiSsid(e.target.value)}
-                        className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                        className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                         placeholder="SSID WiFi Cafe"
                       />
                     </div>
@@ -629,7 +629,7 @@ export default function QrGeneratorPage() {
                           type="password"
                           value={wifiPassword}
                           onChange={(e) => setWifiPassword(e.target.value)}
-                          className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                          className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                           placeholder="Password"
                         />
                       </div>
@@ -638,7 +638,7 @@ export default function QrGeneratorPage() {
                         <select
                           value={wifiEncryption}
                           onChange={(e) => setWifiEncryption(e.target.value)}
-                          className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm h-[54px]"
+                          className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm h-[54px] text-foreground"
                         >
                           <option value="WPA">WPA/WPA2</option>
                           <option value="WEP">WEP</option>
@@ -655,7 +655,7 @@ export default function QrGeneratorPage() {
                     <textarea
                       value={plainText}
                       onChange={(e) => setPlainText(e.target.value)}
-                      className="w-full h-32 bg-white border border-border rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-accent font-medium text-sm resize-none"
+                      className="w-full h-32 bg-background border border-border rounded-xl p-4 focus:outline-none focus:border-accent font-medium text-sm resize-none text-foreground"
                       placeholder="Masukkan teks bebas..."
                     />
                   </div>
@@ -668,9 +668,9 @@ export default function QrGeneratorPage() {
               <motion.div 
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-surface border-4 border-foreground p-6 rounded-[2rem] shadow-[6px_6px_0_0_#000000] space-y-6"
+                className="bg-surface border border-border p-6 rounded-3xl shadow-xl space-y-6 text-foreground"
               >
-                <h2 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+                <h2 className="text-xl font-black uppercase tracking-tight flex items-center gap-2 text-foreground">
                   <span className="bg-accent text-white px-2 py-0.5 text-sm">2</span> Kustomisasi Template Cetak
                 </h2>
 
@@ -688,10 +688,10 @@ export default function QrGeneratorPage() {
                       <button
                         key={themeItem.id}
                         onClick={() => setCardTheme(themeItem.id as CardTheme)}
-                        className={`py-3 px-1 border-2 font-black uppercase text-[10px] sm:text-xs rounded-xl transition-all ${
+                        className={`py-3 px-1 border font-bold uppercase text-[10px] sm:text-xs rounded-xl transition-all ${
                           cardTheme === themeItem.id 
                             ? 'bg-accent text-white border-accent shadow-sm' 
-                            : 'bg-white border-border text-foreground hover:bg-gray-50'
+                            : 'bg-background border-border text-foreground hover:bg-background/80'
                         }`}
                       >
                         {themeItem.label}
@@ -699,7 +699,6 @@ export default function QrGeneratorPage() {
                     ))}
                   </div>
                 </div>
-
                 <hr className="border border-border" />
 
                 {/* Business Information Fields */}
@@ -710,7 +709,7 @@ export default function QrGeneratorPage() {
                       type="text"
                       value={shopName}
                       onChange={(e) => setShopName(e.target.value)}
-                      className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                      className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                       placeholder="Nama Toko"
                     />
                   </div>
@@ -720,7 +719,7 @@ export default function QrGeneratorPage() {
                       type="text"
                       value={shopSubtitle}
                       onChange={(e) => setShopSubtitle(e.target.value)}
-                      className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                      className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                       placeholder="NMID : IDXXXXXXXX"
                     />
                   </div>
@@ -730,7 +729,7 @@ export default function QrGeneratorPage() {
                       type="text"
                       value={scanInstruction}
                       onChange={(e) => setScanInstruction(e.target.value)}
-                      className="w-full bg-white border border-border rounded-xl p-3.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                      className="w-full bg-background border border-border rounded-xl p-3.5 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                       placeholder="SCAN FOR MENU"
                     />
                   </div>
@@ -741,7 +740,7 @@ export default function QrGeneratorPage() {
                         type="text"
                         value={phoneContact}
                         onChange={(e) => setPhoneContact(e.target.value)}
-                        className="w-full bg-white border border-border rounded-xl p-2.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-xs"
+                        className="w-full bg-background border border-border rounded-xl p-2.5 focus:outline-none focus:border-accent font-bold text-xs text-foreground"
                         placeholder="WhatsApp"
                       />
                     </div>
@@ -751,18 +750,18 @@ export default function QrGeneratorPage() {
                         type="text"
                         value={emailContact}
                         onChange={(e) => setEmailContact(e.target.value)}
-                        className="w-full bg-white border border-border rounded-xl p-2.5 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-xs"
+                        className="w-full bg-background border border-border rounded-xl p-2.5 focus:outline-none focus:border-accent font-bold text-xs text-foreground"
                         placeholder="Email"
                       />
-                    </div>
-                  </div>
                 </div>
+              </div>
+            </div>
 
-              </motion.div>
-            )}
+          </motion.div>
+        )}
 
             {/* QR Styling */}
-            <div className="bg-surface border border-border p-6 rounded-[2rem] shadow-sm space-y-6">
+            <div className="bg-surface border border-border p-6 rounded-3xl shadow-xl space-y-6">
               <h2 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
                 <span className="bg-accent text-white px-2 py-0.5 text-sm">{generationMode === 'ready-to-print' ? '3' : '2'}</span> Kustomisasi Warna & Logo QR
               </h2>
@@ -771,19 +770,19 @@ export default function QrGeneratorPage() {
                 {/* Color Pickers */}
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted block mb-2">Warna QR Code (Dots)</label>
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted block mb-2">Warna Utama QR Code</label>
                     <div className="flex items-center gap-3">
                       <input 
                         type="color"
                         value={fgColor}
                         onChange={(e) => setFgColor(e.target.value)}
-                        className="w-12 h-12 border-2 border-foreground rounded-xl cursor-pointer p-0 bg-transparent"
+                        className="w-12 h-12 border border-border rounded-xl cursor-pointer p-0 bg-transparent"
                       />
                       <input 
                         type="text"
                         value={fgColor.toUpperCase()}
                         onChange={(e) => setFgColor(e.target.value)}
-                        className="bg-white border border-border rounded-xl py-2 px-3 focus:outline-none text-xs font-bold uppercase w-28"
+                        className="bg-background border border-border text-foreground rounded-xl py-2 px-3 focus:outline-none text-xs font-bold uppercase w-28"
                       />
                     </div>
                   </div>
@@ -794,13 +793,13 @@ export default function QrGeneratorPage() {
                         type="color"
                         value={bgColor}
                         onChange={(e) => setBgColor(e.target.value)}
-                        className="w-12 h-12 border-2 border-foreground rounded-xl cursor-pointer p-0 bg-transparent"
+                        className="w-12 h-12 border border-border rounded-xl cursor-pointer p-0 bg-transparent"
                       />
                       <input 
                         type="text"
                         value={bgColor.toUpperCase()}
                         onChange={(e) => setBgColor(e.target.value)}
-                        className="bg-white border border-border rounded-xl py-2 px-3 focus:outline-none text-xs font-bold uppercase w-28"
+                        className="bg-background border border-border text-foreground rounded-xl py-2 px-3 focus:outline-none text-xs font-bold uppercase w-28"
                       />
                     </div>
                   </div>
@@ -813,7 +812,7 @@ export default function QrGeneratorPage() {
                   {!logoUrl ? (
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-border rounded-2xl p-6 text-center cursor-pointer hover:border-accent hover:bg-white/50 transition-all flex flex-col justify-center items-center"
+                      className="border border-dashed border-border rounded-2xl p-6 text-center cursor-pointer hover:border-accent hover:bg-white/5 transition-all flex flex-col justify-center items-center"
                     >
                       <input 
                         ref={fileInputRef}
@@ -826,7 +825,7 @@ export default function QrGeneratorPage() {
                       <span className="text-[10px] font-bold uppercase text-muted">Upload Logo Bisnis</span>
                     </div>
                   ) : (
-                    <div className="p-3 bg-white border border-border rounded-2xl flex items-center justify-between">
+                    <div className="p-3 bg-background border border-border rounded-2xl flex items-center justify-between">
                       <div className="flex items-center gap-3 overflow-hidden">
                         <img src={logoUrl} alt="Logo" className="w-10 h-10 object-cover rounded-lg border border-border shrink-0" />
                         <div className="overflow-hidden">
@@ -836,7 +835,7 @@ export default function QrGeneratorPage() {
                       </div>
                       <button 
                         onClick={removeLogo}
-                        className="p-2 text-red-500 hover:text-red-700 bg-red-50 border border-transparent hover:border-red-500 rounded-xl transition-all"
+                        className="p-2 text-red-500 hover:text-red-700 bg-red-950/20 border border-transparent hover:border-red-500 rounded-xl transition-all"
                         title="Hapus Logo"
                       >
                         <Trash size={18} weight="bold" />
@@ -865,7 +864,7 @@ export default function QrGeneratorPage() {
             <canvas ref={canvasRef} className="hidden" />
 
             {/* Output Card */}
-            <div className="bg-white border-4 border-foreground p-6 rounded-[2.5rem] shadow-[8px_8px_0_0_#000000] flex flex-col items-center text-center">
+            <div className="bg-surface border border-border p-6 rounded-3xl shadow-xl flex flex-col items-center text-center text-foreground">
               <h3 className="text-sm font-black uppercase tracking-wider text-muted mb-6">
                 {generationMode === 'qr-only' ? 'Hasil QR Code Kamu' : 'Live Preview Cetak (3R Card)'}
               </h3>
@@ -873,7 +872,7 @@ export default function QrGeneratorPage() {
               {/* Preview Rendering */}
               {generationMode === 'qr-only' ? (
                 // QR Only View
-                <div className="p-4 bg-white border-2 border-foreground rounded-3xl shadow-sm flex items-center justify-center w-[250px] h-[250px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px]">
+                <div className="p-4 bg-white border border-border rounded-3xl shadow-sm flex items-center justify-center w-[250px] h-[250px] sm:w-[280px] sm:h-[280px] md:w-[300px] md:h-[300px]">
                   <img 
                     src={canvasRef.current?.toDataURL('image/png')} 
                     alt="QR Code" 
@@ -891,7 +890,7 @@ export default function QrGeneratorPage() {
               )}
 
               {/* Info Tips */}
-              <div className="mt-6 flex items-start gap-2 text-[10px] font-bold text-left text-muted bg-[#F9F9F9] border border-border p-3 rounded-xl w-full">
+              <div className="mt-6 flex items-start gap-2 text-[10px] font-bold text-left text-muted bg-background border border-border p-3 rounded-xl w-full">
                 <Info size={18} className="shrink-0 text-accent" />
                 <span>
                   {generationMode === 'qr-only' 
@@ -905,7 +904,7 @@ export default function QrGeneratorPage() {
               <button
                 onClick={handleDownload}
                 disabled={!textPayload}
-                className="w-full py-4 mt-6 bg-accent text-white font-black uppercase tracking-widest border-2 border-black shadow-[4px_4px_0_0_#000] hover:shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 transition-all text-center rounded-2xl flex items-center justify-center gap-2 disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-[4px_4px_0_0_#000]"
+                className="w-full py-4 mt-6 bg-accent text-white font-bold uppercase tracking-wider hover:bg-accent-dark hover:-translate-y-0.5 transition-all text-center rounded-2xl flex items-center justify-center gap-2 shadow-md disabled:opacity-40 disabled:hover:translate-y-0"
               >
                 <DownloadSimple size={20} weight="bold" />
                 {generationMode === 'qr-only' ? 'Download PNG' : 'Download Cetakan 3R'}

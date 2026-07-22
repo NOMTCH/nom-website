@@ -54,15 +54,50 @@ export async function getTrafficStats() {
       .sort((a, b) => b.views - a.views)
       .slice(0, 5); // Top 5 pages
 
+    // 5. Weekly stats (last 7 days grouped by date)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    const { data: weeklyData } = await supabase
+      .from('page_views')
+      .select('created_at, ip_hash')
+      .gte('created_at', sevenDaysAgo.toISOString());
+
+    const weeklyViews: number[] = Array(7).fill(0);
+    const weeklyVisitors: number[] = Array(7).fill(0);
+
+    const dates = Array.from({ length: 7 }).map((_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - 6 + i);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    });
+
+    if (weeklyData) {
+      dates.forEach((date, i) => {
+        const dayData = weeklyData.filter(item => {
+          const itemDate = new Date(item.created_at);
+          itemDate.setHours(0, 0, 0, 0);
+          return itemDate.getTime() === date.getTime();
+        });
+
+        weeklyViews[i] = dayData.length;
+        weeklyVisitors[i] = new Set(dayData.map(item => item.ip_hash)).size;
+      });
+    }
+
     return { 
       totalViews: totalViews || 0, 
       uniqueVisitors: uniqueVisitors || 0, 
       viewsToday: viewsToday || 0,
-      topPages
+      topPages,
+      weeklyViews,
+      weeklyVisitors
     };
   } catch (error: any) {
     console.error('Error fetching traffic stats:', error);
     // Silent fail if table doesn't exist yet (e.g. before migration)
-    return { totalViews: 0, uniqueVisitors: 0, viewsToday: 0, topPages: [], error: error.message || String(error) };
+    return { totalViews: 0, uniqueVisitors: 0, viewsToday: 0, topPages: [], weeklyViews: [], weeklyVisitors: [], error: error.message || String(error) };
   }
 }

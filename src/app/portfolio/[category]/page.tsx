@@ -22,6 +22,24 @@ function getCategoryNameFromSlug(slug: string): string {
   }
 }
 
+function matchCategory(packageCategory: string, slug: string): boolean {
+  if (!packageCategory || !slug) return false;
+  const pCat = packageCategory.toLowerCase().trim();
+  const targetSlug = slug.toLowerCase().trim();
+
+  const pCatSlug = pCat.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const targetSlugClean = targetSlug.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+  if (pCat === targetSlug || pCatSlug === targetSlugClean) return true;
+  if (targetSlugClean.includes('web') && (pCat.includes('web') || pCat.includes('dev'))) return true;
+  if (targetSlugClean.includes('graphic') && (pCat.includes('graphic') || pCat.includes('design') || pCat.includes('brand'))) return true;
+  if (targetSlugClean.includes('photo') && (pCat.includes('photo') || pCat.includes('foto'))) return true;
+  if (targetSlugClean.includes('video') && (pCat.includes('video') || pCat.includes('cinema'))) return true;
+  if (targetSlugClean.includes('it') && (pCat.includes('it') || pCat.includes('hardware') || pCat.includes('laptop') || pCat.includes('pc'))) return true;
+
+  return false;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category: categoryId } = await params;
   const category = await getCategory(categoryId);
@@ -36,6 +54,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   };
 }
 
+import { fetchProjectsFromDatabase } from '@/lib/data/projects';
+
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category: categoryId } = await params;
   const category = await getCategory(categoryId);
@@ -44,31 +64,27 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     notFound();
   }
 
-  // Fetch real projects from Supabase
-  const { data: projects } = await supabase
-    .from('projects')
-    .select('*')
-    .eq('category', categoryId)
-    .order('created_at', { ascending: false });
+  // Fetch real projects from Supabase database (auto-seeded if DB is empty)
+  const dbProjects = await fetchProjectsFromDatabase(categoryId);
 
-  // Map to GridItem
-  const items: GridItem[] = (projects || []).map((p: any) => {
+  // Map DB projects to GridItem
+  const items: GridItem[] = dbProjects.map((p) => {
     const coverMedia = p.media && p.media.length > 0 ? p.media[0] : null;
     return {
       id: p.id,
       title: p.title,
       description: p.description || '',
       coverImage: coverMedia ? coverMedia.url : '/assets/images/placeholder.jpg',
-      mediaType: coverMedia ? coverMedia.type : 'image',
+      mediaType: coverMedia ? (coverMedia.type as 'image' | 'video') : 'image',
       mediaItems: p.media || [],
       href: p.video_url || '#' 
     };
   });
 
-  // Fetch and filter pricing packages from DB
+  // Fetch and filter pricing packages from DB with flexible category matching
   const dbPackages = await getPricingPackages();
-  const categoryName = getCategoryNameFromSlug(categoryId);
-  const filteredPackages = dbPackages.filter(p => p.category === categoryName);
+  const filteredPackages = dbPackages.filter(p => matchCategory(p.category, categoryId));
+  const displayPackages = filteredPackages.length > 0 ? filteredPackages : dbPackages;
 
   return (
     <main className="min-h-screen bg-background pt-[80px]">
@@ -85,112 +101,37 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
 
           <PortfolioGrid items={items} />
 
-          {/* Pricing Highlight Section */}
-          {filteredPackages.length > 0 && (
-            <section className="mt-32 pt-20 border-t border-border">
-              <div className="text-center mb-16 max-w-3xl mx-auto">
-                <span className="text-accent font-bold text-sm uppercase tracking-wider inline-block px-4 py-1.5 bg-accent/10 rounded-full mb-4">
-                  Pricelist Highlight
-                </span>
-                <h2 className="text-3xl md:text-5xl font-display font-black text-foreground uppercase tracking-tight mb-4">
-                  Paket & Layanan Kami
-                </h2>
-                <p className="text-lg text-muted font-medium">
-                  Harga transparan untuk mewujudkan ide brutal lu. Detail fitur lengkap tersedia di halaman layanan.
-                </p>
+          {/* Service & Pricelist CTA Banner */}
+          <section className="mt-28 pt-16 border-t border-border text-center">
+            <div className="max-w-3xl mx-auto bg-surface border border-border/80 rounded-3xl p-10 md:p-12 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+              <span className="text-accent font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-accent/10 rounded-full inline-block mb-3">
+                PACKAGES &amp; SOLUTIONS
+              </span>
+              <h2 className="text-3xl md:text-4xl font-display font-black uppercase text-foreground mb-4">
+                Elevate Your Brand Today
+              </h2>
+              <p className="text-muted text-base font-medium mb-8">
+                Discover tailored packages, technical specifications, and project scopes designed for {category.title}.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href={`/services/${categoryId}`}
+                  className="w-full sm:w-auto py-3.5 px-7 bg-accent text-white font-bold text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-accent/20 hover:bg-accent/90 transition-all hover:scale-105"
+                >
+                  View Services &amp; Pricing
+                </Link>
+                <a
+                  href={`https://wa.me/6282130704794?text=Hello%20NOMSTD,%20I'd%20like%20to%20consult%20about%20${encodeURIComponent(category.title)}%20services!%20%F0%9F%90%BE`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto py-3.5 px-7 bg-background border border-border text-foreground font-bold text-xs uppercase tracking-wider rounded-2xl hover:border-accent hover:text-accent transition-all"
+                >
+                  Schedule Consultation
+                </a>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
-                {filteredPackages.map((pkg) => (
-                  <div
-                    key={pkg.id}
-                    className={`
-                      relative p-8 md:p-10 flex flex-col h-full rounded-[2.5rem] transition-all duration-300
-                      ${pkg.is_popular
-                        ? 'bg-foreground text-white border-none shadow-[0_20px_40px_rgba(0,0,0,0.15)] scale-100 lg:scale-105 z-10'
-                        : 'bg-white text-foreground border border-border shadow-sm hover:shadow-xl hover:-translate-y-2'
-                      }
-                    `}
-                  >
-                    {pkg.is_popular && (
-                      <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white font-bold text-xs uppercase tracking-wider px-6 py-2 rounded-full shadow-lg flex items-center gap-2 z-20">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,29.53,0L165.7,81.24l59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg> 
-                        Paling Laris
-                      </div>
-                    )}
-
-                    <div className="mb-8 text-center">
-                      <h3 className={`text-2xl font-bold tracking-tight mb-3 ${pkg.is_popular ? 'text-white' : 'text-foreground'}`}>
-                        {pkg.name}
-                      </h3>
-                      <p className={`text-sm h-12 leading-relaxed ${pkg.is_popular ? 'text-gray-300' : 'text-muted'}`}>
-                        {pkg.description}
-                      </p>
-                    </div>
-
-                    <div className="mb-10 text-center">
-                      <div className="flex items-start justify-center gap-1 mb-2">
-                        <span className="text-xl md:text-2xl font-bold mt-2">Rp</span>
-                        <span className="text-5xl md:text-6xl font-black tracking-tighter leading-none">
-                          {!isNaN(Number(pkg.price)) && pkg.price.trim() !== ''
-                            ? new Intl.NumberFormat('id-ID').format(Number(pkg.price))
-                            : pkg.price.replace(/Rp\.?\s?/i, '')}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Features Snippet (Highlight only 2) */}
-                    <div className="flex-1 mb-10">
-                      <p className={`text-xs font-bold uppercase tracking-wider mb-6 ${pkg.is_popular ? 'text-white' : 'text-muted'}`}>
-                        Highlight Fitur:
-                      </p>
-                      <ul className="space-y-4">
-                        {pkg.features.slice(0, 2).map((feat, i) => (
-                          <li key={i} className="flex items-start gap-4">
-                            <div className="mt-0.5 shrink-0 text-accent">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 256 256" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"><polyline points="216 72.005 104 184 48 128.005"></polyline></svg>
-                            </div>
-                            <span className={`font-semibold text-sm leading-relaxed line-clamp-1 ${pkg.is_popular ? 'text-gray-200' : 'text-foreground'}`}>
-                              {feat}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="space-y-3">
-                      <Link
-                        href={`/services/${categoryId}`}
-                        className={`
-                          block w-full py-4 px-6 text-center font-bold text-sm uppercase tracking-wider rounded-2xl transition-all duration-300 flex items-center justify-center gap-2
-                          ${pkg.is_popular
-                            ? 'bg-accent text-white hover:bg-accent-dark shadow-md hover:shadow-lg hover:-translate-y-1'
-                            : 'bg-surface border border-border text-foreground hover:bg-accent hover:text-white hover:border-accent hover:-translate-y-1 shadow-sm hover:shadow-md'
-                          }
-                        `}
-                      >
-                        Lihat Fitur Lengkap
-                      </Link>
-                      <a
-                        href={`https://wa.me/6282130704794?text=Halo%20min,%20aku%20mau%20pesen%20paket%20${encodeURIComponent(pkg.name)}%20dong!%20%F0%9F%90%BE`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={`
-                          block w-full py-3 px-6 text-center font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-300 border
-                          ${pkg.is_popular
-                            ? 'bg-transparent text-white/70 border-white/20 hover:text-white hover:bg-white/10'
-                            : 'bg-transparent text-muted border-transparent hover:text-foreground hover:bg-gray-50'
-                          }
-                        `}
-                      >
-                        Pesan Cepat via WA
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+            </div>
+          </section>
         </div>
 
         <Footer />

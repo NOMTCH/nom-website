@@ -89,7 +89,7 @@ export default function TextToolPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-24 pb-28 px-4 md:px-8">
+    <div className="min-h-screen bg-background text-foreground pt-36 pb-28 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-wider text-muted hover:text-accent mb-4">

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Plus, Trash, Tag, SpinnerGap, PencilSimple, CheckCircle, XCircle, X } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import Portal from '@/components/Portal';
 
 type Promo = {
   id: string;
@@ -46,7 +47,7 @@ export default function PromosDashboard() {
   }, []);
 
   const openModal = (promo?: Promo | any) => {
-    if (promo) {
+    if (promo && promo.id) {
       setEditingId(promo.id);
       setTitle(promo.title);
       setDescription(promo.description || '');
@@ -176,27 +177,27 @@ export default function PromosDashboard() {
           <SpinnerGap className="animate-spin text-accent" size={48} />
         </div>
       ) : promos.length === 0 ? (
-        <div className="border border-dashed border-gray-300 rounded-3xl p-12 text-center text-muted font-semibold uppercase tracking-widest bg-gray-50/50">
+        <div className="border border-dashed border-border rounded-3xl p-12 text-center text-muted font-semibold uppercase tracking-widest bg-surface/50">
           No Promos Found.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {promos.map((p) => (
-            <div key={p.id} className="bg-surface border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group relative">
-              <div className="relative aspect-[21/9] border-b border-gray-100 overflow-hidden bg-black">
+            <div key={p.id} className="bg-surface border border-border rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group relative overflow-hidden">
+              <div className="relative aspect-[21/9] border-b border-border overflow-hidden bg-background">
                 {p.image_url ? (
                   <img src={p.image_url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                 ) : (
-                  <div className="relative aspect-[21/9] bg-accent border-b border-gray-100 flex items-center justify-center">
-                    <Tag weight="fill" size={48} className="text-black opacity-50" />
+                  <div className="relative aspect-[21/9] bg-accent/20 border-b border-border flex items-center justify-center">
+                    <Tag weight="fill" size={48} className="text-accent opacity-50" />
                   </div>
                 )}
                 
                 {/* Status Badge */}
                 <button 
                   onClick={() => toggleActive(p.id, p.is_active)}
-                  className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-1 border border-border rounded-lg uppercase tracking-wider flex items-center gap-1 transition-all ${
-                    p.is_active ? 'bg-emerald-500 text-white hover:bg-emerald-600' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                  className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-1 border rounded-lg uppercase tracking-wider flex items-center gap-1 transition-all ${
+                    p.is_active ? 'bg-accent text-white border-accent' : 'bg-background/80 text-muted border-border'
                   }`}
                 >
                   {p.is_active ? <CheckCircle weight="fill" /> : <XCircle weight="fill" />}
@@ -204,23 +205,23 @@ export default function PromosDashboard() {
                 </button>
               </div>
               
-              <div className="p-4 flex flex-col flex-1">
+              <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="text-xl font-black uppercase tracking-tighter line-clamp-1">{p.title}</h3>
+                  <h3 className="text-xl font-black uppercase tracking-tight text-foreground line-clamp-1">{p.title}</h3>
                   {p.code && (
-                    <span className="bg-white border border-border rounded-xl px-2 py-0.5 text-xs font-black flex items-center gap-1 whitespace-nowrap">
+                    <span className="bg-background border border-border text-accent rounded-xl px-2 py-0.5 text-xs font-bold font-mono flex items-center gap-1 whitespace-nowrap">
                       <Tag weight="bold" /> {p.code}
                     </span>
                   )}
                 </div>
                 
-                <p className="text-sm font-bold text-gray-500 line-clamp-2 mb-4">{p.description}</p>
+                <p className="text-sm font-semibold text-muted line-clamp-2 mb-4">{p.description}</p>
                 
-                <div className="mt-auto flex gap-2 pt-4 border-t border-gray-100">
-                  <button onClick={() => openModal(p)} className="flex-1 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-xl font-bold text-xs uppercase hover:bg-accent/10 hover:text-accent hover:border-accent transition-all flex items-center justify-center gap-1.5">
+                <div className="mt-auto flex gap-2 pt-4 border-t border-border/80">
+                  <button onClick={() => openModal(p)} className="flex-1 py-2 bg-background border border-border text-foreground rounded-xl font-bold text-xs uppercase hover:bg-accent hover:text-white hover:border-accent transition-all flex items-center justify-center gap-1.5">
                     <PencilSimple weight="bold" /> Edit
                   </button>
-                  <button onClick={() => setPromoToDelete({ id: p.id, imageUrl: p.image_url || '' })} className="py-2 px-3.5 bg-red-50 text-red-600 border border-transparent rounded-xl font-bold hover:bg-red-100 transition-colors flex items-center justify-center">
+                  <button onClick={() => setPromoToDelete({ id: p.id, imageUrl: p.image_url || '' })} className="py-2 px-3.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl font-bold hover:bg-red-500/20 transition-colors flex items-center justify-center">
                     <Trash size={20} />
                   </button>
                 </div>
@@ -232,62 +233,63 @@ export default function PromosDashboard() {
 
       {/* Upload/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-surface border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl w-full max-w-2xl my-8 relative">
-            <button onClick={() => setShowModal(false)} className="absolute -top-3 -right-3 w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-full flex items-center justify-center shadow-sm hover:scale-105 transition-all">
-              <X weight="bold" size={24} />
+        <Portal>
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto" style={{ animation: 'fadeIn 0.2s ease-out' }}>
+          <div className="bg-surface border border-border shadow-2xl rounded-3xl w-full max-w-2xl my-8 relative text-foreground animate-scale-in">
+            <button onClick={() => setShowModal(false)} className="absolute top-4 right-4 w-9 h-9 bg-background hover:bg-accent text-muted hover:text-white border border-border rounded-full flex items-center justify-center shadow-sm transition-all z-10">
+              <X weight="bold" size={20} />
             </button>
             
-            <div className="p-6 border-b border-gray-100 bg-gray-50/50 rounded-t-3xl">
-              <h2 className="text-xl font-display font-bold uppercase tracking-tight text-gray-900">
+            <div className="p-6 border-b border-border/80 bg-background/50 rounded-t-3xl">
+              <h2 className="text-xl font-display font-black uppercase tracking-tight text-foreground">
                 {editingId ? 'Edit Promo' : 'New Promo'}
               </h2>
             </div>
             
             <form onSubmit={handleSave} className="p-6 space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Promo Title</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-muted">Promo Title</label>
                 <input 
                   type="text" 
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all"
+                  className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:outline-none focus:border-accent transition-all font-semibold"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Description</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-muted">Description</label>
                 <textarea 
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all resize-none"
+                  className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:outline-none focus:border-accent transition-all resize-none font-semibold"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Promo Code (Optional)</label>
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted">Promo Code (Optional)</label>
                   <input 
                     type="text" 
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. NOMSTD2026"
-                    className="w-full px-4 py-3 bg-[#F5F5F5] border border-border rounded-xl font-mono text-sm uppercase focus:outline-none focus:bg-white transition-all"
+                    className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl font-mono text-sm uppercase focus:outline-none focus:border-accent transition-all"
                   />
                 </div>
 
                 <div className="space-y-2 flex flex-col justify-start">
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Status</label>
-                  <label className="flex items-center gap-3 cursor-pointer p-3 border border-border rounded-xl bg-white hover:bg-gray-50 transition-colors">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted mb-2">Status</label>
+                  <label className="flex items-center gap-3 cursor-pointer p-3 border border-border rounded-xl bg-background hover:border-accent transition-colors">
                     <input 
                       type="checkbox" 
                       checked={isActive}
                       onChange={(e) => setIsActive(e.target.checked)}
                       className="w-5 h-5 accent-accent border border-border rounded-xl"
                     />
-                    <span className="font-bold uppercase text-sm">Set as Active</span>
+                    <span className="font-bold uppercase text-sm text-foreground">Set as Active</span>
                   </label>
                 </div>
               </div>
@@ -295,8 +297,8 @@ export default function PromosDashboard() {
               {/* Existing Image Display */}
               {existingImage && (
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Current Banner Image</label>
-                  <div className="relative aspect-[21/9] bg-black border border-border rounded-xl group max-w-sm">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted">Current Banner Image</label>
+                  <div className="relative aspect-[21/9] bg-background border border-border rounded-xl group max-w-sm overflow-hidden">
                     <img src={existingImage} className="w-full h-full object-cover opacity-60" />
                     <button 
                       type="button"
@@ -310,12 +312,12 @@ export default function PromosDashboard() {
               )}
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Upload New Banner Image</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-muted">Upload New Banner Image</label>
                 <input 
                   type="file" 
                   accept="image/*"
                   onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all"
+                  className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:outline-none focus:border-accent transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30"
                 />
               </div>
 
@@ -323,14 +325,14 @@ export default function PromosDashboard() {
                 <button 
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="flex-1 py-3 border border-gray-200 text-gray-500 rounded-xl font-bold uppercase text-xs tracking-wider hover:bg-gray-50 hover:text-gray-800 transition-colors"
+                  className="flex-1 py-3 border border-border text-muted rounded-xl font-bold uppercase text-xs tracking-wider hover:bg-background hover:text-foreground transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
                   disabled={uploading}
-                  className="flex-1 py-3 bg-accent text-white border border-border rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-accent/90 transition-all disabled:opacity-50 flex justify-center items-center gap-1.5"
+                  className="flex-1 py-3 bg-accent text-white border border-accent rounded-xl font-bold uppercase text-xs tracking-wider shadow-md hover:bg-accent/90 transition-all disabled:opacity-50 flex justify-center items-center gap-1.5"
                 >
                   {uploading ? <SpinnerGap className="animate-spin" size={20} /> : 'Save Promo'}
                 </button>
@@ -338,39 +340,40 @@ export default function PromosDashboard() {
             </form>
           </div>
         </div>
-      )}
+      </Portal>
+    )}
 
-      {/* Brutal Delete Modal */}
+      {/* Delete Modal */}
       {promoToDelete && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-surface border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]">
-            
-            
+        <Portal>
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4" style={{ animation: 'fadeIn 0.2s ease-out' }}>
+          <div className="bg-surface border border-border shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden text-foreground animate-scale-in">
             <div className="p-6 text-center">
-              <div className="w-20 h-20 bg-red-500 mx-auto border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center mb-6">
-                <Trash weight="fill" size={40} className="text-white" />
+              <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 mx-auto rounded-2xl flex items-center justify-center mb-6">
+                <Trash weight="fill" size={32} />
               </div>
-              <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">HAPUS PROMO IEU?</h2>
-              <p className="font-bold text-gray-600 mb-8 uppercase text-sm">Asli yeuh rek dihapus? Datana bakal leungit salawasna.</p>
+              <h2 className="text-2xl font-display font-black uppercase tracking-tight mb-2 text-foreground">Delete Promo?</h2>
+              <p className="font-semibold text-muted mb-8 text-sm">Are you sure you want to delete this promo banner? This action cannot be undone.</p>
               
               <div className="flex gap-4">
                 <button 
                   onClick={() => setPromoToDelete(null)}
-                  className="flex-1 py-3.5 bg-gray-50 border border-gray-200/80 rounded-xl font-bold uppercase text-xs tracking-wider text-gray-700 hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-sm"
+                  className="flex-1 py-3.5 bg-background border border-border rounded-xl font-bold uppercase text-xs tracking-wider text-muted hover:text-foreground transition-all shadow-sm"
                 >
-                  TEU JADI
+                  Cancel
                 </button>
                 <button 
                   onClick={confirmDelete}
-                  className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all"
+                  className="flex-1 py-3.5 bg-red-500 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-600 transition-all"
                 >
-                  HAPUS LAH!
+                  Delete
                 </button>
               </div>
             </div>
           </div>
         </div>
-      )}
+      </Portal>
+    )}
 
     </div>
   );

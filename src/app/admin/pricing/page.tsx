@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, PencilSimple, Trash, Star, CaretUp, CaretDown, Check } from '@phosphor-icons/react';
+import { Plus, PencilSimple, Trash, Star, CaretUp, CaretDown, Check, X } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import { 
   PricingPackage, 
@@ -48,7 +48,7 @@ export default function AdminPricingPage() {
       setCategory(pkg.category || 'Graphic Design');
       setFeatures(pkg.features.length > 0 ? pkg.features : ['']);
       setIsPopular(pkg.is_popular);
-      setSortOrder(pkg.sort_order);
+      setSortOrder(pkg.sort_order ?? 0);
     } else {
       setEditingId(null);
       setName('');
@@ -149,11 +149,11 @@ export default function AdminPricingPage() {
           </button>
         </div>
 
-        <div className="bg-white border border-gray-200/80 rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-surface border border-border/80 rounded-2xl overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[800px]">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-200/80 text-xs font-bold uppercase tracking-widest text-gray-500">
+                <tr className="bg-background/80 border-b border-border/80 text-xs font-bold uppercase tracking-widest text-muted">
                   <th className="p-4">Package Name</th>
                   <th className="p-4">Category</th>
                   <th className="p-4 text-right">Price</th>
@@ -164,37 +164,37 @@ export default function AdminPricingPage() {
               </thead>
               <tbody>
                 {packages.map((pkg) => (
-                  <tr key={pkg.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
+                  <tr key={pkg.id} className="border-b border-border/40 hover:bg-background/50 transition-colors">
                     <td className="p-4">
-                      <div className="font-bold text-gray-900">{pkg.name}</div>
-                      <div className="text-xs text-gray-500 truncate max-w-xs">{pkg.description}</div>
+                      <div className="font-bold text-foreground">{pkg.name}</div>
+                      <div className="text-xs text-muted truncate max-w-xs">{pkg.description}</div>
                     </td>
                     <td className="p-4">
-                      <span className="inline-block bg-gray-100 text-gray-600 px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                      <span className="inline-block bg-background border border-border text-foreground px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
                         {pkg.category}
                       </span>
                     </td>
-                    <td className="p-4 text-right font-black text-gray-900">
+                    <td className="p-4 text-right font-black text-accent">
                       Rp {new Intl.NumberFormat('id-ID').format(Number(pkg.price))}
                     </td>
                     <td className="p-4 text-center">
                       {pkg.is_popular ? (
-                        <span className="inline-block bg-accent/10 text-accent px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
+                        <span className="inline-block bg-accent/20 border border-accent/30 text-accent px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider">
                           Yes
                         </span>
                       ) : (
-                        <span className="inline-block text-gray-300">-</span>
+                        <span className="inline-block text-muted/50">-</span>
                       )}
                     </td>
-                    <td className="p-4 text-center text-sm font-bold text-gray-500">
+                    <td className="p-4 text-center text-sm font-bold text-muted">
                       {pkg.sort_order}
                     </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => handleOpenModal(pkg)} className="p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900 transition-colors rounded-xl">
+                        <button onClick={() => handleOpenModal(pkg)} className="p-2 text-muted hover:bg-background hover:text-accent transition-colors rounded-xl border border-transparent hover:border-border">
                           <PencilSimple weight="bold" size={18} />
                         </button>
-                        <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 text-red-500 hover:bg-red-50 transition-colors rounded-xl">
+                        <button onClick={() => setPackageToDelete(pkg.id)} className="p-2 text-red-400 hover:bg-red-500/10 hover:text-red-500 transition-colors rounded-xl border border-transparent hover:border-red-500/20">
                           <Trash weight="bold" size={18} />
                         </button>
                       </div>
@@ -204,7 +204,7 @@ export default function AdminPricingPage() {
                 
                 {packages.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="p-12 text-center text-gray-400 font-bold uppercase tracking-widest text-sm">
+                    <td colSpan={6} className="p-12 text-center text-muted font-bold uppercase tracking-widest text-sm">
                       Belum ada paket harga
                     </td>
                   </tr>
@@ -216,40 +216,40 @@ export default function AdminPricingPage() {
 
         {/* Modal */}
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div className="bg-background border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
-                <h2 className="text-3xl font-display font-black uppercase tracking-tight">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <div className="bg-surface border border-border shadow-2xl rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto text-foreground">
+              <div className="flex justify-between items-center mb-8 border-b border-border/80 pb-4">
+                <h2 className="text-2xl font-display font-black uppercase tracking-tight text-foreground">
                   {editingId ? 'Edit Package' : 'New Package'}
                 </h2>
-                <button onClick={handleCloseModal} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">
-                  <Trash weight="bold" size={24} />
+                <button onClick={handleCloseModal} className="p-2 text-muted hover:text-foreground hover:bg-background rounded-xl transition-colors">
+                  <X weight="bold" size={20} />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-black uppercase tracking-widest mb-2">Package Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">Package Name</label>
                     <input 
                       type="text" 
                       required
                       value={name}
                       onChange={e => setName(e.target.value)}
-                      className="w-full bg-surface border border-border rounded-2xl p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                      className="w-full bg-background border border-border rounded-2xl p-3 font-bold text-foreground text-lg focus:outline-none focus:border-accent"
                       placeholder="e.g. UMKM Starter"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-black uppercase tracking-widest mb-2">Nominal Harga</label>
-                    <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-muted">Rp</span>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">Nominal Harga</label>
+                    <div className="relative flex items-center">
+                      <span className="absolute left-4 font-black text-accent select-none pointer-events-none text-base">Rp</span>
                       <input 
                         type="number" 
                         required
                         value={price}
                         onChange={e => setPrice(e.target.value)}
-                        className="w-full bg-surface border border-border rounded-2xl p-3 pl-12 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
+                        className="w-full bg-background border border-border rounded-2xl p-3 !pl-12 font-bold text-foreground text-lg focus:outline-none focus:border-accent"
                         placeholder="1500000"
                       />
                     </div>
@@ -257,26 +257,29 @@ export default function AdminPricingPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-black uppercase tracking-widest mb-2">Category</label>
-                  <select 
-                    value={category}
-                    onChange={e => setCategory(e.target.value)}
-                    className="w-full bg-surface border border-border rounded-2xl p-3 font-bold text-lg focus:outline-none focus:ring-4 focus:ring-accent"
-                  >
-                    <option value="Graphic Design">Graphic Design</option>
-                    <option value="Photography">Photography</option>
-                    <option value="Videography">Videography</option>
-                    <option value="Web Development">Web Development</option>
-                    <option value="IT Solutions">IT Solutions</option>
-                  </select>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">Category</label>
+                  <div className="relative">
+                    <select 
+                      value={category}
+                      onChange={e => setCategory(e.target.value)}
+                      className="w-full bg-background border border-border text-foreground rounded-2xl p-3 pr-10 font-bold text-base focus:outline-none focus:border-accent appearance-none cursor-pointer"
+                    >
+                      <option value="Graphic Design" className="bg-surface text-foreground">Graphic Design</option>
+                      <option value="Photography" className="bg-surface text-foreground">Photography</option>
+                      <option value="Videography" className="bg-surface text-foreground">Videography</option>
+                      <option value="Web Development" className="bg-surface text-foreground">Web Development</option>
+                      <option value="IT Solutions" className="bg-surface text-foreground">IT Solutions</option>
+                    </select>
+                    <CaretDown weight="bold" size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-black uppercase tracking-widest mb-2">Description</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">Description</label>
                   <textarea 
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    className="w-full bg-surface border border-border rounded-2xl p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
+                    className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                     placeholder="Short description for this package"
                     rows={2}
                   />
@@ -284,33 +287,33 @@ export default function AdminPricingPage() {
 
                 <div className="flex gap-6 items-end">
                   <div className="flex-1">
-                    <label className="block text-sm font-black uppercase tracking-widest mb-2">Sort Order</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">Sort Order</label>
                     <input 
                       type="number" 
                       required
                       value={sortOrder}
                       onChange={e => setSortOrder(parseInt(e.target.value))}
-                      className="w-full bg-surface border border-border rounded-2xl p-3 font-bold focus:outline-none focus:ring-4 focus:ring-accent"
+                      className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-bold focus:outline-none focus:border-accent"
                     />
                   </div>
-                  <label className="flex-1 flex items-center gap-3 p-3 bg-surface border border-border rounded-2xl cursor-pointer hover:bg-accent/10 h-[56px]">
+                  <label className="flex-1 flex items-center gap-3 p-3 bg-background border border-border rounded-2xl cursor-pointer hover:border-accent transition-colors h-[52px]">
                     <input 
                       type="checkbox" 
                       checked={isPopular}
                       onChange={e => setIsPopular(e.target.checked)}
-                      className="w-6 h-6 border border-border rounded-2xl bg-white text-accent focus:ring-0 cursor-pointer"
+                      className="w-5 h-5 accent-accent border border-border rounded-xl"
                     />
-                    <span className="font-black uppercase tracking-widest text-sm">Mark as Popular</span>
+                    <span className="font-bold uppercase tracking-wider text-xs text-foreground">Mark as Popular</span>
                   </label>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label className="block text-sm font-black uppercase tracking-widest">Features</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted">Features</label>
                     <button 
                       type="button" 
                       onClick={handleAddFeature}
-                      className="text-xs font-bold uppercase tracking-widest flex items-center gap-1 hover:text-accent"
+                      className="text-xs font-bold uppercase tracking-wider flex items-center gap-1 text-accent hover:underline"
                     >
                       <Plus weight="bold" /> Add Feature
                     </button>
@@ -322,15 +325,15 @@ export default function AdminPricingPage() {
                           type="text" 
                           value={f}
                           onChange={e => handleFeatureChange(i, e.target.value)}
-                          className="flex-1 bg-surface border border-border rounded-2xl p-2 font-bold text-sm focus:outline-none focus:border-accent"
+                          className="flex-1 bg-background border border-border text-foreground rounded-xl p-2.5 font-semibold text-sm focus:outline-none focus:border-accent"
                           placeholder="Feature detail..."
                         />
                         <button 
                           type="button" 
                           onClick={() => handleRemoveFeature(i)}
-                          className="p-2 border border-border rounded-2xl hover:bg-red-500 hover:text-white transition-colors"
+                          className="p-2.5 border border-border rounded-xl bg-background hover:bg-red-500/10 text-muted hover:text-red-400 hover:border-red-500/30 transition-colors"
                         >
-                          <Trash weight="bold" />
+                          <Trash weight="bold" size={18} />
                         </button>
                       </div>
                     ))}
@@ -341,14 +344,14 @@ export default function AdminPricingPage() {
                   <button 
                     type="button"
                     onClick={handleCloseModal}
-                    className="px-6 py-3 text-sm font-bold uppercase tracking-wider text-gray-500 hover:text-gray-800 transition-colors"
+                    className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-muted hover:text-foreground transition-colors"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-accent text-white font-bold uppercase tracking-widest px-8 py-3 rounded-xl hover:bg-accent/90 transition-all shadow-sm disabled:opacity-50 text-xs"
+                    className="bg-accent text-white font-bold uppercase tracking-wider px-8 py-3 rounded-xl hover:bg-accent/90 transition-all shadow-md disabled:opacity-50 text-xs border border-accent"
                   >
                     {isSubmitting ? 'Saving...' : 'Save Package'}
                   </button>
@@ -358,31 +361,29 @@ export default function AdminPricingPage() {
           </div>
         )}
 
-        {/* Brutal Delete Modal */}
+        {/* Delete Modal */}
         {packageToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div className="bg-surface border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]">
-              
-              
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+            <div className="bg-surface border border-border shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden text-foreground">
               <div className="p-6 text-center">
-                <div className="w-20 h-20 bg-red-500 mx-auto border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center mb-6">
-                  <Trash weight="fill" size={40} className="text-white" />
+                <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 mx-auto rounded-2xl flex items-center justify-center mb-6">
+                  <Trash weight="fill" size={32} />
                 </div>
-                <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">HAPUS PAKET IEU?</h2>
-                <p className="font-bold text-gray-600 mb-8 uppercase text-sm">Asli yeuh rek dihapus? Nya ah karunya geus nyieun.</p>
+                <h2 className="text-2xl font-display font-black uppercase tracking-tight mb-2 text-foreground">Delete Package?</h2>
+                <p className="font-semibold text-muted mb-8 text-sm">Are you sure you want to delete this pricing package? This action cannot be undone.</p>
                 
                 <div className="flex gap-4">
                   <button 
                     onClick={() => setPackageToDelete(null)}
-                    className="flex-1 py-3.5 bg-gray-50 border border-gray-200/80 rounded-xl font-bold uppercase text-xs tracking-wider text-gray-700 hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-sm"
+                    className="flex-1 py-3.5 bg-background border border-border rounded-xl font-bold uppercase text-xs tracking-wider text-muted hover:text-foreground transition-all shadow-sm"
                   >
-                    TEU JADI
+                    Cancel
                   </button>
                   <button 
                     onClick={confirmDelete}
-                    className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all"
+                    className="flex-1 py-3.5 bg-red-500 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-600 transition-all"
                   >
-                    HAPUS LAH!
+                    Delete
                   </button>
                 </div>
               </div>

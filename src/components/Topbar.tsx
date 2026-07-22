@@ -56,15 +56,15 @@ export function Topbar({ onExport }: { onExport?: () => void }) {
         
         <div className="flex items-center gap-3 sm:gap-6">
           {/* Desktop Version */}
-          <div className="hidden md:flex items-center gap-3 bg-white px-4 py-1.5 border border-border rounded-xl shadow-sm">
-            <span className="text-[11px] font-black text-black uppercase tracking-widest">
+          <div className="hidden md:flex items-center gap-3 bg-background px-4 py-1.5 border border-border rounded-xl shadow-sm">
+            <span className="text-[11px] font-black text-foreground uppercase tracking-widest">
               Semoga Lolos HRD! 🙏
             </span>
             <a 
               href="https://saweria.co/iammonoz" 
               target="_blank" 
               rel="noreferrer" 
-              className="flex items-center gap-1.5 px-3 py-1 bg-amber-400 text-amber-950 rounded-lg font-bold text-xs uppercase hover:bg-amber-500 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1 bg-amber-500 text-amber-950 rounded-lg font-bold text-xs uppercase hover:bg-amber-600 transition-colors"
             >
               <span>☕</span> Traktir Kopi
             </a>
@@ -75,14 +75,14 @@ export function Topbar({ onExport }: { onExport?: () => void }) {
             href="https://saweria.co/iammonoz" 
             target="_blank" 
             rel="noreferrer" 
-            className="flex md:hidden flex-col items-center justify-center px-2 py-1 bg-white border border-border rounded-xl shadow-none hover:-translate-y-0.5 hover:shadow-[1px_1px_0_0_#0F0F0F] transition-all"
+            className="flex md:hidden flex-col items-center justify-center px-2 py-1 bg-background border border-border rounded-xl shadow-none hover:-translate-y-0.5 hover:shadow-md transition-all"
             title="Traktir Kopi"
           >
-            <span className="text-[7px] font-black text-black uppercase tracking-widest whitespace-nowrap mb-0.5">Semoga Lolos HRD! 🙏</span>
-            <span className="text-[9px] font-black text-black bg-yellow-400 px-2 py-0.5 border border-foreground uppercase whitespace-nowrap">☕ Traktir Kopi</span>
+            <span className="text-[7px] font-black text-foreground uppercase tracking-widest whitespace-nowrap mb-0.5">Semoga Lolos HRD! 🙏</span>
+            <span className="text-[9px] font-black text-amber-950 bg-amber-400 px-2 py-0.5 border border-amber-500 uppercase whitespace-nowrap">☕ Traktir Kopi</span>
           </a>
 
-          <button onClick={onExport} className="flex items-center gap-2 px-4 sm:px-6 py-2 bg-[#FF3B30] rounded-xl shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all font-bold text-sm md:text-base text-white uppercase tracking-widest">
+          <button onClick={onExport} className="flex items-center gap-2 px-4 sm:px-6 py-2 bg-red-600 rounded-xl shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all font-bold text-sm md:text-base text-white uppercase tracking-widest">
             <DownloadSimple weight="bold" size={20} />
             <span className="hidden sm:inline">Export PDF</span>
             <span className="sm:hidden">PDF</span>

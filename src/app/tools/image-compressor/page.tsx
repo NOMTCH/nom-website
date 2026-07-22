@@ -193,7 +193,7 @@ export default function ImageCompressorPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-24 pb-28 px-4 md:px-8">
+    <div className="min-h-screen bg-background text-foreground pt-36 pb-28 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-wider text-muted hover:text-accent mb-4">
@@ -220,7 +220,7 @@ export default function ImageCompressorPage() {
                   onDragLeave={handleDrag}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
-                  className={`border-4 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
+                  className={`border border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
                     dragActive ? 'border-accent bg-accent/5' : 'border-border hover:border-accent hover:bg-surface/50'
                   }`}
                 >
@@ -236,7 +236,7 @@ export default function ImageCompressorPage() {
                   <p className="text-xs text-muted font-bold mt-2">Atau klik untuk browse file (JPG, PNG, WebP)</p>
                 </div>
               ) : (
-                <div className="p-4 bg-white border border-border rounded-2xl flex items-center justify-between">
+                <div className="p-4 bg-background border border-border rounded-2xl flex items-center justify-between">
                   <div className="flex items-center gap-3 overflow-hidden">
                     <div className="w-12 h-12 bg-accent/10 border border-accent/20 rounded-xl flex items-center justify-center shrink-0">
                       <ImageIcon size={24} className="text-foreground" />
@@ -273,10 +273,10 @@ export default function ImageCompressorPage() {
                         key={f}
                         onClick={() => setFormat(f)}
                         disabled={!file}
-                        className={`py-3 border-2 font-black uppercase text-xs rounded-xl transition-all ${
+                        className={`py-3 border font-black uppercase text-xs rounded-xl transition-all ${
                           format === f 
                             ? 'bg-accent text-white border-accent shadow-sm' 
-                            : 'bg-white border-border text-foreground hover:bg-gray-50'
+                            : 'bg-background border-border text-foreground hover:bg-background/80'
                         }`}
                       >
                         {f.split('/')[1]}
@@ -336,7 +336,7 @@ export default function ImageCompressorPage() {
                         value={customWidth || ''}
                         onChange={(e) => handleWidthChange(parseInt(e.target.value) || 0)}
                         disabled={!file}
-                        className="w-full bg-white border border-border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                        className="w-full bg-background border border-border rounded-xl p-3 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                         placeholder="Width"
                       />
                     </div>
@@ -347,7 +347,7 @@ export default function ImageCompressorPage() {
                         value={customHeight || ''}
                         onChange={(e) => handleHeightChange(parseInt(e.target.value) || 0)}
                         disabled={!file}
-                        className="w-full bg-white border border-border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-accent font-bold text-sm"
+                        className="w-full bg-background border border-border rounded-xl p-3 focus:outline-none focus:border-accent font-bold text-sm text-foreground"
                         placeholder="Height"
                       />
                     </div>
@@ -381,15 +381,15 @@ export default function ImageCompressorPage() {
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="p-5 bg-[#00FF00]/10 border-2 border-[#00C800] rounded-2xl flex items-center justify-between text-foreground"
+                    className="p-5 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-between text-green-400"
                   >
                     <div>
-                      <p className="text-lg font-black uppercase tracking-tight text-green-700">Berhasil Dikompres!</p>
+                      <p className="text-lg font-black uppercase tracking-tight text-green-400">Berhasil Dikompres!</p>
                       <p className="text-xs font-bold text-muted mt-0.5">
                         Ukuran berkurang dari <span className="line-through">{formatSize(originalSize)}</span> menjadi <span className="font-black text-foreground">{formatSize(compressedSize)}</span>.
                       </p>
                     </div>
-                    <div className="bg-[#00C800] text-white px-4 py-2 border-2 border-black font-black text-xl rounded-xl shadow-[2px_2px_0_0_#000]">
+                    <div className="bg-green-500 text-white px-4 py-2 font-bold text-lg rounded-xl shadow-sm">
                       -{savePercent}%
                     </div>
                   </motion.div>
@@ -399,12 +399,12 @@ export default function ImageCompressorPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Original Image Frame */}
-                  <div className="bg-white border-2 border-border rounded-[2rem] p-5 shadow-sm flex flex-col h-full">
+                  <div className="bg-surface border border-border rounded-3xl p-5 shadow-md flex flex-col h-full text-foreground">
                     <h3 className="text-sm font-black uppercase tracking-wider text-muted mb-3 flex items-center justify-between">
                       <span>Gambar Asli</span>
-                      <span className="text-xs text-foreground bg-gray-100 px-2 py-0.5 rounded font-bold">{originalWidth}x{originalHeight} px</span>
+                      <span className="text-xs text-foreground bg-background px-2 py-0.5 rounded font-bold">{originalWidth}x{originalHeight} px</span>
                     </h3>
-                    <div className="flex-1 bg-surface border border-border rounded-xl overflow-hidden flex items-center justify-center p-4 min-h-[250px] relative max-h-[350px]">
+                    <div className="flex-1 bg-background border border-border rounded-xl overflow-hidden flex items-center justify-center p-4 min-h-[250px] relative max-h-[350px]">
                       {originalUrl && (
                         <img 
                           ref={imgRef}
@@ -421,9 +421,9 @@ export default function ImageCompressorPage() {
                   </div>
 
                   {/* Compressed Image Frame */}
-                  <div className="bg-white border-4 border-foreground rounded-[2rem] p-5 shadow-[6px_6px_0_0_#000000] flex flex-col h-full relative">
+                  <div className="bg-surface border border-border rounded-3xl p-5 shadow-xl flex flex-col h-full relative text-foreground">
                     {isProcessing && (
-                      <div className="absolute inset-0 bg-white/70 backdrop-blur-xs z-20 rounded-[2rem] flex flex-col items-center justify-center">
+                      <div className="absolute inset-0 bg-surface/70 backdrop-blur-xs z-20 rounded-3xl flex flex-col items-center justify-center">
                         <Spinner className="animate-spin text-accent" size={48} />
                         <span className="text-xs font-black uppercase tracking-widest mt-4">Mengompres...</span>
                       </div>
@@ -431,10 +431,10 @@ export default function ImageCompressorPage() {
                     
                     <h3 className="text-sm font-black uppercase tracking-wider text-muted mb-3 flex items-center justify-between">
                       <span className="text-accent font-black">Hasil Kompresi</span>
-                      <span className="text-xs text-foreground bg-gray-100 px-2 py-0.5 rounded font-bold">{customWidth}x{customHeight} px</span>
+                      <span className="text-xs text-foreground bg-background px-2 py-0.5 rounded font-bold">{customWidth}x{customHeight} px</span>
                     </h3>
                     
-                    <div className="flex-1 bg-surface border-2 border-foreground rounded-xl overflow-hidden flex items-center justify-center p-4 min-h-[250px] relative max-h-[350px]">
+                    <div className="flex-1 bg-background border border-border rounded-xl overflow-hidden flex items-center justify-center p-4 min-h-[250px] relative max-h-[350px]">
                       {compressedUrl ? (
                         <img 
                           src={compressedUrl} 
@@ -473,7 +473,7 @@ export default function ImageCompressorPage() {
                     <a
                       href={compressedUrl}
                       download={`nomstd-compressed-${Date.now()}.${format.split('/')[1]}`}
-                      className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-black uppercase tracking-widest border-2 border-black shadow-[4px_4px_0_0_#000] hover:shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 transition-all text-center rounded-xl flex items-center justify-center gap-2"
+                      className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-bold uppercase tracking-wider hover:bg-accent-dark hover:-translate-y-0.5 transition-all text-center rounded-xl flex items-center justify-center gap-2 shadow-md"
                     >
                       <DownloadSimple size={20} weight="bold" />
                       Download Hasil

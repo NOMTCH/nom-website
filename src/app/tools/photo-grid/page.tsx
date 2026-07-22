@@ -259,15 +259,15 @@ export default function PhotoGridPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-24">
+    <div className="min-h-screen bg-background pt-36 pb-24">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Header Section */}
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent font-bold text-[10px] uppercase tracking-widest mb-4 border border-accent/20">
-            <SquaresFour weight="fill" size={14} /> Neo-Brutalist Tool
+            <SquaresFour weight="fill" size={14} /> Photo Collage Tool
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-black tracking-tight text-gray-900 uppercase leading-[1.1]">
+          <h1 className="text-4xl md:text-6xl font-display font-black tracking-tight text-foreground uppercase leading-[1.1]">
             Photo <span className="text-accent">Collage</span> Maker
           </h1>
           <p className="text-lg text-muted font-medium mt-4 max-w-2xl leading-relaxed">
@@ -281,12 +281,12 @@ export default function PhotoGridPage() {
           <div className="w-full lg:w-4/12 xl:w-3/12 space-y-6">
             
             {/* Upload Box */}
-            <div className="bg-white border-4 border-foreground rounded-[2rem] p-6 shadow-[6px_6px_0_0_#000000]">
-              <h2 className="font-black uppercase tracking-tight mb-4 flex items-center gap-2">
+            <div className="bg-surface border border-border rounded-3xl p-6 shadow-xl text-foreground">
+              <h2 className="text-xl font-black uppercase tracking-tight mb-4 flex items-center gap-2 text-foreground">
                 <Images weight="bold" /> 1. Masukin Foto
               </h2>
               
-              <label className="w-full border-2 border-dashed border-gray-300 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-accent hover:bg-accent/5 transition-all group min-h-[140px]">
+              <label className="w-full border border-dashed border-border bg-background rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-accent hover:bg-accent/5 transition-all group min-h-[140px]">
                 <input 
                   type="file" 
                   multiple 
@@ -294,10 +294,10 @@ export default function PhotoGridPage() {
                   className="hidden" 
                   onChange={handleUpload}
                 />
-                <div className="w-12 h-12 bg-white rounded-full border-2 border-border flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-background rounded-full border border-border flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                   {isProcessing ? <Spinner className="animate-spin text-accent" size={24} /> : <UploadSimple size={24} className="text-gray-400 group-hover:text-accent" />}
                 </div>
-                <span className="text-sm font-bold text-gray-600">Klik / Drop Banyak Foto</span>
+                <span className="text-sm font-bold text-muted">Klik / Drop Banyak Foto</span>
               </label>
 
               {/* Thumbnails */}
@@ -307,7 +307,7 @@ export default function PhotoGridPage() {
                   <div className="flex flex-wrap gap-2">
                     {photos.map(p => (
                       <div key={p.id} className="relative group">
-                        <img src={p.url} className="w-12 h-12 object-cover border-2 border-foreground rounded-lg" alt="thumb" />
+                        <img src={p.url} className="w-12 h-12 object-cover border border-border rounded-lg" alt="thumb" />
                         <button 
                           onClick={() => removePhoto(p.id)}
                           className="absolute -top-2 -right-2 bg-rose-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
@@ -322,29 +322,29 @@ export default function PhotoGridPage() {
             </div>
 
             {/* Template Selection */}
-            <div className="bg-white border-4 border-foreground rounded-[2rem] p-6 shadow-[6px_6px_0_0_#000000]">
-              <h2 className="font-black uppercase tracking-tight mb-4 flex items-center gap-2">
+            <div className="bg-surface border border-border rounded-3xl p-6 shadow-xl text-foreground">
+              <h2 className="text-xl font-black uppercase tracking-tight mb-4 flex items-center gap-2 text-foreground">
                 <Palette weight="bold" /> 2. Pilih Style
               </h2>
               
               <div className="space-y-3">
                 <button 
                   onClick={() => setTemplate('classic')}
-                  className={`w-full p-3 flex items-center gap-3 border-2 rounded-xl font-bold text-left transition-all ${template === 'classic' ? 'border-accent bg-accent/10 text-accent' : 'border-border text-gray-500 hover:border-gray-400'}`}
+                  className={`w-full p-3 flex items-center gap-3 border rounded-xl font-bold text-left transition-all ${template === 'classic' ? 'border-accent bg-accent/10 text-accent' : 'bg-background border-border text-muted hover:text-foreground hover:border-accent'}`}
                 >
                   <SquaresFour size={24} weight={template === 'classic' ? 'fill' : 'regular'} />
                   Classic Grid
                 </button>
                 <button 
                   onClick={() => setTemplate('polaroid')}
-                  className={`w-full p-3 flex items-center gap-3 border-2 rounded-xl font-bold text-left transition-all ${template === 'polaroid' ? 'border-accent bg-accent/10 text-accent' : 'border-border text-gray-500 hover:border-gray-400'}`}
+                  className={`w-full p-3 flex items-center gap-3 border rounded-xl font-bold text-left transition-all ${template === 'polaroid' ? 'border-accent bg-accent/10 text-accent' : 'bg-background border-border text-muted hover:text-foreground hover:border-accent'}`}
                 >
                   <Images size={24} weight={template === 'polaroid' ? 'fill' : 'regular'} />
-                  Brutalist Polaroid
+                  Polaroid Frame
                 </button>
                 <button 
                   onClick={() => setTemplate('film')}
-                  className={`w-full p-3 flex items-center gap-3 border-2 rounded-xl font-bold text-left transition-all ${template === 'film' ? 'border-accent bg-accent/10 text-accent' : 'border-border text-gray-500 hover:border-gray-400'}`}
+                  className={`w-full p-3 flex items-center gap-3 border rounded-xl font-bold text-left transition-all ${template === 'film' ? 'border-accent bg-accent/10 text-accent' : 'bg-background border-border text-muted hover:text-foreground hover:border-accent'}`}
                 >
                   <FilmStrip size={24} weight={template === 'film' ? 'fill' : 'regular'} />
                   Film Strip (Klise)
@@ -355,7 +355,7 @@ export default function PhotoGridPage() {
               <div className="mt-6 pt-6 border-t border-border space-y-4">
                 {template === 'classic' && (
                   <div>
-                    <label className="text-xs font-bold text-gray-500 mb-2 block">Jumlah Kolom: {columns}</label>
+                    <label className="text-xs font-bold text-muted mb-2 block">Jumlah Kolom: {columns}</label>
                     <input 
                       type="range" 
                       min="1" max="4" 
@@ -366,7 +366,7 @@ export default function PhotoGridPage() {
                   </div>
                 )}
                 <div>
-                  <label className="text-xs font-bold text-gray-500 mb-2 block">Warna Background</label>
+                  <label className="text-xs font-bold text-muted mb-2 block">Warna Background</label>
                   <input 
                     type="color" 
                     value={bgColor} 
@@ -390,7 +390,7 @@ export default function PhotoGridPage() {
             {/* Canvas Container */}
             <div 
               ref={containerRef}
-              className="w-full bg-surface border-4 border-dashed border-border rounded-[2.5rem] p-4 flex flex-col items-center justify-center min-h-[500px] overflow-hidden"
+              className="w-full bg-surface border border-dashed border-border rounded-3xl p-4 flex flex-col items-center justify-center min-h-[500px] overflow-hidden"
             >
               {photos.length === 0 ? (
                 <div className="text-center opacity-30">
@@ -410,14 +410,14 @@ export default function PhotoGridPage() {
 
             {/* Download Banner */}
             {photos.length > 0 && (
-              <div className="bg-accent/10 border-2 border-accent p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="bg-accent/10 border border-accent/20 p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                   <h3 className="font-black uppercase text-xl text-accent">Kolase Lu Udah Jadi!</h3>
-                  <p className="text-sm font-bold text-gray-600">Klik download buat simpan hasil HD (Resolusi Tinggi) ke device lu.</p>
+                  <p className="text-sm font-bold text-muted">Klik download buat simpan hasil HD (Resolusi Tinggi) ke device lu.</p>
                 </div>
                 <button 
                   onClick={handleDownload}
-                  className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-black uppercase tracking-widest border-2 border-black shadow-[4px_4px_0_0_#000] hover:shadow-[6px_6px_0_0_#000] hover:-translate-y-0.5 transition-all rounded-xl flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-4 bg-accent text-white font-bold uppercase tracking-wider hover:bg-accent-dark hover:-translate-y-0.5 transition-all rounded-xl flex items-center justify-center gap-2 shadow-md"
                 >
                   <DownloadSimple size={20} weight="bold" /> Download JPG
                 </button>

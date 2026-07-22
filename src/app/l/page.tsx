@@ -76,53 +76,58 @@ function LinkViewer() {
   const { n: name, b: bio, a: avatar, l: links, th: theme } = data;
 
   return (
-    <div className={`min-h-screen flex flex-col items-center py-16 px-4 md:px-6 relative overflow-hidden ${
-      theme === 'dark' ? 'bg-black text-white' : 
-      theme === 'brutal-red' ? 'bg-[#FF6138] text-black' : 
-      theme === 'brutal-blue' ? 'bg-[#00D8FF] text-black' : 
-      theme === 'brutal-green' ? 'bg-black text-[#00FF00]' : 
-      theme === 'brutal-cyberpunk' ? 'bg-[#FCE100] text-black' : 
-      'bg-surface text-black'
+    <div className={`min-h-screen flex flex-col items-center py-16 px-4 md:px-6 relative overflow-hidden transition-colors duration-300 ${
+      theme === 'dark' ? 'bg-zinc-950 text-zinc-50' : 
+      theme === 'brutal-red' ? 'bg-rose-950 text-rose-100' : 
+      theme === 'brutal-blue' ? 'bg-slate-900 text-sky-100' : 
+      theme === 'brutal-green' ? 'bg-emerald-950 text-emerald-100' : 
+      theme === 'brutal-cyberpunk' ? 'bg-indigo-950 text-indigo-50' : 
+      'bg-neutral-50 text-neutral-900'
     }`}>
       {/* Pattern Background Overlay */}
       <div className={`absolute inset-0 pointer-events-none z-0 ${
-        theme === 'dark' ? 'opacity-20 bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:24px_24px]' : 
-        theme === 'brutal-green' ? 'opacity-20 bg-[radial-gradient(#00FF00_2px,transparent_2px)] [background-size:24px_24px]' : 
-        theme === 'brutal-cyberpunk' ? 'opacity-40 bg-[radial-gradient(#FF00FF_2px,transparent_2px)] [background-size:24px_24px]' : 
-        'opacity-[0.05] bg-[radial-gradient(#000000_2px,transparent_2px)] [background-size:24px_24px]'
+        theme === 'dark' ? 'opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]' : 
+        theme === 'brutal-green' ? 'opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:20px_20px]' : 
+        theme === 'brutal-cyberpunk' ? 'opacity-15 bg-[radial-gradient(#c084fc_1px,transparent_1px)] [background-size:20px_20px]' : 
+        'opacity-[0.03] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:20px_20px]'
       }`}></div>
 
       <div className="w-full max-w-md relative z-10">
         
         {/* Profile Header */}
         <div className="flex flex-col items-center text-center mb-10">
-          <div className={`w-32 h-32 rounded-full border-[6px] overflow-hidden mb-6 bg-white flex items-center justify-center hover:scale-105 transition-transform duration-300 ${
-            theme === 'dark' ? 'shadow-[8px_8px_0_0_#FFD700] border-[#FFD700]' : 
-            theme === 'brutal-green' ? 'shadow-[8px_8px_0_0_#00FF00] border-[#00FF00]' : 
-            theme === 'brutal-cyberpunk' ? 'shadow-[8px_8px_0_0_#00FFFF] border-[#FF00FF]' : 
-            'shadow-[8px_8px_0_0_#0F0F0F] border-foreground'
+          <div className={`w-32 h-32 rounded-full border-4 overflow-hidden mb-6 bg-surface flex items-center justify-center hover:scale-105 transition-transform duration-300 shadow-lg ${
+            theme === 'dark' ? 'border-zinc-800' : 
+            theme === 'brutal-red' ? 'border-rose-800' : 
+            theme === 'brutal-green' ? 'border-emerald-800' : 
+            theme === 'brutal-cyberpunk' ? 'border-indigo-800' : 
+            theme === 'brutal-blue' ? 'border-sky-800/50' :
+            'border-neutral-200'
           }`}>
             {avatar ? (
               <img src={avatar} alt={name} className="w-full h-full object-cover" />
             ) : (
-              <span className="text-gray-500 font-black text-5xl">
+              <span className={`font-bold text-5xl ${theme === 'brutal-yellow' || !theme ? 'text-neutral-400' : 'text-foreground/40'}`}>
                 {name ? name.charAt(0).toUpperCase() : '?'}
               </span>
             )}
           </div>
           
-          <h1 className="text-3xl md:text-4xl font-display font-black uppercase tracking-tight">{name}</h1>
-          <p className={`text-base md:text-lg font-bold mt-2 max-w-sm ${
-            theme === 'dark' ? 'text-gray-300' : 
-            theme === 'brutal-green' ? 'text-[#00FF00]' : 
-            'text-gray-800'
+          <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
+          <p className={`text-sm font-medium mt-3 max-w-sm px-4 ${
+            theme === 'dark' ? 'text-zinc-400' : 
+            theme === 'brutal-red' ? 'text-rose-300' : 
+            theme === 'brutal-green' ? 'text-emerald-300' : 
+            theme === 'brutal-cyberpunk' ? 'text-indigo-300' : 
+            theme === 'brutal-blue' ? 'text-sky-300' : 
+            'text-neutral-500'
           }`}>
             {bio}
           </p>
         </div>
 
         {/* Links List */}
-        <div className="space-y-5">
+        <div className="space-y-4">
           {links && links.map((link, idx) => (
             link.t && link.u && (
               <a 
@@ -130,19 +135,20 @@ function LinkViewer() {
                 href={link.u.startsWith('http') ? link.u : `https://${link.u}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center justify-between w-full py-4 px-6 text-left border-4 font-black uppercase tracking-widest text-sm md:text-base transition-all hover:-translate-y-1 hover:-translate-x-1 active:translate-y-0 active:translate-x-0 ${
-                  theme === 'dark' ? 'bg-white text-black shadow-[6px_6px_0_0_#FFD700] border-foreground hover:shadow-[10px_10px_0_0_#FFD700]' : 
-                  theme === 'brutal-green' ? 'bg-black text-[#00FF00] border-[#00FF00] shadow-[6px_6px_0_0_#00FF00] hover:shadow-[10px_10px_0_0_#00FF00]' : 
-                  theme === 'brutal-cyberpunk' ? 'bg-[#FF00FF] text-white border-black shadow-[6px_6px_0_0_#00FFFF] hover:shadow-[10px_10px_0_0_#00FFFF]' : 
-                  theme === 'brutal-blue' ? 'bg-white text-black border-black shadow-[6px_6px_0_0_#0F0F0F] hover:shadow-[10px_10px_0_0_#0F0F0F]' : 
-                  'bg-white text-black border-foreground shadow-[6px_6px_0_0_#0F0F0F] hover:shadow-[10px_10px_0_0_#0F0F0F] active:shadow-none'
+                className={`flex items-center justify-between w-full py-4 px-6 text-left border font-semibold text-sm transition-all hover:-translate-y-0.5 rounded-xl shadow-sm hover:shadow-md ${
+                  theme === 'dark' ? 'bg-zinc-900 hover:bg-zinc-800 text-zinc-100 border-zinc-800' : 
+                  theme === 'brutal-red' ? 'bg-rose-900/30 hover:bg-rose-900/50 text-rose-100 border-rose-800/50 backdrop-blur-md' : 
+                  theme === 'brutal-green' ? 'bg-emerald-900/30 hover:bg-emerald-900/50 text-emerald-100 border-emerald-800/50 backdrop-blur-md' : 
+                  theme === 'brutal-cyberpunk' ? 'bg-indigo-900/30 hover:bg-indigo-900/50 text-indigo-100 border-indigo-800/30 backdrop-blur-md' : 
+                  theme === 'brutal-blue' ? 'bg-slate-800/40 hover:bg-slate-800/60 text-sky-100 border-slate-700/50 backdrop-blur-md' : 
+                  'bg-white hover:bg-neutral-100/50 text-neutral-800 border-neutral-200'
                 }`}
               >
                 <span className="flex items-center gap-4 overflow-hidden">
                   {getIconForUrl(link.u)}
                   <span className="truncate">{link.t}</span>
                 </span>
-                <ArrowUpRight size={20} weight="bold" className="flex-shrink-0 ml-2" />
+                <ArrowUpRight size={18} weight="bold" className="flex-shrink-0 ml-2 opacity-60" />
               </a>
             )
           ))}
@@ -153,29 +159,37 @@ function LinkViewer() {
           <a 
             href="/tools/link-builder" 
             className={`inline-flex flex-col items-center hover:scale-105 transition-transform ${
-              theme === 'dark' ? 'text-gray-400 hover:text-white' : 
-              theme === 'brutal-green' ? 'text-[#00FF00] opacity-70 hover:opacity-100' : 
-              'text-gray-600 hover:text-black'
+              theme === 'dark' ? 'text-zinc-500 hover:text-zinc-300' : 
+              theme === 'brutal-red' ? 'text-rose-400 hover:text-rose-200' : 
+              theme === 'brutal-green' ? 'text-emerald-400 hover:text-emerald-200' : 
+              theme === 'brutal-cyberpunk' ? 'text-indigo-400 hover:text-indigo-200' : 
+              theme === 'brutal-blue' ? 'text-sky-400 hover:text-sky-200' : 
+              'text-neutral-400 hover:text-neutral-600'
             }`}
           >
-            <span className="text-[10px] font-black uppercase tracking-widest mb-1">Built with</span>
-            <span className={`px-2 py-1 font-black text-xs uppercase tracking-widest border-2 border-current`}>
+            <span className="text-[10px] font-bold uppercase tracking-widest mb-1.5 opacity-60">Built with</span>
+            <span className="px-3 py-1 font-bold text-xs uppercase tracking-widest border border-current rounded-md">
               NOMSTD
             </span>
           </a>
         </div>
 
         {/* AdSense Placement at the bottom of dynamic links */}
-        <div className={`mt-10 mx-auto w-full max-w-[300px] border-2 border-dashed p-3 text-center text-[10px] font-bold relative rounded-xl ${
+        <div className={`mt-10 mx-auto w-full max-w-[300px] border border-dashed p-3 text-center text-[10px] font-semibold relative rounded-xl ${
           theme === 'dark' ? 'border-zinc-800 text-zinc-600 bg-zinc-950/50' :
-          theme === 'brutal-green' ? 'border-[#00FF00]/30 text-[#00FF00]/50 bg-black/40' :
-          theme === 'brutal-cyberpunk' ? 'border-black/30 text-black/50 bg-[#FCE100]' :
-          'border-gray-200 text-gray-400 bg-white/50'
+          theme === 'brutal-red' ? 'border-rose-900/30 text-rose-400/50 bg-rose-950/40' :
+          theme === 'brutal-green' ? 'border-emerald-800/30 text-emerald-400/50 bg-emerald-950/40' :
+          theme === 'brutal-cyberpunk' ? 'border-indigo-800/30 text-indigo-400/50 bg-indigo-950/40' :
+          theme === 'brutal-blue' ? 'border-slate-800/30 text-sky-400/50 bg-slate-900/40' :
+          'border-neutral-200 text-neutral-400 bg-white/50'
         }`}>
           <span className={`absolute -top-2.5 left-4 px-1.5 py-0.5 text-[8px] uppercase tracking-widest rounded border ${
-            theme === 'dark' ? 'bg-black text-zinc-600 border-zinc-800' :
-            theme === 'brutal-green' ? 'bg-black text-[#00FF00]/50 border-[#00FF00]/30' :
-            'bg-white text-gray-400 border-gray-200'
+            theme === 'dark' ? 'bg-zinc-950 text-zinc-600 border-zinc-800' :
+            theme === 'brutal-red' ? 'bg-rose-950 text-rose-400/50 border-rose-900/30' :
+            theme === 'brutal-green' ? 'bg-emerald-950 text-emerald-400/50 border-emerald-800/30' :
+            theme === 'brutal-cyberpunk' ? 'bg-indigo-950 text-indigo-400/50 border-indigo-800/30' :
+            theme === 'brutal-blue' ? 'bg-slate-900 text-sky-400/50 border-slate-800/30' :
+            'bg-neutral-50 text-neutral-400 border-neutral-200'
           }`}>Ads</span>
           <span>Space Iklan Sponsor (NOMSTD Premium)</span>
         </div>

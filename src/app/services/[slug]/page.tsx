@@ -73,6 +73,24 @@ const serviceData = {
   }
 };
 
+function matchCategory(packageCategory: string, slug: string): boolean {
+  if (!packageCategory || !slug) return false;
+  const pCat = packageCategory.toLowerCase().trim();
+  const targetSlug = slug.toLowerCase().trim();
+
+  const pCatSlug = pCat.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const targetSlugClean = targetSlug.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+  if (pCat === targetSlug || pCatSlug === targetSlugClean) return true;
+  if (targetSlugClean.includes('web') && (pCat.includes('web') || pCat.includes('dev'))) return true;
+  if (targetSlugClean.includes('graphic') && (pCat.includes('graphic') || pCat.includes('design') || pCat.includes('brand'))) return true;
+  if (targetSlugClean.includes('photo') && (pCat.includes('photo') || pCat.includes('foto'))) return true;
+  if (targetSlugClean.includes('video') && (pCat.includes('video') || pCat.includes('cinema'))) return true;
+  if (targetSlugClean.includes('it') && (pCat.includes('it') || pCat.includes('hardware') || pCat.includes('laptop') || pCat.includes('pc'))) return true;
+
+  return false;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const service = serviceData[slug as keyof typeof serviceData];
@@ -98,10 +116,10 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     notFound();
   }
 
-  // Fetch actual packages from DB
+  // Fetch actual packages from DB with flexible category matching
   const dbPackages = await getPricingPackages();
-  const categoryName = getCategoryNameFromSlug(slug);
-  const filteredPackages = dbPackages.filter(p => p.category === categoryName);
+  const filteredPackages = dbPackages.filter(p => matchCategory(p.category, slug));
+  const finalPackages = filteredPackages.length > 0 ? filteredPackages : dbPackages;
 
   // Schema structured data for search engines
   const lowPriceValue = filteredPackages.length > 0
@@ -155,25 +173,35 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       </section>
  
       {/* Content */}
-      <section className="py-20 px-6 bg-white border-b border-border">
+      <section className="py-20 px-6 bg-surface/60 border-b border-border">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-accent mb-4">Overview</h2>
-          <p className="text-gray-700 leading-relaxed text-lg md:text-xl font-medium">
+          <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 px-3.5 py-1.5 bg-accent/10 rounded-full inline-block">
+            Layanan Overview
+          </span>
+          <h2 className="text-3xl md:text-4xl font-display font-black uppercase text-foreground mb-6">
+            Kenapa Memilih Layanan Ini?
+          </h2>
+          <p className="text-muted leading-relaxed text-lg md:text-xl font-medium">
             {service.content}
           </p>
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="py-24 px-6 bg-gray-50">
+      <section className="py-24 px-6 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tight text-gray-900 mb-4">Pricing & Packages</h2>
-            <p className="text-gray-500 font-medium text-lg">Pilih tiket layanan yang sesuai dengan kebutuhan bisnis lu.</p>
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <span className="text-accent font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-accent/10 border border-accent/20 rounded-full inline-block mb-3">
+              PAKET & PILIHAN HARGA
+            </span>
+            <h2 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tight text-foreground mb-4">
+              Pricing & Packages
+            </h2>
+            <p className="text-muted font-medium text-lg">Pilih tiket paket layanan yang paling pas sesuai dengan skala bisnis lu.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 items-start">
-            {(filteredPackages.length > 0 ? filteredPackages : service.packages).map((pkg, idx) => {
+            {finalPackages.map((pkg, idx) => {
               const isDbPkg = 'features' in pkg && Array.isArray(pkg.features);
               const displayPriceValueOnly = isDbPkg
                 ? (!isNaN(Number(pkg.price)) && pkg.price.trim() !== ''
@@ -183,72 +211,60 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               
               const isPopular: boolean = 'is_popular' in pkg ? !!(pkg as any).is_popular : idx === 1;
 
-              // Random receipt number based on name length so it's consistent during hydration
-              const receiptNum = (pkg.name.length * 1234 % 9000) + 1000;
-
               return (
                 <div 
                   key={idx} 
                   className={`
-                    relative p-8 md:p-10 flex flex-col h-full bg-[#fdfdfd] border-[3px] border-dashed border-gray-950 transition-all duration-300
+                    relative p-8 md:p-10 flex flex-col h-full rounded-3xl transition-all duration-300
                     ${isPopular 
-                      ? 'shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] scale-100 lg:scale-105 z-10 -rotate-1' 
-                      : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1'
+                      ? 'bg-surface border-2 border-accent text-foreground shadow-2xl scale-100 lg:scale-105 z-10' 
+                      : 'bg-surface border border-border/80 text-foreground shadow-sm hover:border-accent hover:shadow-xl hover:-translate-y-1'
                     }
                   `}
                 >
-                  {/* Fake Barcode */}
-                  <div className="flex gap-1 h-8 w-full max-w-[200px] mx-auto mb-6 opacity-80 justify-center">
-                    {[3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 2, 1].map((w, i) => (
-                      <div key={i} className="bg-gray-950 h-full" style={{ width: `${w * 3}px` }}></div>
-                    ))}
-                  </div>
-
                   {isPopular && (
-                    <div className="absolute top-12 -right-4 md:right-4 rotate-12 border-4 border-accent text-accent font-black text-xl uppercase tracking-widest px-4 py-1 rounded-sm opacity-90 z-20 bg-[#fdfdfd] shadow-sm">
-                      BEST SELLER
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white font-bold text-xs uppercase tracking-wider px-6 py-2 rounded-full shadow-lg flex items-center gap-2 z-20">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,29.53,0L165.7,81.24l59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg> 
+                      Paling Popular
                     </div>
                   )}
 
                   <div className="mb-6 text-center mt-2 relative z-10">
-                    <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-3">
-                      RECEIPT NO. {receiptNum}-0{idx + 1}
-                    </p>
-                    <h3 className="text-3xl font-black uppercase tracking-tight text-gray-950 mb-3 font-display">
+                    <h3 className="text-3xl font-display font-black uppercase tracking-tight text-foreground mb-3">
                       {pkg.name}
                     </h3>
                     {pkg.description && (
-                      <p className="text-sm leading-relaxed text-gray-600 font-medium font-mono h-12">
+                      <p className="text-sm leading-relaxed text-muted font-medium min-h-[48px]">
                         {pkg.description}
                       </p>
                     )}
                   </div>
 
-                  <div className="w-full border-b-[3px] border-dashed border-gray-300 my-6"></div>
+                  <div className="w-full border-b border-border/60 my-4"></div>
 
                   <div className="mb-6 text-center">
-                    <div className="flex items-start justify-center gap-2 mb-1">
-                      <span className="text-xl font-bold mt-2 font-mono text-gray-950">IDR</span>
-                      <span className="text-5xl md:text-6xl font-black tracking-tighter leading-none font-display text-gray-950">
+                    <div className="flex items-start justify-center gap-1.5 mb-1">
+                      <span className="text-xl font-bold mt-2 text-accent font-display">Rp</span>
+                      <span className="text-5xl md:text-6xl font-display font-black tracking-tighter leading-none text-foreground">
                         {displayPriceValueOnly}
                       </span>
                     </div>
-                    <p className="font-mono text-[10px] uppercase text-gray-400 font-bold tracking-widest">NET AMOUNT</p>
+                    <p className="text-[10px] uppercase text-muted font-bold tracking-widest">NET INVESTMENT</p>
                   </div>
 
-                  <div className="w-full border-b-[3px] border-dashed border-gray-300 my-6"></div>
+                  <div className="w-full border-b border-border/60 my-4"></div>
 
-                  <div className="flex-1 mb-10">
-                    <p className="text-[10px] font-bold uppercase tracking-widest mb-6 text-gray-950 font-mono bg-gray-200 inline-block px-2 py-1">
-                      ITEMIZED SERVICES:
+                  <div className="flex-1 mb-8">
+                    <p className="text-[10px] font-bold uppercase tracking-widest mb-4 text-accent">
+                      Fasilitas & Fitur Paket:
                     </p>
-                    <ul className="space-y-4">
+                    <ul className="space-y-3.5">
                       {pkg.features.map((feat, i) => (
-                        <li key={i} className="flex items-start gap-4">
-                          <div className="mt-0.5 shrink-0 text-gray-950">
+                        <li key={i} className="flex items-start gap-3">
+                          <div className="mt-0.5 shrink-0 text-accent">
                             <svg width="18" height="18" fill="none" viewBox="0 0 256 256" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"><polyline points="216 72 104 184 48 128"></polyline></svg>
                           </div>
-                          <span className="font-semibold text-sm leading-relaxed text-gray-800 font-mono">
+                          <span className="font-semibold text-sm leading-relaxed text-foreground">
                             {feat}
                           </span>
                         </li>
@@ -256,33 +272,32 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     </ul>
                   </div>
 
-                  <div className="w-full border-b-[3px] border-dashed border-gray-300 my-6"></div>
-
                   <a
                     href={`https://wa.me/6282130704794?text=Halo%20min,%20aku%20mau%20pesen%20paket%20${encodeURIComponent(pkg.name)}%20dong!%20%F0%9F%90%BE`}
                     target="_blank"
                     rel="noreferrer"
                     className={`
-                      w-full py-4 px-6 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 rounded-2xl transition-all duration-300
+                      w-full py-4 px-6 font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 rounded-2xl transition-all duration-300 shadow-md cursor-pointer
                       ${isPopular 
-                        ? 'bg-accent text-white hover:bg-accent/90 shadow-md hover:shadow-lg hover:-translate-y-1' 
-                        : 'bg-surface border border-gray-200 text-gray-900 hover:bg-accent hover:text-white hover:border-accent hover:-translate-y-1 shadow-sm hover:shadow-md'
+                        ? 'bg-accent text-white hover:bg-accent/90 shadow-accent/20 hover:scale-[1.02]' 
+                        : 'bg-background border border-border text-foreground hover:bg-accent hover:text-white hover:border-accent hover:scale-[1.02]'
                       }
                     `}
                   >
-                    ISSUE TICKET
-                    <svg width="20" height="20" fill="none" viewBox="0 0 256 256" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"><line x1="40" y1="128" x2="216" y2="128"></line><polyline points="144 56 216 128 144 200"></polyline></svg>
+                    <span>Pesan Paket Sekarang</span>
+                    <svg width="18" height="18" fill="none" viewBox="0 0 256 256" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round"><line x1="40" y1="128" x2="216" y2="128"></line><polyline points="144 56 216 128 144 200"></polyline></svg>
                   </a>
                 </div>
               );
             })}
           </div>
+
           <div className="mt-16 space-y-4 max-w-xl mx-auto flex flex-col md:flex-row gap-4">
-            <Link href="/#contact" className="block w-full py-4 text-center rounded-xl bg-gray-950 text-white font-bold hover:bg-accent hover:text-black transition-colors shadow-sm">
-              Book Custom Project
+            <Link href="/#contact" className="block w-full py-4 text-center rounded-2xl bg-accent text-white font-black text-sm uppercase tracking-wider hover:bg-accent/90 shadow-lg shadow-accent/20 transition-all hover:scale-[1.02]">
+              Consult Custom Project
             </Link>
-            <Link href={`/portfolio/${slug}`} className="block w-full py-4 text-center rounded-xl bg-white border border-border text-foreground font-bold hover:bg-gray-50 transition-colors shadow-sm">
-              Explore Our Portfolio
+            <Link href={`/portfolio/${slug}`} className="block w-full py-4 text-center rounded-2xl bg-surface border border-border text-foreground hover:border-accent hover:text-accent font-black text-sm uppercase tracking-wider transition-all">
+              Explore Portfolio
             </Link>
           </div>
         </div>

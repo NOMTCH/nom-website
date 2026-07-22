@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ContactMessage, getContactMessages, markMessageAsRead, deleteMessage } from '@/lib/data/messages';
 import { toast } from 'sonner';
 import { Envelope, EnvelopeOpen, Trash, SpinnerGap } from '@phosphor-icons/react';
+import Portal from '@/components/Portal';
 
 export default function MessagesAdmin() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -81,9 +82,9 @@ export default function MessagesAdmin() {
         </div>
 
         {messages.length === 0 ? (
-          <div className="p-12 text-center border border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center min-h-[400px] bg-gray-50/50">
-            <p className="text-xl font-bold uppercase text-foreground mb-2">BELUM ADA PESAN MASUK</p>
-            <p className="font-medium text-sm text-gray-500">Santai dulu kang, ngopi weh bari nungguan aya nu ngechat.</p>
+          <div className="p-12 text-center border border-dashed border-border rounded-3xl flex flex-col items-center justify-center min-h-[400px] bg-surface/50">
+            <p className="text-xl font-bold uppercase text-foreground mb-2">NO MESSAGES INBOX</p>
+            <p className="font-semibold text-sm text-muted">All incoming messages from the contact form will appear here.</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -92,36 +93,36 @@ export default function MessagesAdmin() {
                 key={msg.id} 
                 onClick={() => handleMarkAsRead(msg.id, msg.status)}
                 className={`
-                  bg-surface border rounded-2xl p-6 md:p-8 relative flex flex-col md:flex-row gap-6 items-start transition-all cursor-pointer group
-                  ${msg.status === 'unread' ? 'border-sky-300 bg-sky-50/10 shadow-sm' : 'border-border shadow-sm opacity-80 hover:opacity-100'}
+                  bg-surface border rounded-2xl p-6 md:p-8 relative flex flex-col md:flex-row gap-6 items-start transition-all cursor-pointer group shadow-md
+                  ${msg.status === 'unread' ? 'border-accent/50 bg-accent/5 shadow-accent/5' : 'border-border opacity-90 hover:opacity-100'}
                 `}
               >
                 {msg.status === 'unread' && (
-                  <div className="absolute -top-3 right-4 bg-sky-500 text-white font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-lg shadow-sm">
+                  <div className="absolute -top-3 right-4 bg-accent text-white font-bold text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-lg shadow-sm">
                     NEW
                   </div>
                 )}
                 
                 <div className="shrink-0 pt-1">
                   {msg.status === 'unread' ? (
-                    <Envelope weight="fill" size={32} className="text-sky-500" />
+                    <Envelope weight="fill" size={32} className="text-accent" />
                   ) : (
-                    <EnvelopeOpen weight="bold" size={32} className="text-gray-400" />
+                    <EnvelopeOpen weight="bold" size={32} className="text-muted" />
                   )}
                 </div>
 
                 <div className="flex-1 w-full">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                     <div>
-                      <h3 className="font-display font-black text-2xl uppercase tracking-tight">{msg.name}</h3>
-                      <a href={`mailto:${msg.email}`} onClick={e => e.stopPropagation()} className="font-bold text-blue-600 hover:underline">{msg.email}</a>
+                      <h3 className="font-display font-black text-2xl uppercase tracking-tight text-foreground">{msg.name}</h3>
+                      <a href={`mailto:${msg.email}`} onClick={e => e.stopPropagation()} className="font-bold text-accent hover:underline">{msg.email}</a>
                     </div>
-                    <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">
-                      {new Date(msg.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    <div className="text-sm font-semibold text-muted uppercase tracking-widest">
+                      {new Date(msg.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
                   
-                  <div className="bg-white border border-gray-100 p-4 rounded-xl font-mono text-sm text-gray-700 whitespace-pre-wrap mt-4">
+                  <div className="bg-background border border-border p-4 rounded-xl font-mono text-sm text-foreground whitespace-pre-wrap mt-4">
                     {msg.project_details}
                   </div>
                 </div>
@@ -132,10 +133,10 @@ export default function MessagesAdmin() {
                       e.stopPropagation();
                       setMessageToDelete(msg.id);
                     }} 
-                    className="p-2 bg-red-50 hover:bg-red-500 hover:text-white text-red-500 border border-transparent rounded-xl transition-all"
-                    title="Hapus Pesan"
+                    className="p-2.5 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 border border-red-500/20 rounded-xl transition-all"
+                    title="Delete Message"
                   >
-                    <Trash weight="bold" size={20} />
+                    <Trash weight="bold" size={18} />
                   </button>
                 </div>
               </div>
@@ -143,36 +144,36 @@ export default function MessagesAdmin() {
           </div>
         )}
 
-        {/* Brutal Delete Modal (Sunda Pride) */}
+        {/* Delete Modal */}
         {messageToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4" onClick={() => setMessageToDelete(null)}>
-            <div className="bg-surface border border-gray-100 shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden animate-[bounce_0.3s_ease-in-out]" onClick={e => e.stopPropagation()}>
-              
-              
-              <div className="p-6 text-center">
-                <div className="w-20 h-20 bg-red-500 mx-auto border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center mb-6">
-                  <Trash weight="fill" size={40} className="text-white" />
-                </div>
-                <h2 className="text-4xl font-black uppercase tracking-tighter mb-2">HAPUS PESAN IEU?</h2>
-                <p className="font-bold text-gray-600 mb-8 uppercase text-sm">Asli yeuh rek dihapus pesanna? Bisi aya nu penting tina klien.</p>
-                
-                <div className="flex gap-4">
-                  <button 
-                    onClick={() => setMessageToDelete(null)}
-                    className="flex-1 py-3.5 bg-gray-50 border border-gray-200/80 rounded-xl font-bold uppercase text-xs tracking-wider text-gray-700 hover:bg-gray-100 hover:-translate-y-0.5 transition-all shadow-sm"
-                  >
-                    TEU JADI
-                  </button>
-                  <button 
-                    onClick={confirmDelete}
-                    className="flex-1 py-3.5 bg-red-600 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-700 hover:-translate-y-0.5 transition-all"
-                  >
-                    HAPUS LAH!
-                  </button>
+          <Portal>
+            <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onClick={() => setMessageToDelete(null)} style={{ animation: 'fadeIn 0.2s ease-out' }}>
+              <div className="bg-surface border border-border shadow-2xl rounded-3xl w-full max-w-md my-8 p-6 relative overflow-hidden text-foreground animate-scale-in" onClick={e => e.stopPropagation()}>
+                <div className="p-6 text-center">
+                  <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 text-red-400 mx-auto rounded-2xl flex items-center justify-center mb-6">
+                    <Trash weight="fill" size={32} />
+                  </div>
+                  <h2 className="text-2xl font-display font-black uppercase tracking-tight mb-2 text-foreground">Delete Message?</h2>
+                  <p className="font-semibold text-muted mb-8 text-sm">Are you sure you want to delete this message? This action cannot be undone.</p>
+                  
+                  <div className="flex gap-4">
+                    <button 
+                      onClick={() => setMessageToDelete(null)}
+                      className="flex-1 py-3.5 bg-background border border-border rounded-xl font-bold uppercase text-xs tracking-wider text-muted hover:text-foreground transition-all shadow-sm"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={confirmDelete}
+                      className="flex-1 py-3.5 bg-red-500 text-white rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-red-600 transition-all"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Portal>
         )}
       </div>
     </div>

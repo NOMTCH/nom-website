@@ -62,21 +62,21 @@ export function AudioPlayer({ content, title }: { content: string, title: string
   if (!supported) return null;
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border-2 border-border rounded-2xl p-4 shadow-sm mb-12 hover:shadow-md transition-shadow">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-surface border border-border/80 rounded-2xl p-4 shadow-xl mb-12 hover:border-accent transition-all">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-accent/10 text-accent flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 text-accent flex items-center justify-center">
           <SpeakerHigh size={20} weight="fill" />
         </div>
         <div>
-          <h4 className="font-bold text-sm uppercase text-gray-900 tracking-tight">Dengerin Artikel</h4>
-          <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Estimasi {estimatedTime} Menit</p>
+          <h4 className="font-bold text-sm uppercase text-foreground tracking-tight">Dengerin Artikel</h4>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">Estimasi {estimatedTime} Menit</p>
         </div>
       </div>
       
       <div className="flex gap-2 sm:ml-auto w-full sm:w-auto">
         <button 
           onClick={togglePlay}
-          className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-foreground text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-gray-800 transition-colors shadow-sm"
+          className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-accent text-white px-5 py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-accent/90 transition-all shadow-md"
         >
           {isPlaying && !isPaused ? <Pause size={16} weight="fill" /> : <Play size={16} weight="fill" />}
           {isPlaying && !isPaused ? 'Pause Audio' : isPlaying && isPaused ? 'Lanjut' : 'Play Audio'}

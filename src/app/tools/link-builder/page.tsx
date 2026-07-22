@@ -114,7 +114,7 @@ export default function LinkBuilderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-24 pb-28 px-4 md:px-8">
+    <div className="min-h-screen bg-background text-foreground pt-36 pb-28 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center text-sm font-bold uppercase tracking-wider text-muted hover:text-accent mb-4">
@@ -260,13 +260,13 @@ export default function LinkBuilderPage() {
                 <span className="bg-accent text-white px-2 py-1">3</span> Tema Visual
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <button onClick={() => setTheme('brutal-yellow')} className={`p-3 border border-border rounded-xl font-black uppercase text-sm ${theme === 'brutal-yellow' ? 'bg-[#FFD700] shadow-sm rounded-xl translate-y-[-2px] translate-x-[-2px]' : 'bg-white hover:bg-gray-100'}`}>Brutal Yellow</button>
-                <button onClick={() => setTheme('brutal-red')} className={`p-3 border border-border rounded-xl font-black uppercase text-sm text-white ${theme === 'brutal-red' ? 'bg-[#FF6138] shadow-sm rounded-xl translate-y-[-2px] translate-x-[-2px]' : 'bg-red-800 hover:bg-red-700 text-white'}`}>Brutal Red</button>
-                <button onClick={() => setTheme('dark')} className={`p-3 border border-border rounded-xl font-black uppercase text-sm text-white ${theme === 'dark' ? 'bg-black shadow-[4px_4px_0_0_#FFD700] translate-y-[-2px] translate-x-[-2px]' : 'bg-gray-800 hover:bg-gray-900 text-white'}`}>Pitch Black</button>
+                <button onClick={() => setTheme('brutal-yellow')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'brutal-yellow' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Minimalist Light</button>
+                <button onClick={() => setTheme('brutal-red')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'brutal-red' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Warm Crimson</button>
+                <button onClick={() => setTheme('dark')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'dark' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Deep Charcoal</button>
                 
-                <button onClick={() => setTheme('brutal-blue')} className={`p-3 border border-border rounded-xl font-black uppercase text-sm text-black ${theme === 'brutal-blue' ? 'bg-[#00D8FF] shadow-sm rounded-xl translate-y-[-2px] translate-x-[-2px]' : 'bg-[#e0faff] hover:bg-[#bdf3ff]'}`}>Brutal Blue</button>
-                <button onClick={() => setTheme('brutal-green')} className={`p-3 border-2 border-[#00FF00] font-black uppercase text-sm ${theme === 'brutal-green' ? 'bg-black text-[#00FF00] shadow-[4px_4px_0_0_#00FF00] translate-y-[-2px] translate-x-[-2px]' : 'bg-gray-900 text-white hover:bg-gray-800'}`}>Hacker Green</button>
-                <button onClick={() => setTheme('brutal-cyberpunk')} className={`p-3 border border-border rounded-xl font-black uppercase text-sm ${theme === 'brutal-cyberpunk' ? 'bg-[#FCE100] text-black shadow-[4px_4px_0_0_#00FFFF] translate-y-[-2px] translate-x-[-2px]' : 'bg-[#FF00FF] text-white hover:bg-[#d900d9]'}`}>Cyberpunk</button>
+                <button onClick={() => setTheme('brutal-blue')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'brutal-blue' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Sky Professional</button>
+                <button onClick={() => setTheme('brutal-green')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'brutal-green' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Emerald Premium</button>
+                <button onClick={() => setTheme('brutal-cyberpunk')} className={`p-3 border rounded-xl font-bold uppercase text-xs transition-all ${theme === 'brutal-cyberpunk' ? 'bg-accent border-accent text-white shadow-sm' : 'bg-background border-border text-foreground hover:bg-background/80'}`}>Aurora Purple</button>
               </div>
             </section>
 
@@ -281,15 +281,15 @@ export default function LinkBuilderPage() {
             </div>
             
             {/* The Magic Link Box */}
-            <div className="bg-[#FFD700] p-6 border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 transform rotate-1 hover:rotate-0 transition-transform">
-              <h3 className="font-black uppercase tracking-widest text-lg mb-2 flex items-center gap-2">
+            <div className="bg-accent/10 p-6 border border-accent/20 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+              <h3 className="font-bold uppercase tracking-wider text-sm mb-2 flex items-center gap-2 text-accent">
                 ✨ Magic Link Kamu
               </h3>
-              <p className="text-xs font-medium mb-4">
+              <p className="text-xs font-semibold text-muted mb-4">
                 URL sakti lo udah siap! Langsung Copy dan pasang di profil IG/TikTok lo sekarang.
               </p>
               
-              <div className="flex bg-white border border-border rounded-xl">
+              <div className="flex bg-background border border-border rounded-xl overflow-hidden">
                 <input 
                   type="text" 
                   readOnly 
@@ -298,14 +298,14 @@ export default function LinkBuilderPage() {
                 />
                 <button 
                   onClick={handleCopy}
-                  className="px-4 bg-foreground text-white font-black hover:bg-accent transition-colors flex items-center gap-2"
+                  className="px-4 bg-accent text-white font-bold hover:bg-accent-dark transition-colors flex items-center gap-2"
                 >
                   {copied ? <Check size={18} weight="bold" /> : <Copy size={18} weight="bold" />}
                   {copied ? 'COPIED!' : 'COPY'}
                 </button>
               </div>
-              <div className="mt-3 flex items-start gap-2 text-xs font-bold text-foreground bg-white/50 p-2 border border-foreground">
-                <Info size={24} className="shrink-0" />
+              <div className="mt-3 flex items-start gap-2 text-xs font-semibold text-muted bg-background/50 p-3 border border-border rounded-xl">
+                <Info size={24} className="shrink-0 text-accent" />
                 <span>Simpan URL ini! URL ini nyimpen seluruh pengaturan profil lo. Kalau hilang, lo harus bikin dari awal lagi. Jangan sampai lupa ya!</span>
               </div>
             </div>
@@ -316,9 +316,9 @@ export default function LinkBuilderPage() {
             </div>
 
             {/* Mobile Preview Frame */}
-            <div className="mx-auto w-[320px] h-[650px] border-[8px] border-foreground rounded-[2rem] overflow-hidden bg-white shadow-[12px_12px_0_0_#0F0F0F] relative flex flex-col">
+            <div className="mx-auto w-[320px] h-[650px] border-[6px] border-zinc-800 rounded-[2.25rem] overflow-hidden bg-surface shadow-2xl relative flex flex-col">
               {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-foreground rounded-b-xl z-20"></div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-zinc-800 rounded-b-xl z-20"></div>
               
               {/* Preview Content */}
               <div className={`flex-1 overflow-y-auto w-full h-full pb-10 ${
@@ -408,10 +408,10 @@ export default function LinkBuilderPage() {
 
       {/* Mobile Floating Action Button */}
       <div className="lg:hidden fixed bottom-4 left-4 right-4 z-[999] flex gap-3">
-        <button onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} className="flex-1 bg-[#FFD700] text-black font-black uppercase text-[10px] sm:text-xs py-3 px-2 border border-border rounded-2xl shadow-sm active:translate-y-1 active:translate-x-1 transition-all text-center">
+        <button onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })} className="flex-1 bg-background text-foreground font-bold uppercase text-[10px] sm:text-xs py-3 px-2 border border-border rounded-xl shadow-md transition-all text-center">
           👇 Cek Preview
         </button>
-        <a href="https://saweria.co/iammonoz" target="_blank" rel="noreferrer" className="flex-1 bg-accent text-white font-black uppercase text-[10px] sm:text-xs py-3 px-2 border border-border rounded-2xl shadow-sm active:translate-y-1 active:translate-x-1 transition-all text-center">
+        <a href="https://saweria.co/iammonoz" target="_blank" rel="noreferrer" className="flex-1 bg-accent text-white font-bold uppercase text-[10px] sm:text-xs py-3 px-2 border border-accent rounded-xl shadow-md hover:bg-accent-dark transition-all text-center">
           ☕ Traktir Kopi
         </a>
       </div>

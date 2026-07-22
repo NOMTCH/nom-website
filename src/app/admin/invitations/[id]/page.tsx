@@ -201,7 +201,7 @@ export default function EditInvitationPage() {
       <div className="max-w-4xl mx-auto">
         <Link 
           href="/admin/invitations" 
-          className="inline-flex items-center gap-2 mb-6 font-bold uppercase text-xs tracking-wider border border-gray-200 rounded-xl bg-white text-gray-700 px-4 py-2.5 hover:bg-gray-50 transition-all shadow-sm"
+          className="inline-flex items-center gap-2 mb-6 font-bold uppercase text-xs tracking-wider border border-border rounded-xl bg-surface text-foreground px-4 py-2.5 hover:bg-background transition-all shadow-sm"
         >
           <ArrowLeft weight="bold" /> Kembali ke Daftar
         </Link>
@@ -256,44 +256,44 @@ export default function EditInvitationPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Groom Form */}
-                <div className="space-y-4 p-6 border border-gray-100 bg-gray-50/50 rounded-2xl">
-                  <h3 className="font-black text-sm uppercase tracking-wide text-gray-500 mb-2">Mempelai Pria (Groom)</h3>
+                <div className="space-y-4 p-6 border border-border bg-background rounded-2xl">
+                  <h3 className="font-black text-sm uppercase tracking-wide text-muted mb-2">Mempelai Pria (Groom)</h3>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Panggilan</label>
-                    <input type="text" value={groomName} onChange={(e) => setGroomName(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Panggilan</label>
+                    <input type="text" value={groomName} onChange={(e) => setGroomName(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Lengkap</label>
-                    <input type="text" value={groomFullName} onChange={(e) => setGroomFullName(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Lengkap</label>
+                    <input type="text" value={groomFullName} onChange={(e) => setGroomFullName(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Orang Tua</label>
-                    <input type="text" value={groomParents} onChange={(e) => setGroomParents(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Orang Tua</label>
+                    <input type="text" value={groomParents} onChange={(e) => setGroomParents(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Foto Mempelai Pria (URL)</label>
-                    <input type="text" value={groomPhoto} onChange={(e) => setGroomPhoto(e.target.value)} className="w-full p-2 border border-border rounded-xl text-xs font-mono focus:outline-none" />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Foto Mempelai Pria (URL)</label>
+                    <input type="text" value={groomPhoto} onChange={(e) => setGroomPhoto(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-xs font-mono focus:outline-none focus:border-accent" />
                   </div>
                 </div>
 
                 {/* Bride Form */}
-                <div className="space-y-4 p-6 border border-border bg-white rounded-2xl">
-                  <h3 className="font-black text-sm uppercase tracking-wide text-gray-500 mb-2">Mempelai Wanita (Bride)</h3>
+                <div className="space-y-4 p-6 border border-border bg-background rounded-2xl">
+                  <h3 className="font-black text-sm uppercase tracking-wide text-muted mb-2">Mempelai Wanita (Bride)</h3>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Panggilan</label>
-                    <input type="text" value={brideName} onChange={(e) => setBrideName(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Panggilan</label>
+                    <input type="text" value={brideName} onChange={(e) => setBrideName(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Lengkap</label>
-                    <input type="text" value={brideFullName} onChange={(e) => setBrideFullName(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Lengkap</label>
+                    <input type="text" value={brideFullName} onChange={(e) => setBrideFullName(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Nama Orang Tua</label>
-                    <input type="text" value={brideParents} onChange={(e) => setBrideParents(e.target.value)} className="w-full p-2 border border-border rounded-xl text-sm font-bold focus:outline-none" required />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Nama Orang Tua</label>
+                    <input type="text" value={brideParents} onChange={(e) => setBrideParents(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-sm font-bold focus:outline-none focus:border-accent" required />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black uppercase mb-1">Foto Mempelai Wanita (URL)</label>
-                    <input type="text" value={bridePhoto} onChange={(e) => setBridePhoto(e.target.value)} className="w-full p-2 border border-border rounded-xl text-xs font-mono focus:outline-none" />
+                    <label className="block text-[10px] font-black uppercase mb-1 text-muted">Foto Mempelai Wanita (URL)</label>
+                    <input type="text" value={bridePhoto} onChange={(e) => setBridePhoto(e.target.value)} className="w-full p-2.5 bg-surface border border-border text-foreground rounded-xl text-xs font-mono focus:outline-none focus:border-accent" />
                   </div>
                 </div>
               </div>
@@ -504,42 +504,42 @@ export default function EditInvitationPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-gray-50 text-gray-500 font-bold uppercase tracking-wider text-[11px] border-b border-gray-100">
-                    <th className="p-3 border-b border-gray-100">Nama Tamu</th>
-                    <th className="p-3 border-b border-gray-100">Kehadiran</th>
-                    <th className="p-3 border-b border-gray-100">Ucapan / Wishes</th>
-                    <th className="p-3 border-b border-gray-100">Waktu Kirim</th>
-                    <th className="p-3 border-b border-gray-100 text-center">Aksi</th>
+                  <tr className="bg-background text-muted font-semibold uppercase tracking-widest text-[11px] border-b border-border">
+                    <th className="p-3">Nama Tamu</th>
+                    <th className="p-3">Kehadiran</th>
+                    <th className="p-3">Ucapan / Wishes</th>
+                    <th className="p-3">Waktu Kirim</th>
+                    <th className="p-3 text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rsvps.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="p-12 text-center text-muted font-bold text-sm uppercase tracking-widest bg-white">
+                      <td colSpan={5} className="p-12 text-center text-muted font-bold text-sm uppercase tracking-widest bg-surface">
                         Belum ada RSVP atau ucapan dari tamu.
                       </td>
                     </tr>
                   ) : (
                     rsvps.map((rsvp) => (
-                      <tr key={rsvp.id} className="border-b border-gray-100 bg-white hover:bg-gray-50 transition-colors">
-                        <td className="p-3 font-bold text-sm truncate max-w-[150px]">{rsvp.name}</td>
+                      <tr key={rsvp.id} className="border-b border-border/40 bg-surface hover:bg-background/50 transition-colors">
+                        <td className="p-3 font-bold text-sm truncate max-w-[150px] text-foreground">{rsvp.name}</td>
                         <td className="p-3 text-xs">
                           <span className={`px-2 py-1 font-bold uppercase text-[9px] rounded-lg tracking-wider ${
-                            rsvp.attendance === 'hadir' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'
+                            rsvp.attendance === 'hadir' ? 'bg-accent text-white' : 'bg-red-500 text-white'
                           }`}>
                             {rsvp.attendance}
                           </span>
                         </td>
-                        <td className="p-3 text-sm max-w-[300px] break-words italic text-gray-700">
-                          {rsvp.wish || <span className="text-gray-400 font-normal">Tidak mengirim ucapan</span>}
+                        <td className="p-3 text-sm max-w-[300px] break-words italic text-foreground">
+                          {rsvp.wish || <span className="text-muted font-normal">Tidak mengirim ucapan</span>}
                         </td>
-                        <td className="p-3 text-[10px] font-bold text-gray-500 uppercase whitespace-nowrap">
+                        <td className="p-3 text-[10px] font-bold text-muted uppercase whitespace-nowrap">
                           {new Date(rsvp.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })} {new Date(rsvp.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                         </td>
                         <td className="p-3 text-center">
                           <button 
                             onClick={() => handleDeleteRsvp(rsvp.id)}
-                            className="p-2 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all rounded-lg border border-transparent"
+                            className="p-2 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all rounded-lg border border-red-500/20"
                             title="Hapus Ucapan"
                           >
                             <Trash weight="bold" size={16} />

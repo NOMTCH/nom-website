@@ -195,7 +195,7 @@ export default function ProjectsDashboard() {
           <SpinnerGap className="animate-spin text-accent" size={48} />
         </div>
       ) : projects.length === 0 ? (
-        <div className="border border-dashed border-gray-300 rounded-3xl p-12 text-center text-muted font-semibold uppercase tracking-widest bg-gray-50/50">
+        <div className="border border-dashed border-border rounded-3xl p-12 text-center text-muted font-semibold uppercase tracking-widest bg-surface">
           No Projects Found.
         </div>
       ) : (
@@ -203,8 +203,8 @@ export default function ProjectsDashboard() {
           {projects.map((p) => {
             const cover = p.media && p.media.length > 0 ? p.media[0] : null;
             return (
-              <div key={p.id} className="bg-surface border border-border rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group">
-                <div className="relative aspect-video bg-gray-100 border-b border-gray-100 overflow-hidden">
+              <div key={p.id} className="bg-surface border border-border rounded-2xl shadow-lg hover:border-accent transition-all duration-300 flex flex-col group">
+                <div className="relative aspect-video bg-background border-b border-border/80 overflow-hidden">
                   {cover ? (
                     cover.type === 'video' ? (
                       <video src={cover.url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" muted loop autoPlay playsInline />
@@ -212,25 +212,25 @@ export default function ProjectsDashboard() {
                       <img src={cover.url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt={p.title} />
                     )
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-500 font-bold">NO MEDIA</div>
+                    <div className="w-full h-full flex items-center justify-center text-muted font-bold">NO MEDIA</div>
                   )}
                   
-                  <div className="absolute top-2 right-2 bg-accent text-white text-[10px] font-bold px-2 py-1 border border-border rounded-lg uppercase tracking-wider">
+                  <div className="absolute top-2 right-2 bg-accent text-white text-[10px] font-bold px-2 py-1 border border-border rounded-lg uppercase tracking-wider shadow-sm">
                     {p.category}
                   </div>
-                  <div className="absolute top-2 left-2 bg-white text-black p-1 border border-border rounded-lg shadow-none flex items-center gap-1 font-bold text-xs px-2">
+                  <div className="absolute top-2 left-2 bg-background/90 backdrop-blur-md text-foreground border border-border rounded-lg shadow-sm flex items-center gap-1 font-bold text-xs px-2 py-1">
                     {p.media?.length || 0} files
                   </div>
                 </div>
                 
                 <div className="p-4 flex flex-col flex-1">
-                  <h3 className="text-xl font-black uppercase tracking-tighter mb-2 line-clamp-1">{p.title}</h3>
+                  <h3 className="text-xl font-black uppercase tracking-tighter text-foreground mb-2 line-clamp-1">{p.title}</h3>
                   
-                  <div className="mt-auto flex gap-2 pt-4 border-t border-gray-100">
-                    <button onClick={() => openModal(p)} className="flex-1 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-xl font-bold text-xs uppercase hover:bg-accent/10 hover:text-accent hover:border-accent transition-all flex items-center justify-center gap-1.5">
+                  <div className="mt-auto flex gap-2 pt-4 border-t border-border/40">
+                    <button onClick={() => openModal(p)} className="flex-1 py-2 bg-background border border-border text-foreground rounded-xl font-bold text-xs uppercase hover:bg-accent/10 hover:text-accent hover:border-accent transition-all flex items-center justify-center gap-1.5">
                       <PencilSimple weight="bold" size={16} /> Edit
                     </button>
-                    <button onClick={() => setProjectToDelete({ id: p.id, mediaItems: p.media || [] })} className="py-2 px-3.5 bg-red-50 text-red-600 border border-transparent rounded-xl font-bold hover:bg-red-100 transition-colors flex items-center justify-center">
+                    <button onClick={() => setProjectToDelete({ id: p.id, mediaItems: p.media || [] })} className="py-2 px-3.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl font-bold hover:bg-red-500/20 transition-colors flex items-center justify-center">
                       <Trash size={20} weight="bold" />
                     </button>
                   </div>
@@ -243,21 +243,21 @@ export default function ProjectsDashboard() {
 
       {/* Upload/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-surface border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl w-full max-w-2xl my-8 relative">
-            <button onClick={() => setShowModal(false)} className="absolute -top-3 -right-3 w-8 h-8 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-full flex items-center justify-center shadow-sm hover:scale-105 transition-all">
-              <X weight="bold" size={24} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="bg-surface border border-border shadow-2xl rounded-3xl w-full max-w-2xl my-8 relative text-foreground">
+            <button onClick={() => setShowModal(false)} className="absolute -top-3 -right-3 w-8 h-8 bg-background border border-border hover:border-accent text-muted hover:text-foreground rounded-full flex items-center justify-center shadow-lg transition-all">
+              <X weight="bold" size={20} />
             </button>
             
-            <div className="p-6 border-b border-gray-100 bg-gray-50/50 rounded-t-3xl">
-              <h2 className="text-xl font-display font-bold uppercase tracking-tight text-gray-900">
+            <div className="p-6 border-b border-border bg-background/80 rounded-t-3xl">
+              <h2 className="text-xl font-display font-black uppercase tracking-tight text-foreground">
                 {editingId ? 'Edit Project' : 'New Project'}
               </h2>
             </div>
             
             <form onSubmit={handleSave} className="p-6 space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Project Title</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-muted">Project Title</label>
                 <input 
                   type="text" 
                   value={title}
@@ -296,6 +296,7 @@ export default function ProjectsDashboard() {
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all appearance-none"
                 >
                   <option value="graphic-design">Graphic Design</option>
+                  <option value="photography">Photography</option>
                   <option value="videography">Videography</option>
                   <option value="2d-3d-animation">2D & 3D Animation</option>
                   <option value="web-development">Web Development</option>

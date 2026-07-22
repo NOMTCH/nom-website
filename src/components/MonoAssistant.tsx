@@ -25,13 +25,13 @@ export function MonoAssistant() {
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="mb-4 bg-white border border-border shadow-[0_12px_24px_rgba(0,0,0,0.08)] px-5 py-3.5 rounded-2xl relative"
+            className="mb-4 bg-surface border border-border shadow-[0_12px_24px_rgba(0,0,0,0.25)] px-5 py-3.5 rounded-2xl relative"
           >
             <p className="text-sm font-bold text-foreground">
               Ada project seru? Ngobrol yuk! 🚀
             </p>
             {/* Speech bubble tail */}
-            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-border transform rotate-45"></div>
+            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-surface border-b border-r border-border transform rotate-45"></div>
           </motion.div>
         )}
       </AnimatePresence>

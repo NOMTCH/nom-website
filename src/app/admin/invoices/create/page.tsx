@@ -121,61 +121,61 @@ export default function CreateInvoicePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Invoice Number</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Invoice Number</label>
                 <input 
                   type="text" required value={invoiceNumber} onChange={e => setInvoiceNumber(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Project Name</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Project Name</label>
                 <input 
                   type="text" required value={projectName} onChange={e => setProjectName(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. Redesign Logo UMKM"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Client Name</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Client Name</label>
                 <input 
                   type="text" required value={clientName} onChange={e => setClientName(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. PT Maju Mundur"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Client Email</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Client Email</label>
                 <input 
                   type="email" value={clientEmail} onChange={e => setClientEmail(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. bos@majumundur.com"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Issue Date</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Issue Date</label>
                 <input 
                   type="date" required value={issueDate} onChange={e => setIssueDate(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Due Date</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Due Date</label>
                 <input 
                   type="date" required value={dueDate} onChange={e => setDueDate(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-surface border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl p-8 space-y-6">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
-              <h2 className="text-xl font-display font-black text-gray-900 uppercase tracking-tight">
+          <div className="bg-surface border border-border shadow-xl rounded-3xl p-8 space-y-6">
+            <div className="flex items-center justify-between border-b border-border/80 pb-4 mb-4">
+              <h2 className="text-xl font-display font-black text-foreground uppercase tracking-tight">
                 Line Items
               </h2>
               <button 
                 type="button" onClick={handleAddItem}
-                className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-bold uppercase text-xs tracking-wider px-4 py-2.5 flex items-center gap-2 shadow-sm rounded-xl transition-all cursor-pointer"
+                className="bg-accent text-white hover:bg-accent/90 border border-accent font-bold uppercase text-xs tracking-wider px-4 py-2.5 flex items-center gap-2 shadow-sm rounded-xl transition-all cursor-pointer"
               >
                 <Plus weight="bold" /> Add Item
               </button>
@@ -183,32 +183,32 @@ export default function CreateInvoicePage() {
 
             <div className="space-y-4">
               {items.map((item, idx) => (
-                <div key={item.id} className="flex flex-col md:flex-row gap-4 items-end bg-gray-50/50 p-4 border border-gray-100 rounded-2xl relative group">
+                <div key={item.id} className="flex flex-col md:flex-row gap-4 items-end bg-background p-4 border border-border/80 rounded-2xl relative group">
                   <div className="flex-1 w-full text-left">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400">Description</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted">Description</label>
                     <input 
                       type="text" required value={item.description} onChange={e => handleItemChange(idx, 'description', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent"
                       placeholder="e.g. Logo Design"
                     />
                   </div>
                   <div className="w-full md:w-24">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400 text-center">Qty</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted text-center">Qty</label>
                     <input 
                       type="number" required min="1" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary text-center"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent text-center"
                     />
                   </div>
                   <div className="w-full md:w-48">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400">Price (Rp)</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted">Price (Rp)</label>
                     <input 
                       type="number" required min="0" value={item.price} onChange={e => handleItemChange(idx, 'price', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent"
                     />
                   </div>
                   <button 
                     type="button" onClick={() => handleRemoveItem(idx)}
-                    className={`w-11 h-11 shrink-0 bg-red-50 text-red-600 flex items-center justify-center border border-red-100 rounded-xl hover:bg-red-100 transition-colors ${items.length === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                    className={`w-11 h-11 shrink-0 bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20 rounded-xl hover:bg-red-500/20 transition-colors ${items.length === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                     disabled={items.length === 1}
                   >
                     <Trash weight="bold" size={20} />
@@ -220,21 +220,21 @@ export default function CreateInvoicePage() {
             <div className="mt-8 pt-8 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Tax Rate (%)</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Tax Rate (%)</label>
                   <input 
                     type="number" min="0" max="100" value={taxRate} onChange={e => setTaxRate(Number(e.target.value))}
-                    className="w-full md:w-3/4 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                    className="w-full md:w-3/4 bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Down Payment (Rp)</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Down Payment (Rp)</label>
                   <input 
                     type="number" min="0" value={downPayment} onChange={e => setDownPayment(Number(e.target.value))}
-                    className="w-full md:w-3/4 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                    className="w-full md:w-3/4 bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   />
                 </div>
               </div>
-              <div className="bg-gray-950 text-white p-6 rounded-2xl flex flex-col gap-3 font-semibold text-xs tracking-wider uppercase relative shadow-md">
+              <div className="bg-background border border-border text-foreground p-6 rounded-2xl flex flex-col gap-3 font-semibold text-xs tracking-wider uppercase relative shadow-lg">
                 <div className="flex justify-between border-b border-white/10 pb-2">
                   <span className="text-gray-400">Subtotal:</span>
                   <span className="font-bold font-display text-sm text-white">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal())}</span>

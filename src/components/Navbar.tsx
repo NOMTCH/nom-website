@@ -50,7 +50,6 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -70,7 +69,7 @@ export function Navbar() {
 
   return (
     <>
-      {/* Promo Banner - Top edge if available */}
+      {/* Promo Banner */}
       {promo && !isScrolled && (
         <div className="fixed top-0 left-0 right-0 z-40 bg-accent text-white font-bold uppercase text-xs sm:text-sm py-2 px-4 overflow-hidden whitespace-nowrap flex items-center w-full">
           <div className="animate-[marquee_20s_linear_infinite] inline-block w-full text-center">
@@ -83,7 +82,7 @@ export function Navbar() {
         </div>
       )}
 
-      {/* Floating Pill Navbar */}
+      {/* Floating Dark Pill Navbar */}
       <motion.header 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -94,12 +93,11 @@ export function Navbar() {
         } ${
           isMobileMenuOpen 
             ? 'bg-transparent shadow-none' 
-            : 'bg-white/80 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] rounded-full'
+            : 'bg-surface/40 backdrop-blur-md border border-border/40 shadow-lg rounded-full'
         }`}
       >
         <div className="w-full h-[70px] flex items-center justify-between px-6 md:px-8 relative z-20">
           <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 group hover:scale-105 transition-transform">
-            {/* Always use dark logo for light theme */}
             <img src="/assets/logo/logo2.svg" alt="NOMSTD Logo" className="h-8 md:h-10 w-auto transition-opacity duration-300" />
           </Link>
 
@@ -114,7 +112,7 @@ export function Navbar() {
                 key={item.name}
                 href={item.href} 
                 onMouseEnter={() => setIsServicesOpen(false)} 
-                className={`relative text-sm font-bold transition-colors py-2 ${item.isActive ? 'text-accent' : 'text-muted hover:text-foreground'}`}
+                className={`relative text-xs font-semibold uppercase tracking-widest transition-colors py-2 ${item.isActive ? 'text-accent' : 'text-muted hover:text-foreground'}`}
               >
                 {item.name}
                 {item.isActive && (
@@ -128,12 +126,12 @@ export function Navbar() {
             ))}
             
             <div 
-              className="h-full flex items-center cursor-pointer group relative"
+              className="h-full flex items-center cursor-pointer relative"
               onMouseEnter={() => setIsServicesOpen(true)}
             >
-              <span className={`relative text-sm font-bold transition-colors flex items-center gap-1 py-2 ${(pathname?.startsWith('/services') || isServicesOpen) ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
+              <Link href="/services" className={`relative text-xs font-semibold uppercase tracking-widest transition-colors flex items-center gap-1.5 py-2 ${(pathname?.startsWith('/services') || isServicesOpen) ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
                 Services
-                <motion.svg animate={{ rotate: isServicesOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <motion.svg animate={{ rotate: isServicesOpen ? 180 : 0 }} transition={{ duration: 0.3 }} className="w-3.5 h-3.5 ml-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <path d="M12 5v14M19 12l-7 7-7-7"/>
                 </motion.svg>
                 {pathname?.startsWith('/services') && (
@@ -143,12 +141,12 @@ export function Navbar() {
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}
-              </span>
+              </Link>
             </div>
 
-            <Link href="/#tools" onMouseEnter={() => setIsServicesOpen(false)} className={`relative text-sm font-bold transition-colors flex items-center gap-2 py-2 ${pathname?.includes('/tools') ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
+            <Link href="/#tools" onMouseEnter={() => setIsServicesOpen(false)} className={`relative text-xs font-semibold uppercase tracking-widest transition-colors flex items-center gap-2 py-2 ${pathname?.includes('/tools') ? 'text-accent' : 'text-muted hover:text-foreground'}`}>
               Free Tools 
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-accent/10 text-accent uppercase tracking-widest">New</span>
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-black bg-accent/20 text-accent uppercase tracking-widest">New</span>
               {pathname?.includes('/tools') && (
                 <motion.div 
                   layoutId="nav-dot"
@@ -159,7 +157,7 @@ export function Navbar() {
             </Link>
           </nav>
 
-          <Link href="/#contact" className="hidden md:flex items-center justify-center px-6 py-2.5 font-bold text-sm text-white bg-foreground hover:bg-accent hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 rounded-full">
+          <Link href="/#contact" className="hidden md:flex items-center justify-center px-6 py-2.5 font-bold text-xs uppercase tracking-wider text-white bg-accent hover:bg-accent/90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 rounded-full">
             Start a Project
           </Link>
 
@@ -185,76 +183,66 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Desktop Apple-style Popover Menu */}
+        {/* Desktop Popover Menu (Integrated Hover Zone with Invisible Bridge) */}
         <AnimatePresence>
           {isServicesOpen && (
-            <>
-              {/* Backdrop overlay */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="hidden md:block fixed inset-0 top-[80px] z-0 h-screen"
-                onMouseEnter={() => setIsServicesOpen(false)}
-              />
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
-                className="hidden md:block absolute top-[calc(100%+16px)] left-1/2 -translate-x-1/2 w-[800px] bg-white/95 backdrop-blur-2xl border border-white/60 shadow-[0_24px_48px_rgba(0,0,0,0.08)] rounded-3xl overflow-hidden z-10"
-              >
-                <div className="p-6 flex gap-8">
-                  {/* Dynamic Video Preview */}
-                  <Link 
-                    href={getPortfolioLinkFromVideo(activeVideo)} 
-                    onClick={() => setIsServicesOpen(false)}
-                    className="w-[320px] flex-shrink-0 block group cursor-pointer"
-                  >
-                    <div className="w-full aspect-[4/3] relative rounded-2xl overflow-hidden bg-surface">
-                      <video 
-                        key={activeVideo} 
-                        src={activeVideo}
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline 
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
-                      <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                        <span className="text-white font-bold drop-shadow-md text-sm">Explore Portfolio</span>
-                        <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur flex items-center justify-center group-hover:bg-white group-hover:text-black text-white transition-all">
-                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-                        </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
+              className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[800px] z-50"
+            >
+              <div className="bg-surface/95 backdrop-blur-xl border border-border shadow-2xl rounded-3xl overflow-hidden p-6 flex gap-8">
+                {/* Dynamic Video Preview */}
+                <Link 
+                  href={getPortfolioLinkFromVideo(activeVideo)} 
+                  onClick={() => setIsServicesOpen(false)}
+                  className="w-[320px] flex-shrink-0 block group cursor-pointer"
+                >
+                  <div className="w-full aspect-[4/3] relative rounded-2xl overflow-hidden bg-background">
+                    <video 
+                      key={activeVideo} 
+                      src={activeVideo}
+                      autoPlay 
+                      loop 
+                      muted 
+                      playsInline 
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-black/40" />
+                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                      <span className="text-white font-bold text-sm">Explore Portfolio</span>
+                      <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white transition-all">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
                       </div>
                     </div>
-                  </Link>
+                  </div>
+                </Link>
 
-                  {/* Menu Columns */}
-                  <div className="flex-1 grid grid-cols-2 gap-8 pt-2">
-                    {/* Creative Studio */}
-                    <div>
-                      <h4 className="text-xs font-bold text-muted uppercase tracking-wider mb-4">Creative Studio</h4>
-                      <div className="flex flex-col gap-1">
-                        {serviceLinks.creative.map((item) => (
-                          <Link 
-                            key={item.name} 
-                            href={item.href}
-                            onMouseEnter={() => setActiveVideo(item.video)}
-                            onClick={() => setIsServicesOpen(false)}
-                            className="group flex items-center px-4 py-2.5 -mx-4 rounded-xl text-sm font-semibold text-foreground hover:bg-accent/5 hover:text-accent transition-all duration-300"
-                          >
-                            <span>{item.name}</span>
-                          </Link>
-                        ))}
-                      </div>
+                {/* Menu Columns */}
+                <div className="flex-1 grid grid-cols-2 gap-8 pt-2">
+                  <div>
+                    <h4 className="text-xs font-bold text-accent uppercase tracking-wider mb-4">Creative Studio</h4>
+                    <div className="flex flex-col gap-1">
+                      {serviceLinks.creative.map((item) => (
+                        <Link 
+                          key={item.name} 
+                          href={item.href}
+                          onMouseEnter={() => setActiveVideo(item.video)}
+                          onClick={() => setIsServicesOpen(false)}
+                          className="group flex items-center px-4 py-2.5 -mx-4 rounded-xl text-sm font-semibold text-foreground hover:bg-accent/20 hover:text-accent transition-all duration-300"
+                        >
+                          <span>{item.name}</span>
+                        </Link>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* IT Solutions */}
                     <div>
-                      <h4 className="text-xs font-bold text-muted uppercase tracking-wider mb-4">IT Solutions</h4>
+                      <h4 className="text-xs font-bold text-accent uppercase tracking-wider mb-4">IT Solutions</h4>
                       <div className="flex flex-col gap-1">
                         {serviceLinks.it.map((item) => (
                           <Link 
@@ -262,7 +250,7 @@ export function Navbar() {
                             href={item.href}
                             onMouseEnter={() => setActiveVideo(item.video)}
                             onClick={() => setIsServicesOpen(false)}
-                            className="group flex items-center px-4 py-2.5 -mx-4 rounded-xl text-sm font-semibold text-foreground hover:bg-accent/5 hover:text-accent transition-all duration-300"
+                            className="group flex items-center px-4 py-2.5 -mx-4 rounded-xl text-sm font-semibold text-foreground hover:bg-accent/20 hover:text-accent transition-all duration-300"
                           >
                             <span>{item.name}</span>
                           </Link>
@@ -272,8 +260,7 @@ export function Navbar() {
                   </div>
                 </div>
               </motion.div>
-            </>
-          )}
+            )}
         </AnimatePresence>
       </motion.header>
 
@@ -285,27 +272,26 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-            className="md:hidden fixed inset-0 h-[100svh] w-full bg-white/95 backdrop-blur-xl z-40 overflow-y-auto pt-28"
+            className="md:hidden fixed inset-0 h-[100svh] w-full bg-background/98 backdrop-blur-2xl text-foreground z-40 overflow-y-auto pt-28 border-b border-border/80"
           >
-            <div className="flex flex-col px-8 pb-12 gap-6">
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname === '/' ? 'text-accent' : 'text-foreground'}`}>
+            <div className="flex flex-col px-8 pb-12 gap-6 max-w-lg mx-auto">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`text-2xl font-display font-black uppercase tracking-tight ${pathname === '/' ? 'text-accent' : 'text-foreground'}`}>
                 Home
               </Link>
-              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname?.startsWith('/about') ? 'text-accent' : 'text-foreground'}`}>
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={`text-2xl font-display font-black uppercase tracking-tight ${pathname?.startsWith('/about') ? 'text-accent' : 'text-foreground'}`}>
                 About Us
               </Link>
-              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black ${pathname?.startsWith('/blog') ? 'text-accent' : 'text-foreground'}`}>
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className={`text-2xl font-display font-black uppercase tracking-tight ${pathname?.startsWith('/blog') ? 'text-accent' : 'text-foreground'}`}>
                 Blog
               </Link>
               
-              {/* Services Accordion */}
-              <div className="flex flex-col">
+              <div className="flex flex-col border-y border-border/40 py-4">
                 <button 
                   onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
-                  className={`flex items-center justify-between text-3xl font-display font-black ${pathname?.startsWith('/services') ? 'text-accent' : 'text-foreground'}`}
+                  className={`flex items-center justify-between text-2xl font-display font-black uppercase tracking-tight w-full py-2 ${pathname?.startsWith('/services') ? 'text-accent' : 'text-foreground'}`}
                 >
                   Services
-                  <motion.svg animate={{ rotate: isMobileServicesOpen ? 180 : 0 }} className="w-6 h-6 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                  <motion.svg animate={{ rotate: isMobileServicesOpen ? 180 : 0 }} className="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M6 9l6 6 6-6"/>
                   </motion.svg>
                 </button>
@@ -316,27 +302,27 @@ export function Navbar() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden flex flex-col pl-4 mt-6 border-l-2 border-border"
+                      className="overflow-hidden flex flex-col pl-4 mt-4 border-l-2 border-accent/40 space-y-2"
                     >
-                      <span className="text-[10px] font-bold text-muted uppercase tracking-widest mb-3">Creative Studio</span>
+                      <span className="text-[10px] font-bold text-accent uppercase tracking-widest pt-2">Creative Studio</span>
                       {serviceLinks.creative.map(link => (
                         <Link 
                           key={link.name} 
                           href={link.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="py-2.5 text-lg font-semibold text-foreground hover:text-accent"
+                          className="py-1.5 text-sm font-semibold text-muted hover:text-accent transition-colors"
                         >
                           {link.name}
                         </Link>
                       ))}
                       
-                      <span className="text-[10px] font-bold text-muted uppercase tracking-widest mt-6 mb-3">IT Solutions</span>
+                      <span className="text-[10px] font-bold text-accent uppercase tracking-widest pt-4">IT Solutions</span>
                       {serviceLinks.it.map(link => (
                         <Link 
                           key={link.name} 
                           href={link.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="py-2.5 text-lg font-semibold text-foreground hover:text-accent"
+                          className="py-1.5 text-sm font-semibold text-muted hover:text-accent transition-colors"
                         >
                           {link.name}
                         </Link>
@@ -346,16 +332,16 @@ export function Navbar() {
                 </AnimatePresence>
               </div>
 
-              <Link href="/#tools" onClick={() => setIsMobileMenuOpen(false)} className={`text-3xl font-display font-black flex items-center gap-3 ${pathname?.includes('/tools') ? 'text-accent' : 'text-foreground'}`}>
+              <Link href="/#tools" onClick={() => setIsMobileMenuOpen(false)} className={`text-2xl font-display font-black uppercase tracking-tight flex items-center justify-between ${pathname?.includes('/tools') ? 'text-accent' : 'text-foreground'}`}>
                 Free Tools
-                <span className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full">New</span>
+                <span className="px-2.5 py-0.5 bg-accent/20 text-accent text-[10px] font-mono rounded-full border border-accent/30">NEW</span>
               </Link>
 
-              <div className="mt-8 pt-8">
+              <div className="mt-6 pt-6 border-t border-border/40">
                 <Link 
                   href="/#contact" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex w-full items-center justify-center px-6 py-4 bg-foreground text-white rounded-2xl font-bold text-lg hover:bg-accent transition-colors"
+                  className="flex w-full items-center justify-center px-6 py-4 bg-accent text-white rounded-2xl font-bold text-sm uppercase tracking-wider shadow-lg shadow-accent/20 hover:bg-accent/90 transition-all active:scale-95"
                 >
                   Start a Project
                 </Link>

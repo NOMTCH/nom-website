@@ -8,23 +8,26 @@ export interface PricingPackage {
   features: string[]; // Stored as jsonb array in DB
   category: string;
   is_popular: boolean;
-  sort_order: number;
+  sort_order?: number;
   created_at?: string;
 }
 
-export async function getPricingPackages() {
-  const { data, error } = await supabase
-    .from('pricing_packages')
-    .select('*')
-    .order('sort_order', { ascending: true })
-    .order('created_at', { ascending: true });
+export async function getPricingPackages(): Promise<PricingPackage[]> {
+  try {
+    const { data, error } = await supabase
+      .from('pricing_packages')
+      .select('*');
 
-  if (error) {
-    console.error('Error fetching pricing packages:', error);
+    if (error) {
+      console.error('Error fetching pricing packages from Supabase:', error);
+      return [];
+    }
+
+    return (data || []) as PricingPackage[];
+  } catch (err) {
+    console.error('Error fetching pricing packages:', err);
     return [];
   }
-
-  return data as PricingPackage[];
 }
 
 export async function addPricingPackage(pkg: Omit<PricingPackage, 'id' | 'created_at'>) {

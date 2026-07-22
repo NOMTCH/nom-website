@@ -178,102 +178,102 @@ export default function CreateProposalPage() {
           <ArrowLeft weight="bold" /> Back to Proposals
         </Link>
         
-        <h1 className="text-4xl md:text-5xl font-display font-black text-foreground uppercase tracking-tight mb-8 pb-4 border-b-4 border-foreground flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <h1 className="text-4xl md:text-5xl font-display font-black text-foreground uppercase tracking-tight mb-8 pb-4 border-b-4 border-accent flex flex-col md:flex-row md:items-center justify-between gap-4">
           <span>Create Proposal</span>
           
           <select 
             onChange={(e) => applyTemplate(e.target.value)}
             className="text-sm font-bold uppercase tracking-wider bg-accent text-white border border-accent rounded-xl px-4 py-2.5 cursor-pointer hover:bg-accent/90 transition-all outline-none appearance-none"
           >
-            <option value="">✨ Pakai Template Auto-Fill</option>
+            <option value="" className="bg-surface text-foreground">✨ Auto-Fill Template</option>
             {PROPOSAL_TEMPLATES.map(t => (
-              <option key={t.id} value={t.id}>{t.name}</option>
+              <option key={t.id} value={t.id} className="bg-surface text-foreground">{t.name}</option>
             ))}
           </select>
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="bg-surface border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl p-8 space-y-6">
-            <h2 className="text-lg font-bold uppercase tracking-wider text-gray-500 mb-6 pb-2 border-b border-gray-100">
+          <div className="bg-surface border border-border shadow-xl rounded-3xl p-8 space-y-6">
+            <h2 className="text-lg font-bold uppercase tracking-wider text-muted mb-6 pb-2 border-b border-border/80">
               Project & Client Info
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Proposal Number</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Proposal Number</label>
                 <input 
                   type="text" required value={proposalNumber} onChange={e => setProposalNumber(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Project Name</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Project Name</label>
                 <input 
                   type="text" required value={projectName} onChange={e => setProjectName(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. Website Redesign"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Project Background / Description</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Project Background / Description</label>
                 <textarea 
                   value={projectDescription} onChange={e => setProjectDescription(e.target.value)}
                   rows={3}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary resize-none"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent resize-none"
                   placeholder="Brief description of the client's needs and our proposed solution..."
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Client Name (PIC)</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Client Name (PIC)</label>
                 <input 
                   type="text" required value={clientName} onChange={e => setClientName(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. Budi Santoso"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Client Company</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Client Company</label>
                 <input 
                   type="text" value={clientCompany} onChange={e => setClientCompany(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. PT Maju Mundur"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Client Email</label>
+                <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Client Email</label>
                 <input 
                   type="email" value={clientEmail} onChange={e => setClientEmail(e.target.value)}
-                  className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                  className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   placeholder="e.g. bos@majumundur.com"
                 />
               </div>
               <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Issue Date</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Issue Date</label>
                   <input 
                     type="date" required value={issueDate} onChange={e => setIssueDate(e.target.value)}
-                    className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                    className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Valid Until</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Valid Until</label>
                   <input 
                     type="date" required value={validUntil} onChange={e => setValidUntil(e.target.value)}
-                    className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                    className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-surface border border-border shadow-[0_20px_50px_rgba(0,0,0,0.04)] rounded-3xl p-8 space-y-6">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
-              <h2 className="text-xl font-display font-black text-gray-900 uppercase tracking-tight">
+          <div className="bg-surface border border-border shadow-xl rounded-3xl p-8 space-y-6">
+            <div className="flex items-center justify-between border-b border-border/80 pb-4 mb-4">
+              <h2 className="text-xl font-display font-black text-foreground uppercase tracking-tight">
                 Scope of Work & Pricing
               </h2>
               <button 
                 type="button" onClick={handleAddItem}
-                className="bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-bold uppercase text-xs tracking-wider px-4 py-2.5 flex items-center gap-2 shadow-sm rounded-xl transition-all cursor-pointer"
+                className="bg-accent text-white hover:bg-accent/90 border border-accent font-bold uppercase text-xs tracking-wider px-4 py-2.5 flex items-center gap-2 shadow-sm rounded-xl transition-all cursor-pointer"
               >
                 <Plus weight="bold" /> Add Item
               </button>
@@ -281,32 +281,32 @@ export default function CreateProposalPage() {
 
             <div className="space-y-4">
               {items.map((item, idx) => (
-                <div key={item.id} className="flex flex-col md:flex-row gap-4 items-end bg-gray-50/50 p-4 border border-gray-100 rounded-2xl relative group">
+                <div key={item.id} className="flex flex-col md:flex-row gap-4 items-end bg-background p-4 border border-border/80 rounded-2xl relative group">
                   <div className="flex-1 w-full text-left">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400">Deliverable / Description</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted">Deliverable / Description</label>
                     <input 
                       type="text" required value={item.description} onChange={e => handleItemChange(idx, 'description', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent"
                       placeholder="e.g. UI/UX Design (3 Pages)"
                     />
                   </div>
                   <div className="w-full md:w-24">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400 text-center">Qty</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted text-center">Qty</label>
                     <input 
                       type="number" required min="1" value={item.quantity} onChange={e => handleItemChange(idx, 'quantity', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary text-center"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent text-center"
                     />
                   </div>
                   <div className="w-full md:w-48">
-                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-gray-400">Price (Rp)</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-muted">Price (Rp)</label>
                     <input 
                       type="number" required min="0" value={item.price} onChange={e => handleItemChange(idx, 'price', e.target.value)}
-                      className="w-full bg-white border border-gray-200 rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent-secondary"
+                      className="w-full bg-surface border border-border text-foreground rounded-xl p-2.5 font-semibold focus:outline-none focus:border-accent"
                     />
                   </div>
                   <button 
                     type="button" onClick={() => handleRemoveItem(idx)}
-                    className={`w-11 h-11 shrink-0 bg-red-50 text-red-600 flex items-center justify-center border border-red-100 rounded-xl hover:bg-red-100 transition-colors ${items.length === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                    className={`w-11 h-11 shrink-0 bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20 rounded-xl hover:bg-red-500/20 transition-colors ${items.length === 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                     disabled={items.length === 1}
                   >
                     <Trash weight="bold" size={20} />
@@ -318,36 +318,36 @@ export default function CreateProposalPage() {
             <div className="mt-8 pt-8 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Tax Rate (%)</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Tax Rate (%)</label>
                   <input 
                     type="number" min="0" max="100" value={taxRate} onChange={e => setTaxRate(Number(e.target.value))}
-                    className="w-full md:w-1/2 bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary"
+                    className="w-full md:w-1/2 bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Extra Notes / Terms (Optional)</label>
+                  <label className="block text-sm font-bold uppercase tracking-wider text-muted mb-2">Extra Notes / Terms (Optional)</label>
                   <textarea 
                     value={notes} onChange={e => setNotes(e.target.value)}
                     rows={3}
-                    className="w-full bg-white border border-border rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent-secondary resize-none"
+                    className="w-full bg-background border border-border text-foreground rounded-2xl p-3 font-semibold focus:outline-none focus:border-accent resize-none"
                     placeholder="e.g. Pembayaran DP 50% diawal..."
                   />
                 </div>
               </div>
-              <div className="bg-gray-950 text-white p-6 rounded-2xl flex flex-col gap-3 font-semibold text-xs tracking-wider uppercase relative shadow-md">
+              <div className="bg-background border border-border text-foreground p-6 rounded-2xl flex flex-col gap-3 font-semibold text-xs tracking-wider uppercase relative shadow-lg">
                 <div className="flex justify-between border-b border-white/10 pb-2">
-                  <span className="text-gray-400">Subtotal:</span>
-                  <span className="font-bold font-display text-sm text-white">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal())}</span>
+                  <span className="text-muted">Subtotal:</span>
+                  <span className="font-bold font-display text-sm text-foreground">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal())}</span>
                 </div>
                 {taxRate > 0 && (
                   <div className="flex justify-between border-b border-white/10 pb-2">
-                    <span className="text-gray-400">Tax ({taxRate}%):</span>
-                    <span className="font-bold font-display text-sm text-white">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal() * (taxRate / 100))}</span>
+                    <span className="text-muted">Tax ({taxRate}%):</span>
+                    <span className="font-bold font-display text-sm text-foreground">Rp {new Intl.NumberFormat('id-ID').format(calculateSubtotal() * (taxRate / 100))}</span>
                   </div>
                 )}
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-gray-400 uppercase text-xs font-bold tracking-wider">Total</span>
-                  <span className="font-display font-black text-xl text-emerald-400">Rp {new Intl.NumberFormat('id-ID').format(calculateTotal())}</span>
+                  <span className="text-muted uppercase text-xs font-bold tracking-wider">Total</span>
+                  <span className="font-display font-black text-xl text-accent">Rp {new Intl.NumberFormat('id-ID').format(calculateTotal())}</span>
                 </div>
               </div>
             </div>
@@ -355,10 +355,10 @@ export default function CreateProposalPage() {
 
           <button 
             type="submit" disabled={loading}
-            className="w-full bg-gray-900 text-white font-bold text-sm uppercase tracking-wider py-4 flex items-center justify-center gap-2 hover:bg-gray-800 transition-all shadow-md rounded-xl disabled:opacity-50 cursor-pointer"
+            className="w-full bg-accent text-white font-bold text-sm uppercase tracking-wider py-4 flex items-center justify-center gap-2 hover:bg-accent/90 transition-all shadow-lg rounded-xl disabled:opacity-50 cursor-pointer border border-accent"
           >
             {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : <FloppyDisk weight="bold" size={20} />}
-            {loading ? 'Menyimpan...' : 'Simpan Proposal'}
+            {loading ? 'Saving Proposal...' : 'Save Proposal'}
           </button>
         </form>
       </div>

@@ -13,9 +13,9 @@ export function NeoAdSlot({ format = "horizontal" }: { format?: "horizontal" | "
   }, []);
 
   return (
-    <div className={`relative w-full bg-[#FFCC00]/10 border-4 border-black rounded-3xl shadow-[6px_6px_0_0_#000] p-4 flex flex-col items-center justify-center my-12 overflow-hidden ${format === 'rectangle' ? 'aspect-square max-w-[320px] mx-auto' : 'min-h-[140px]'}`}>
-      <div className="absolute top-0 left-6 z-10 bg-black text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-b-lg">
-        Sponsor / Traktir Server
+    <div className={`relative w-full bg-surface border border-border/80 rounded-3xl p-4 flex flex-col items-center justify-center my-12 overflow-hidden shadow-xl ${format === 'rectangle' ? 'aspect-square max-w-[320px] mx-auto' : 'min-h-[140px]'}`}>
+      <div className="absolute top-0 left-6 z-10 bg-accent/20 border-x border-b border-accent/30 text-accent text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-b-xl">
+        SPONSOR / ADVERTISEMENT
       </div>
       
       <div className="w-full h-full relative z-0 flex items-center justify-center overflow-hidden pt-4 min-h-[100px]">

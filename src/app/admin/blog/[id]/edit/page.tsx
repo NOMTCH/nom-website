@@ -133,35 +133,35 @@ export default function EditBlogPage() {
         <div className="bg-surface border border-border rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
           
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Judul Artikel</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted">Judul Artikel</label>
             <input 
               type="text" 
               value={title}
               onChange={(e) => handleTitleChange(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-bold text-lg"
+              className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-bold text-lg"
               required
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-500">URL Slug</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">URL Slug</label>
               <input 
                 type="text" 
                 value={slug}
                 onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-mono"
+                className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-mono"
                 required
               />
-              <p className="text-[10px] text-gray-400">Hati-hati ganti URL Slug kalau artikel udah ke-index Google.</p>
+              <p className="text-[10px] text-muted">Hati-hati ganti URL Slug kalau artikel udah ke-index Google.</p>
             </div>
             
             <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Kategori</label>
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Kategori</label>
               <select 
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-bold"
+                className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-bold"
               >
                 <option value="Insight">Insight</option>
                 <option value="Tutorial">Tutorial</option>
@@ -172,10 +172,10 @@ export default function EditBlogPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Cover Image</label>
+            <label className="text-xs font-bold uppercase tracking-wider text-muted">Cover Image</label>
             <div className="flex items-center gap-4">
               {(file || currentCoverUrl) && (
-                <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-100 shrink-0">
+                <div className="w-20 h-20 rounded-xl overflow-hidden bg-background shrink-0 border border-border">
                   <img src={file ? URL.createObjectURL(file) : currentCoverUrl!} alt="Preview" className="w-full h-full object-cover" />
                 </div>
               )}
@@ -184,15 +184,15 @@ export default function EditBlogPage() {
                   type="file" 
                   accept="image/*"
                   onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200/80 rounded-xl py-2.5 text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
+                  className="w-full px-4 py-3 bg-background border border-border text-foreground rounded-xl py-2.5 text-sm focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-accent/20 file:text-accent hover:file:bg-accent/30"
                 />
-                {!file && currentCoverUrl && <p className="text-[10px] text-gray-400 mt-2 ml-1">Upload gambar baru buat ganti cover lama.</p>}
+                {!file && currentCoverUrl && <p className="text-[10px] text-muted mt-2 ml-1">Upload gambar baru buat ganti cover lama.</p>}
               </div>
             </div>
           </div>
           
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-gray-500 flex justify-between">
+            <label className="text-xs font-bold uppercase tracking-wider text-muted flex justify-between">
               <span>Konten (Markdown)</span>
               <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noreferrer" className="text-accent hover:underline lowercase">markdown cheat-sheet</a>
             </label>
@@ -200,7 +200,7 @@ export default function EditBlogPage() {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={15}
-              className="w-full px-4 py-4 bg-gray-50 border border-gray-200/80 rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-mono leading-relaxed"
+              className="w-full px-4 py-4 bg-background border border-border text-foreground rounded-xl text-sm focus:ring-2 focus:ring-accent/10 focus:border-accent transition-all font-mono leading-relaxed"
               required
             />
           </div>

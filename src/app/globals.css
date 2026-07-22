@@ -1,25 +1,39 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+:root {
+  /* Global Modern Dark Emerald Palette (#191A19, #1E5128, #4E9F3D) */
+  --background: #191A19;
+  --surface: #202721;
+  --border: #1E5128;
+  --accent: #4E9F3D; /* Vibrant Neon Emerald Green */
+  --accent-dark: #1E5128;
+  --foreground: #F5F7F4; /* Crisp Light Text */
+  --muted: #8E9C8B; /* Muted Greenish Slate Text */
+}
+
 @theme {
-  /* Light & Fun Neo-Pop Palette */
-  --color-background: #FAFAFA;
-  --color-surface: #FFFFFF;
-  --color-accent: #FF3B30; /* Fun Orange/Red */
-  --color-accent-secondary: #007AFF; /* Vibrant Blue */
-  --color-accent-dark: #FF9500;
-  --color-foreground: #111827; /* Dark text */
-  --color-muted: #6B7280;
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
   --color-accent-foreground: #FFFFFF;
-  --color-border: #E5E7EB; /* Soft border */
+  --color-border: var(--border);
   
-  --color-accent-graphic: #FF2D55;
-  --color-accent-web: #5856D6;
-  --color-accent-photo: #FFCC00;
-  --color-accent-video: #34C759;
-  --color-accent-invitation: #AF52DE;
-  --color-accent-pc: #FF3B30;
-  --color-accent-tools: #00C7BE;
+  --color-accent-graphic: var(--accent);
+  --color-accent-web: var(--accent);
+  --color-accent-photo: var(--accent);
+  --color-accent-video: var(--accent);
+  --color-accent-invitation: var(--accent);
+  --color-accent-pc: var(--accent);
+  --color-accent-tools: var(--accent);
+
+  --radius: 1rem;
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
 
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-display: "Bricolage Grotesque", sans-serif;
@@ -32,27 +46,27 @@
   }
 }
 
-body {
-  background-color: var(--color-background, #FAFAFA);
-  color: var(--color-foreground, #111827);
+html, body {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Neo-Pop Utilities (Soft, bouncy, clean) */
-.neo-brutalist, .clean-card {
-  border: 1px solid var(--color-border, #E5E7EB);
-  background-color: var(--color-surface, #FFFFFF);
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.04);
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy transition */
+/* Global Solid Cards & Containers */
+.shadcn-card, .neo-brutalist, .clean-card, .bg-surface {
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.35);
+  border-radius: 1.25rem;
+  color: var(--foreground);
+  transition: all 0.3s ease;
 }
 
-.neo-brutalist:hover, .clean-card:hover {
-  box-shadow: 0px 16px 40px rgba(0, 0, 0, 0.08);
-  transform: translateY(-6px);
-  border-color: var(--color-border, #E5E7EB);
+.shadcn-card:hover, .neo-brutalist:hover, .clean-card:hover {
+  box-shadow: 0px 12px 32px rgba(78, 159, 61, 0.25);
+  border-color: var(--accent);
 }
 
 /* Custom Scrollbar */
@@ -60,30 +74,92 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-background, #FAFAFA);
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: var(--border);
   border-radius: 10px;
-  border: 2px solid var(--color-background, #FAFAFA);
+  border: 2px solid var(--background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted, #6B7280);
+  background: var(--accent);
 }
 
-/* Base Input Resets */
-input, textarea, select {
+/* Base Input & Select Resets */
+input:not([class*="bg-transparent"]):not([class*="border-none"]), textarea:not([class*="border-none"]), select:not([class*="border-none"]) {
   outline: none;
   font-family: inherit;
-  border: 1px solid var(--color-border, #E5E7EB);
-  border-radius: 14px;
-  padding: 14px 18px;
-  background: var(--color-surface, #FFFFFF);
-  color: var(--color-foreground, #111827);
-  transition: all 0.3s ease;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.02);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 12px 16px;
+  background-color: var(--surface);
+  color: var(--foreground);
+  transition: all 0.2s ease;
 }
+
+select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 256 256' fill='%237A9A7E'><path d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z'></path></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  background-size: 1.15em !important;
+  padding-right: 2.75rem !important;
+  cursor: pointer;
+}
+
+select option {
+  background-color: var(--surface) !important;
+  color: var(--foreground) !important;
+  padding: 10px 14px;
+}
+
 input:focus, textarea:focus, select:focus {
-  box-shadow: 0px 6px 16px rgba(0, 122, 255, 0.12);
-  border-color: var(--color-accent-secondary, #007AFF);
+  box-shadow: 0px 0px 0px 3px rgba(78, 159, 61, 0.3);
+  border-color: var(--accent);
+}
+
+/* 2026 Admin & Web Micro-Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
