@@ -41,45 +41,19 @@ export interface AppDeployment {
   created_at?: string;
 }
 
-// Initial Mock Data (Fallback when Supabase table not yet populated)
+// Initial Default Data (Matches live Supabase vps_servers table)
 export const DEFAULT_SERVERS: VPSServer[] = [
   {
     id: 'vps-1',
-    name: 'NOM-PROD-ID-01',
+    name: 'NOMLABS',
     provider: 'IDCloudHost',
-    ip_address: '103.150.191.89',
+    ip_address: '103.172.205.222',
     os: 'Ubuntu 24.04 LTS',
-    specs: '4 vCPU / 8GB RAM / 160GB NVMe',
+    specs: '2 vCPU / 2GB RAM / 40GB NVMe',
     status: 'online',
     ssh_port: 22,
-    monthly_cost: 450000,
-    notes: 'Main Production VPS IDCloudHost untuk Client Web Apps',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'vps-2',
-    name: 'HETZNER-DE-APPS',
-    provider: 'Hetzner',
-    ip_address: '65.108.42.112',
-    os: 'Debian 12 Bookworm',
-    specs: '8 vCPU / 16GB RAM / 240GB NVMe',
-    status: 'online',
-    ssh_port: 2202,
-    monthly_cost: 320000,
-    notes: 'High Performance Node.js & Docker Runner',
-    created_at: new Date().toISOString()
-  },
-  {
-    id: 'vps-3',
-    name: 'VULTR-SG-STAGE',
-    provider: 'Vultr',
-    ip_address: '139.180.194.5',
-    os: 'Ubuntu 22.04 LTS',
-    specs: '2 vCPU / 4GB RAM / 80GB SSD',
-    status: 'maintenance',
-    ssh_port: 22,
-    monthly_cost: 160000,
-    notes: 'Staging & Client Preview Testing Ground',
+    monthly_cost: 150000,
+    notes: 'Main Production VPS IDCloudHost NOMLABS Server',
     created_at: new Date().toISOString()
   }
 ];
