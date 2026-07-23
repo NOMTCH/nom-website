@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const CODE_SNIPPETS = [
   {
@@ -72,6 +72,14 @@ export function Hero() {
 
     return () => clearTimeout(timer);
   }, [displayText, isTyping, snippetIndex, activeTab]);
+
+  const codeScrollRef = useRef<HTMLPreElement>(null);
+
+  useEffect(() => {
+    if (codeScrollRef.current) {
+      codeScrollRef.current.scrollTop = codeScrollRef.current.scrollHeight;
+    }
+  }, [displayText]);
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-background text-foreground py-12 md:py-16 lg:py-20">
@@ -244,9 +252,9 @@ export function Hero() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-background text-foreground rounded-xl p-4 md:p-5 font-mono text-xs md:text-sm overflow-x-auto shadow-inner border border-border/80 relative min-h-[220px]"
+                  className="bg-background text-foreground rounded-xl p-4 md:p-5 font-mono text-xs md:text-sm shadow-inner border border-border/80 relative h-[250px] max-h-[250px] overflow-hidden flex flex-col justify-between"
                 >
-                  <div className="flex items-center justify-between text-muted text-xs mb-3 border-b border-border/80 pb-2">
+                  <div className="flex items-center justify-between text-muted text-xs mb-3 border-b border-border/80 pb-2 shrink-0">
                     <span className="text-foreground font-semibold flex items-center gap-2">
                       <span className="text-sky-400">⚡</span> {CODE_SNIPPETS[snippetIndex].filename}
                     </span>
@@ -254,7 +262,7 @@ export function Hero() {
                       <span className="w-2 h-2 rounded-full bg-accent animate-pulse" /> Live Coding
                     </span>
                   </div>
-                  <pre className="leading-relaxed text-foreground whitespace-pre-wrap font-mono">
+                  <pre ref={codeScrollRef} className="leading-relaxed text-foreground whitespace-pre-wrap font-mono overflow-y-auto custom-scrollbar flex-1 max-h-[175px]">
                     <code>
                       {displayText}
                       <span className="inline-block w-2 h-4 bg-accent ml-1 align-middle animate-pulse shadow-[0_0_8px_#4E9F3D]" />
