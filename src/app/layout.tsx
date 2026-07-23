@@ -20,20 +20,32 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL('https://nomstd.my.id/'),
   title: {
-    default: "NOMSTD | Creative Agency, Web Development & IT Solutions Cianjur 🔥",
-    template: "%s | NOMSTD - Creative & Tech Agency Cianjur"
+    default: "NOMSTD | Jasa Pembuatan Website, Desain Grafis & IT Solutions Cianjur, Cipanas, Sukabumi, Bandung 🔥",
+    template: "%s | NOMSTD - Creative & Tech Agency Cipanas Cianjur"
   },
-  description: "Creative agency & IT solutions paling asik di Cianjur, Jawa Barat. Jasa pembuatan website modern, desain grafis, foto, video cinematic, hingga sistem IT impian bisnis kamu. Let's build something crazy! 🚀",
+  description: "Jasa pembuatan website profesional, desain grafis, foto produk & video cinematic terbaik di Cipanas, Cianjur, Bandung, Sukabumi, & Purwakarta. Solusi digital terpercaya untuk bisnis & UMKM Jawa Barat! 🚀",
   keywords: [
-    "creative agency cianjur",
-    "web development cianjur",
     "jasa pembuatan website cianjur",
+    "jasa pembuatan website cipanas",
+    "jasa pembuatan website sukabumi",
+    "jasa pembuatan website purwakarta",
+    "jasa pembuatan website bandung",
+    "tempat buat website cianjur",
+    "tempat buat website cipanas",
+    "web design cianjur",
+    "web design cipanas",
+    "web development cianjur",
     "jasa desain grafis cianjur",
-    "studio fotografi cianjur",
-    "videografi cianjur",
+    "jasa desain grafis cipanas",
+    "jasa desain grafis sukabumi",
+    "jasa desain grafis purwakarta",
+    "jasa desain grafis bandung",
+    "bikin website cianjur",
+    "bikin logo cianjur cipanas",
+    "studio fotografi cianjur cipanas",
+    "videografi cianjur cipanas",
     "IT solutions jawa barat",
-    "digital invitation cianjur",
-    "brutalism web design",
+    "digital invitation cianjur cipanas",
     "NOMSTD"
   ],
   authors: [{ name: "NOMSTD", url: "https://nomstd.my.id" }],
@@ -57,8 +69,8 @@ export const metadata: Metadata = {
     google: 'google967396e2fa803fb4',
   },
   openGraph: {
-    title: "NOMSTD | Creative Agency & IT Solutions Cianjur",
-    description: "Jasa Pembuatan Website, Desain Grafis, Studio Foto & Video Cinematic di Cianjur, Jawa Barat. Bikin bisnis kamu makin keren!",
+    title: "NOMSTD | Jasa Pembuatan Website & Desain Grafis Cianjur, Cipanas, Sukabumi, Bandung",
+    description: "Jasa Pembuatan Website Modern, Desain Grafis, Foto & Video Cinematic di Cipanas, Cianjur, Bandung, Sukabumi, & Purwakarta.",
     url: "https://nomstd.my.id/",
     siteName: "NOMSTD",
     images: [
@@ -66,7 +78,7 @@ export const metadata: Metadata = {
         url: "/assets/logo/favicon.svg",
         width: 800,
         height: 600,
-        alt: "NOMSTD Creative & Tech Agency Cianjur Banner",
+        alt: "NOMSTD Creative & Tech Agency Cipanas Cianjur Banner",
       },
     ],
     locale: "id_ID",
@@ -74,8 +86,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NOMSTD | Creative Agency & IT Solutions Cianjur",
-    description: "Creative agency & IT solutions paling asik di Cianjur, Jawa Barat. Jasa web development, desain, foto & video.",
+    title: "NOMSTD | Jasa Web Design & Desain Grafis Cipanas Cianjur Sukabumi Bandung",
+    description: "Jasa pembuatan website modern, desain grafis, foto & video di Cipanas, Cianjur, Sukabumi, Purwakarta & Bandung.",
     images: ["/assets/logo/favicon.svg"],
     creator: "@nomstd"
   },
@@ -85,7 +97,7 @@ export const metadata: Metadata = {
   other: {
     "google-adsense-account": "ca-pub-1093659666783969",
     "geo.region": "ID-JB",
-    "geo.placename": "Cianjur",
+    "geo.placename": "Cianjur, Cipanas, Sukabumi, Bandung, Purwakarta",
     "geo.position": "-6.8242;107.1413",
     "ICBM": "-6.8242, 107.1413"
   }
@@ -104,7 +116,7 @@ export default function RootLayout({
     "url": "https://nomstd.my.id/",
     "logo": "https://nomstd.my.id/assets/logo/favicon.svg",
     "image": "https://nomstd.my.id/assets/logo/favicon.svg",
-    "description": "Creative agency & IT solutions terdepan di Cianjur. Melayani jasa pembuatan website, desain grafis, foto produk/event, videografi cinematic, dan IT software solutions.",
+    "description": "Creative agency & IT solutions terdepan melayani Cipanas, Cianjur, Sukabumi, Purwakarta, dan Bandung, Jawa Barat. Jasa pembuatan website, desain grafis, foto produk/event, videografi cinematic, dan IT software solutions.",
     "telephone": "+62-821-3070-4794",
     "email": "admin@nomstudio.com",
     "priceRange": "$$",
@@ -122,7 +134,11 @@ export default function RootLayout({
     },
     "areaServed": [
       { "@type": "City", "name": "Cianjur" },
+      { "@type": "City", "name": "Cipanas" },
+      { "@type": "City", "name": "Sukabumi" },
+      { "@type": "City", "name": "Purwakarta" },
       { "@type": "City", "name": "Bandung" },
+      { "@type": "City", "name": "Bogor" },
       { "@type": "City", "name": "Jakarta" },
       { "@type": "State", "name": "Jawa Barat" },
       { "@type": "Country", "name": "Indonesia" }

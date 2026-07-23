@@ -4,73 +4,74 @@ import { invitationThemes } from '@/data/invitationThemes';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://nomstd.my.id';
+  const now = new Date();
 
-  // Base routes
-  const routes = [
-    '',
-    '/about',
-    '/portfolio',
-    '/services',
-    '/services/digital-invitation',
+  // 1. Core High-Priority Pages
+  const mainRoutes = [
+    { url: `${baseUrl}`, lastModified: now, changeFrequency: 'daily' as const, priority: 1.0 },
+    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/portfolio`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/services`, lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.9 },
+    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.3 },
+    { url: `${baseUrl}/terms-of-service`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.3 },
+    { url: `${baseUrl}/disclaimer`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.3 },
+  ];
+
+  // 2. High-Value Web Tools Pages (Priority 0.9 for Google Indexing)
+  const toolRoutes = [
     '/tools/cv-generator',
     '/tools/link-builder',
     '/tools/image-compressor',
     '/tools/photo-grid',
     '/tools/qr-generator',
     '/tools/text-tool',
-    '/privacy-policy',
-    '/terms-of-service',
-    '/disclaimer',
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : (route.includes('privacy') || route.includes('terms') || route.includes('disclaimer') ? 0.3 : 0.8),
+  ].map((toolPath) => ({
+    url: `${baseUrl}${toolPath}`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.9,
   }));
 
-  // Service dynamic routes (hardcoded based on our serviceData slugs)
-  const services = ['graphic-design', 'photography', 'videography', 'web-development', 'it-solutions'];
-  const serviceRoutes = services.map((slug) => ({
+  // 3. Service Detail Routes
+  const serviceSlugs = ['graphic-design', 'photography', 'videography', 'web-development', 'it-solutions', 'digital-invitation'];
+  const serviceRoutes = serviceSlugs.map((slug) => ({
     url: `${baseUrl}/services/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
   }));
 
-  // Digital invitation preview routes
+  // 4. Digital Invitation Preview Routes
   const themeRoutes = invitationThemes.map((theme) => ({
     url: `${baseUrl}/services/digital-invitation/preview/${theme.id}`,
-    lastModified: new Date(),
+    lastModified: now,
     changeFrequency: 'monthly' as const,
-    priority: 0.5,
+    priority: 0.6,
   }));
 
-  // Portfolio dynamic routes (categories, subcategories, albums)
+  // 5. Portfolio Dynamic Routes
   const portfolioRoutes: MetadataRoute.Sitemap = [];
-  
   portfolioData.forEach((category) => {
-    // 1. Category route
     portfolioRoutes.push({
       url: `${baseUrl}/portfolio/${category.id}`,
-      lastModified: new Date(),
+      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     });
 
     category.subcategories.forEach((subcategory) => {
-      // 2. Subcategory route
       portfolioRoutes.push({
         url: `${baseUrl}/portfolio/${category.id}/${subcategory.id}`,
-        lastModified: new Date(),
+        lastModified: now,
         changeFrequency: 'weekly' as const,
         priority: 0.6,
       });
 
       subcategory.albums.forEach((album) => {
-        // 3. Album route
         portfolioRoutes.push({
           url: `${baseUrl}/portfolio/${category.id}/${subcategory.id}/${album.id}`,
-          lastModified: new Date(),
+          lastModified: now,
           changeFrequency: 'monthly' as const,
           priority: 0.5,
         });
@@ -78,23 +79,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // Fetch Blogs for dynamic routing
-  const { getBlogPosts } = await import('@/lib/data/blog');
-  const blogs = await getBlogPosts(true);
-  const blogRoutes = blogs.map((blog) => ({
-    url: `${baseUrl}/blog/${blog.slug}`,
-    lastModified: new Date(blog.updated_at || blog.created_at),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }));
+  // 6. Dynamic Blog Posts (Wrapped in safe try-catch so Supabase error NEVER breaks XML response)
+  let blogRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const { getBlogPosts } = await import('@/lib/data/blog');
+    const blogs = await getBlogPosts(true);
+    if (Array.isArray(blogs) && blogs.length > 0) {
+      blogRoutes = blogs.map((blog) => ({
+        url: `${baseUrl}/blog/${blog.slug}`,
+        lastModified: blog.updated_at ? new Date(blog.updated_at) : (blog.created_at ? new Date(blog.created_at) : now),
+        changeFrequency: 'weekly' as const,
+        priority: 0.9,
+      }));
+    }
+  } catch (e) {
+    console.warn('Sitemap Blog Fetch Fallback:', e);
+  }
 
-  // Add the main /blog route
-  const blogIndexRoute = {
-    url: `${baseUrl}/blog`,
-    lastModified: new Date(),
-    changeFrequency: 'daily' as const,
-    priority: 0.9,
-  };
-
-  return [...routes, blogIndexRoute, ...blogRoutes, ...serviceRoutes, ...themeRoutes, ...portfolioRoutes];
+  // Combine all routes into clean XML array
+  return [
+    ...mainRoutes,
+    ...toolRoutes,
+    ...blogRoutes,
+    ...serviceRoutes,
+    ...themeRoutes,
+    ...portfolioRoutes,
+  ];
 }

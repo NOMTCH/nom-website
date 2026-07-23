@@ -47,11 +47,11 @@ export function Footer() {
               <img src="/assets/logo/logo2.svg" alt="NOMSTD Logo" className="h-8 w-auto" />
             </Link>
             
-            <p className="text-muted text-xs md:text-sm font-medium leading-relaxed max-w-sm mb-6">
-              Creative Agency &amp; IT Solutions Studio paling asik di Indonesia. Spesialis Web Engineering modern, Cloud VPS Infrastructure, UI/UX Branding, Foto/Video Studio, &amp; System Automation.
+            <p className="text-muted text-xs md:text-sm font-medium leading-relaxed max-w-sm mb-4">
+              Creative Agency &amp; IT Solutions Studio terpercaya. Jasa Pembuatan Website Modern, Desain Grafis, Studio Foto &amp; Cloud VPS melayani wilayah Cipanas, Cianjur, Sukabumi, Purwakarta, Bandung &amp; seluruh Indonesia.
             </p>
 
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface border border-border text-xs font-semibold text-foreground">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-surface border border-border text-xs font-semibold text-foreground mb-4">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>

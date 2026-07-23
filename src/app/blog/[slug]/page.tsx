@@ -23,7 +23,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | NOMSTD Blog`,
     description: post.content.substring(0, 160).replace(/[#*]/g, ''),
+    alternates: {
+      canonical: `https://nomstd.my.id/blog/${post.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     openGraph: {
+      title: `${post.title} | NOMSTD Blog`,
+      description: post.content.substring(0, 160).replace(/[#*]/g, ''),
+      url: `https://nomstd.my.id/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: post.created_at,
       images: post.cover_image ? [post.cover_image] : [],
     },
   };
