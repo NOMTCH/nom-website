@@ -29,7 +29,8 @@ import {
   CaretLeft,
   CaretRight,
   SidebarSimple,
-  CaretDown
+  CaretDown,
+  Database
 } from '@phosphor-icons/react';
 import { toast, Toaster } from 'sonner';
 
@@ -54,6 +55,7 @@ const navCategories = [
     title: 'Server & Promo',
     items: [
       { name: 'VPS & Domains', href: '/admin/vps', icon: HardDrives },
+      { name: 'Database Cluster', href: '/admin/database', icon: Database },
       { name: 'Promo Codes', href: '/admin/promos', icon: Tag }
     ]
   },
