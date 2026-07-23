@@ -160,47 +160,47 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <Navbar />
       
       {/* Hero */}
-      <section className="relative pt-32 pb-20 px-6 border-b border-border">
+      <section className="relative pt-24 pb-12 px-4 md:px-6 border-b border-border">
         <div className="absolute inset-0 z-0">
           <video src={service.video} autoPlay loop muted playsInline className="w-full h-full object-cover opacity-20" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
-        <div className="container mx-auto relative z-10 pt-12">
-          <span className="text-accent font-bold tracking-widest text-sm uppercase mb-4 block">— SERVICE DETAIL</span>
-          <h1 className="text-5xl md:text-7xl font-display font-black mb-6">{service.title}</h1>
-          <p className="text-xl md:text-2xl text-gray-500 font-medium max-w-2xl">{service.subtitle}</p>
+        <div className="container mx-auto max-w-6xl relative z-10 pt-6">
+          <span className="text-accent font-bold tracking-widest text-xs uppercase mb-2 block">— SERVICE DETAIL</span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-display font-black mb-3">{service.title}</h1>
+          <p className="text-xs md:text-sm text-muted font-medium max-w-2xl">{service.subtitle}</p>
         </div>
       </section>
  
       {/* Content */}
-      <section className="py-20 px-6 bg-surface/60 border-b border-border">
-        <div className="container mx-auto max-w-4xl text-center">
-          <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 px-3.5 py-1.5 bg-accent/10 rounded-full inline-block">
+      <section className="py-10 md:py-12 px-4 md:px-6 bg-surface/60 border-b border-border">
+        <div className="container mx-auto max-w-3xl text-center">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-accent mb-2 px-3 py-1 bg-accent/10 rounded-full inline-block">
             Layanan Overview
           </span>
-          <h2 className="text-3xl md:text-4xl font-display font-black uppercase text-foreground mb-6">
+          <h2 className="text-xl md:text-2xl font-display font-black uppercase text-foreground mb-3">
             Kenapa Memilih Layanan Ini?
           </h2>
-          <p className="text-muted leading-relaxed text-lg md:text-xl font-medium">
+          <p className="text-muted leading-relaxed text-xs md:text-sm font-medium">
             {service.content}
           </p>
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="py-24 px-6 bg-background">
-        <div className="container mx-auto">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="text-accent font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-accent/10 border border-accent/20 rounded-full inline-block mb-3">
+      <section className="py-12 md:py-16 px-4 md:px-6 bg-background">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-8 max-w-2xl mx-auto">
+            <span className="text-accent font-bold text-xs uppercase tracking-widest px-3 py-1 bg-accent/10 border border-accent/20 rounded-full inline-block mb-2">
               PAKET & PILIHAN HARGA
             </span>
-            <h2 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tight text-foreground mb-4">
-              Pricing & Packages
+            <h2 className="text-2xl md:text-4xl font-display font-black uppercase tracking-tight text-foreground mb-2">
+              Pricing &amp; Packages
             </h2>
-            <p className="text-muted font-medium text-lg">Pilih tiket paket layanan yang paling pas sesuai dengan skala bisnis lu.</p>
+            <p className="text-muted font-medium text-xs">Pilih tiket paket layanan yang paling pas sesuai dengan skala bisnis Anda.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-start">
             {finalPackages.map((pkg, idx) => {
               const isDbPkg = 'features' in pkg && Array.isArray(pkg.features);
               const displayPriceValueOnly = isDbPkg
@@ -215,9 +215,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <div 
                   key={idx} 
                   className={`
-                    relative p-8 md:p-10 flex flex-col h-full rounded-3xl transition-all duration-300
+                    relative p-5 md:p-6 flex flex-col h-full rounded-xl transition-all duration-300
                     ${isPopular 
-                      ? 'bg-surface border-2 border-accent text-foreground shadow-2xl scale-100 lg:scale-105 z-10' 
+                      ? 'bg-surface border-2 border-accent text-foreground shadow-lg scale-100 z-10' 
                       : 'bg-surface border border-border/80 text-foreground shadow-sm hover:border-accent hover:shadow-xl hover:-translate-y-1'
                     }
                   `}

@@ -26,10 +26,10 @@ export default function Home() {
     <main className="min-h-screen flex flex-col bg-background selection:bg-accent selection:text-black">
       <Navbar />
       <Hero />
-      <Services />
       <PainPoints />
-      <FreeTools />
+      <Services />
       <Pricing />
+      <FreeTools />
       <Contact />
       <Footer />
     </main>

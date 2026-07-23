@@ -55,7 +55,7 @@ html, body {
 }
 
 /* Global Solid Cards & Containers */
-.shadcn-card, .neo-brutalist, .clean-card, .bg-surface {
+.shadcn-card, .neo-brutalist, .clean-card {
   border: 1px solid var(--border);
   background-color: var(--surface);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.35);

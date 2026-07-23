@@ -34,14 +34,14 @@ export function Pricing() {
   }, {} as Record<string, PricingPackage[]>);
 
   return (
-    <section id="pricing" className="py-24 md:py-32 bg-background text-foreground relative overflow-hidden border-t border-border">
+    <section id="pricing" className="py-16 md:py-24 bg-background text-foreground relative overflow-hidden border-t border-border">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
-        <div className="mb-14 text-center max-w-3xl mx-auto">
+        <div className="mb-10 text-center max-w-3xl mx-auto">
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-accent font-bold text-xs uppercase tracking-widest inline-block px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-full mb-4"
+            className="text-accent font-bold text-xs uppercase tracking-widest inline-block px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-full mb-3"
           >
             TRANSPARENT PRICELIST
           </motion.span>
@@ -49,7 +49,7 @@ export function Pricing() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-display font-black text-foreground tracking-tight uppercase leading-none mb-6"
+            className="text-3xl md:text-5xl font-display font-black text-foreground tracking-tight uppercase leading-none mb-4"
           >
             Paket Investasi Bisnis
           </motion.h2>
@@ -58,22 +58,22 @@ export function Pricing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl font-medium text-muted"
+            className="text-xs md:text-sm font-medium text-muted"
           >
             Pilih paket yang paling pas untuk mengakselerasi brand dan bisnis Anda. Tanpa hidden fee, semuanya transparan.
           </motion.p>
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex items-center gap-2 mb-12 md:mb-16 overflow-x-auto no-scrollbar py-2.5 max-w-full justify-start md:justify-center px-1">
+        <div className="flex items-center gap-2 mb-10 md:mb-12 overflow-x-auto no-scrollbar py-2 max-w-full justify-start md:justify-center px-1">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveTab(cat)}
               className={`
-                px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border cursor-pointer shrink-0 whitespace-nowrap
+                px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border cursor-pointer shrink-0 whitespace-nowrap
                 ${activeTab === cat
-                  ? 'bg-accent text-white border-accent shadow-md shadow-accent/20 scale-105'
+                  ? 'bg-accent text-black font-extrabold border-accent shadow-md shadow-accent/20 scale-105'
                   : 'bg-surface text-muted border-border hover:border-accent hover:text-foreground'
                 }
               `}
@@ -84,52 +84,52 @@ export function Pricing() {
         </div>
 
         {packages.length === 0 ? (
-          <div className="p-12 text-center border border-dashed border-border bg-surface rounded-3xl flex flex-col items-center justify-center min-h-[300px]">
-            <p className="text-xl font-bold uppercase tracking-wider text-muted">Paket Harga Sedang Disiapkan</p>
-            <p className="text-muted mt-2 font-medium">Stay tuned! Tim kami sedang meracik paket terbaik buat lu.</p>
+          <div className="p-10 text-center border border-dashed border-border bg-surface rounded-2xl flex flex-col items-center justify-center min-h-[250px]">
+            <p className="text-lg font-bold uppercase tracking-wider text-muted">Paket Harga Sedang Disiapkan</p>
+            <p className="text-muted mt-2 font-medium text-xs">Stay tuned! Tim kami sedang meracik paket terbaik buat lu.</p>
           </div>
         ) : (
-          <div className="space-y-20">
+          <div className="space-y-16">
             {Object.entries(groupedPackages).map(([category, categoryPackages]) => (
-              <div key={category} className="space-y-10">
+              <div key={category} className="space-y-8">
                 <div className="flex justify-center">
-                  <h3 className="text-2xl md:text-3xl font-display font-black uppercase tracking-tight text-foreground relative inline-block px-6 py-2.5 bg-surface/80 border border-border rounded-2xl shadow-sm">
+                  <h3 className="text-xl md:text-2xl font-display font-black uppercase tracking-tight text-foreground relative inline-block px-5 py-2 bg-surface/80 border border-border rounded-xl shadow-sm">
                     {category}
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 items-start">
                   {categoryPackages.map((pkg, idx) => (
                     <motion.div 
                       key={pkg.id}
-                      initial={{ opacity: 0, y: 30 }}
+                      initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: idx * 0.08, duration: 0.5 }}
+                      transition={{ delay: idx * 0.08, duration: 0.4 }}
                       className={`
-                        relative p-7 md:p-9 flex flex-col h-full rounded-3xl transition-all duration-300 bg-surface text-foreground border border-border/80 shadow-md hover:border-accent hover:-translate-y-2
+                        relative p-6 md:p-7 flex flex-col h-full rounded-2xl transition-all duration-300 bg-surface text-foreground border border-border/80 shadow-md hover:border-accent hover:-translate-y-1.5
                         ${pkg.is_popular ? 'border-2 border-accent shadow-xl' : ''}
                       `}
                     >
                       {pkg.is_popular && (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-white font-bold text-[10px] uppercase tracking-wider px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 z-20">
-                          <Star weight="fill" size={14} /> Paling Laris
+                        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-accent text-black font-extrabold text-[10px] uppercase tracking-wider px-3.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-20">
+                          <Star weight="fill" size={13} /> Paling Laris
                         </div>
                       )}
 
-                      <div className="mb-6 text-center">
-                        <h4 className="text-2xl font-bold tracking-tight mb-2 text-foreground uppercase font-display">
+                      <div className="mb-5 text-center">
+                        <h4 className="text-xl font-bold tracking-tight mb-1.5 text-foreground uppercase font-display">
                           {pkg.name}
                         </h4>
-                        <p className="text-xs leading-relaxed text-muted font-medium min-h-[40px]">
+                        <p className="text-xs leading-relaxed text-muted font-medium min-h-[36px]">
                           {pkg.description}
                         </p>
                       </div>
 
-                      <div className="mb-8 text-center">
+                      <div className="mb-6 text-center">
                         <div className="flex items-start justify-center gap-1 mb-1">
-                          <span className="text-lg font-bold mt-1 text-accent font-display">Rp</span>
-                          <span className="text-4xl md:text-5xl font-display font-black tracking-tighter leading-none text-foreground">
+                          <span className="text-base font-bold mt-1 text-accent font-display">Rp</span>
+                          <span className="text-3xl md:text-4xl font-display font-black tracking-tighter leading-none text-foreground">
                             {!isNaN(Number(pkg.price)) && pkg.price.trim() !== ''
                               ? new Intl.NumberFormat('id-ID').format(Number(pkg.price))
                               : pkg.price.replace(/Rp\.?\s?/i, '')}
@@ -137,15 +137,15 @@ export function Pricing() {
                         </div>
                       </div>
 
-                      <div className="flex-1 mb-8 border-t border-border/60 pt-6">
-                        <p className="text-[10px] font-bold uppercase tracking-wider mb-4 text-accent">
+                      <div className="flex-1 mb-6 border-t border-border/60 pt-5">
+                        <p className="text-[10px] font-bold uppercase tracking-wider mb-3 text-accent">
                           Yang Didapat:
                         </p>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2.5">
                           {pkg.features.map((feature, i) => (
-                            <li key={i} className="flex items-start gap-3">
+                            <li key={i} className="flex items-start gap-2.5">
                               <div className="mt-0.5 shrink-0 text-accent">
-                                <Check weight="bold" size={16} />
+                                <Check weight="bold" size={15} />
                               </div>
                               <span className="font-semibold text-xs leading-relaxed text-foreground">
                                 {feature}

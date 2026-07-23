@@ -4,102 +4,109 @@ import { motion } from 'framer-motion';
 
 export function PainPoints() {
   const painPoints = [
-    "Ingin terlihat lebih profesional, tapi belum tahu harus mulai dari mana.",
-    "Sudah punya bisnis, tapi desain visualnya masih belum konsisten.",
-    "Bingung membuat konten foto dan video yang menarik untuk media sosial.",
-    "Belum memiliki website atau kehadiran digital yang meyakinkan.",
-    "Sering terkendala masalah teknis dan kebutuhan IT yang menghambat."
+    "Ingin terlihat profesional, tapi bingung harus mulai dari mana.",
+    "Sudah punya bisnis, tapi visual & branding belum konsisten.",
+    "Bingung buat konten foto/video yang menarik untuk sosmed.",
+    "Belum punya website modern yang bisa bikin calon klien percaya.",
+    "Terkendala masalah teknis & IT yang bikin operasional terhambat."
   ];
 
   const solutions = [
-    "Desain visual yang lebih profesional dan sesuai dengan identitas bisnis Anda.",
-    "Produksi foto dan video yang menarik untuk promosi maupun kebutuhan konten.",
-    "Website yang modern, cepat, dan mudah digunakan (Powered by Next.js & Laravel).",
-    "Solusi IT yang membantu pekerjaan berjalan lebih efisien.",
-    "Pendampingan dan strategi digital yang disesuaikan dengan kebutuhan Anda."
+    "Identitas visual & UI/UX profesional yang berkarakter.",
+    "Foto & video komersial cinematic untuk promosi & engagement.",
+    "Website super cepat & responsif (Next.js, Supabase, & Laravel).",
+    "Pengelolaan Cloud VPS & otomatisasi IT yang efisien.",
+    "Pendampingan & strategi digital penuh dari tim developer."
   ];
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-background text-foreground relative overflow-hidden">
+    <section className="py-16 md:py-24 px-4 bg-background text-foreground relative overflow-hidden">
       {/* Background Soft Pattern */}
-      <div className="absolute inset-0 opacity-5 z-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--color-border) 1.5px, transparent 1.5px)', backgroundSize: '48px 48px' }}></div>
+      <div className="absolute inset-0 opacity-5 z-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--color-border) 1.5px, transparent 1.5px)', backgroundSize: '36px 36px' }}></div>
       
       <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="flex flex-col lg:flex-row gap-8 md:gap-12">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
           
           {/* Left Column: The Problem */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex-1 bg-surface border border-border shadow-md rounded-2xl md:rounded-3xl p-8 md:p-12 relative"
+            transition={{ duration: 0.4 }}
+            className="flex-1 bg-surface border border-border shadow-md rounded-2xl p-6 md:p-8 relative flex flex-col justify-between"
           >
-            <h2 className="text-3xl md:text-5xl font-display font-black leading-tight text-foreground mb-4 tracking-tight">
-              Kami Paham <br/><span className="text-accent">Tantangan</span> yang Anda Hadapi.
-            </h2>
-            <p className="text-muted text-base md:text-lg font-medium mb-8 leading-relaxed">
-              Karena kami sering menemui hal yang sama bersama klien-klien kami. <br className="hidden md:block"/>
-              <span className="text-foreground font-bold mt-2 inline-block">Apakah ini yang sedang Anda alami?</span>
-            </p>
-            
-            <ul className="space-y-4">
-              {painPoints.map((point, i) => (
-                <motion.li 
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  key={i} 
-                  className="flex items-start gap-4 p-5 border border-border bg-background rounded-2xl hover:border-accent transition-all duration-300"
-                >
-                  <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-lg">😩</span>
-                  </div>
-                  <span className="font-semibold text-sm md:text-base text-foreground leading-relaxed">{point}</span>
-                </motion.li>
-              ))}
-            </ul>
+            <div>
+              <div className="inline-block px-3 py-1 bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold rounded-full uppercase tracking-wider mb-4">
+                Tantangan Bisnis
+              </div>
+              <h2 className="text-2xl md:text-3xl font-display font-black leading-tight text-foreground mb-3 tracking-tight">
+                Pernah Mengalami <span className="text-accent">Hal Ini?</span>
+              </h2>
+              <p className="text-muted text-xs md:text-sm font-medium mb-6 leading-relaxed">
+                Banyak bisnis stagnan hanya karena masalah eksekusi visual &amp; IT.
+              </p>
+              
+              <ul className="space-y-3">
+                {painPoints.map((point, i) => (
+                  <motion.li 
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08 }}
+                    key={i} 
+                    className="flex items-start gap-3 p-3.5 border border-border bg-background rounded-xl hover:border-red-500/50 transition-all duration-300"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-red-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-xs">⚡</span>
+                    </div>
+                    <span className="font-semibold text-xs md:text-sm text-foreground leading-relaxed">{point}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
           </motion.div>
 
           {/* Right Column: The Solution */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex-1 bg-surface border border-border shadow-md rounded-2xl md:rounded-3xl p-8 md:p-12 relative flex flex-col justify-between"
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="flex-1 bg-surface border border-border/80 shadow-md rounded-2xl p-6 md:p-8 relative flex flex-col justify-between hover:border-accent/60 transition-colors"
           >
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-display font-black leading-tight text-foreground mb-4 tracking-tight">
-                Tenang, Anda berada di <span className="text-accent">tempat yang tepat.</span>
+            <div>
+              <div className="inline-block px-3 py-1 bg-accent/10 border border-accent/30 text-accent text-xs font-bold rounded-full uppercase tracking-wider mb-4">
+                Solusi NOMSTD
+              </div>
+              <h2 className="text-2xl md:text-3xl font-display font-black leading-tight text-foreground mb-3 tracking-tight">
+                Tenang, Kami Siap <span className="text-accent">Eksekusi.</span>
               </h2>
-              <p className="text-foreground text-lg md:text-xl font-bold mb-8">
-                Kami dapat membantu dengan:
+              <p className="text-muted text-xs md:text-sm font-medium mb-6">
+                Semua kebutuhan tech &amp; kreatif Anda ditangani oleh satu tim berpengalaman.
               </p>
               
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {solutions.map((point, i) => (
                   <motion.li 
                     initial={{ opacity: 0, x: 10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
+                    transition={{ delay: i * 0.08 }}
                     key={i} 
-                    className="flex items-start gap-4 p-5 border border-border bg-background rounded-2xl hover:border-accent transition-all duration-300"
+                    className="flex items-start gap-3 p-3.5 border border-border bg-background rounded-xl hover:border-accent transition-all duration-300"
                   >
-                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0 mt-0.5">
-                      <span className="text-lg">✨</span>
+                    <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-xs">✨</span>
                     </div>
-                    <span className="font-bold text-sm md:text-base text-foreground leading-relaxed">{point}</span>
+                    <span className="font-bold text-xs md:text-sm text-foreground leading-relaxed">{point}</span>
                   </motion.li>
                 ))}
               </ul>
             </div>
             
-            <div className="mt-12 relative z-10 p-6 bg-background border border-border rounded-2xl shadow-sm">
-              <p className="font-bold text-base md:text-lg tracking-tight leading-relaxed text-foreground italic">
-                &ldquo;Karena setiap bisnis memiliki cerita yang berbeda, dan setiap solusi harus dibuat sesuai dengan tujuan yang ingin dicapai.&rdquo;
+            <div className="mt-6 p-4 bg-background border border-border rounded-xl shadow-sm">
+              <p className="font-bold text-xs md:text-sm tracking-tight leading-relaxed text-foreground italic">
+                &ldquo;Fokus pada pertumbuhan bisnis Anda, sisanya biarkan tim NOMSTD yang urus.&rdquo;
               </p>
             </div>
           </motion.div>

@@ -154,29 +154,29 @@ export default function TrafficChart({
   });
 
   return (
-    <div className="bg-surface border border-border rounded-3xl p-6 shadow-xl space-y-6 relative overflow-hidden">
+    <div className="bg-surface border border-border rounded-2xl p-4 md:p-5 shadow-md space-y-4 relative overflow-hidden">
       
       {/* Background glow orbs for visual excellence */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Chart Header Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           {/* Main Toggle (Penghasilan vs Traffic) */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={() => {
                 setChartMode('revenue');
                 setActiveTab('both');
                 setHoveredIndex(null);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-black uppercase text-xs transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-black uppercase text-[11px] transition-all cursor-pointer ${
                 chartMode === 'revenue' 
                   ? 'bg-amber-950/40 text-amber-400 border border-amber-500/30' 
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              <CurrencyDollar size={16} weight="bold" /> PENDAPATAN (CUAN)
+              <CurrencyDollar size={14} weight="bold" /> PENDAPATAN (CUAN)
             </button>
             <button
               onClick={() => {
@@ -184,30 +184,30 @@ export default function TrafficChart({
                 setActiveTab('both');
                 setHoveredIndex(null);
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-black uppercase text-xs transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full font-black uppercase text-[11px] transition-all cursor-pointer ${
                 chartMode === 'traffic' 
                   ? 'bg-sky-950/40 text-sky-400 border border-sky-500/30' 
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              <TrendUp size={16} weight="bold" /> TRAFIK KUNJUNGAN
+              <TrendUp size={14} weight="bold" /> TRAFIK KUNJUNGAN
             </button>
           </div>
-          <p className="text-xs text-muted uppercase font-bold tracking-wider mt-2.5 flex items-center gap-1.5">
+          <p className="text-[11px] text-muted uppercase font-bold tracking-wider mt-2 flex items-center gap-1.5">
             {isRev ? (
               <>
-                <Wallet className="text-amber-400" /> Analisis Omset kotor & Cuan lunas 7 hari terakhir
+                <Wallet className="text-amber-400" size={14} /> Analisis Omset kotor & Cuan lunas 7 hari terakhir
               </>
             ) : (
               <>
-                <Eye className="text-sky-400" /> Analisis Halaman & Pengunjung unik 7 hari terakhir
+                <Eye className="text-sky-400" size={14} /> Analisis Halaman & Pengunjung unik 7 hari terakhir
               </>
             )}
           </p>
         </div>
 
         {/* Tab Controls for lines */}
-        <div className="flex bg-background border border-border p-1 rounded-2xl shrink-0 self-start md:self-auto">
+        <div className="flex bg-background border border-border p-1 rounded-xl shrink-0 self-start md:self-auto">
           {[
             { id: 'both', label: 'Semua' },
             { id: 'primary', label: isRev ? 'Omset' : 'Page Views' },
@@ -219,9 +219,9 @@ export default function TrafficChart({
                 setActiveTab(tab.id as any);
                 setHoveredIndex(null);
               }}
-              className={`px-4 py-2 font-bold uppercase text-[10px] sm:text-xs rounded-xl transition-all cursor-pointer ${
+              className={`px-3 py-1.5 font-bold uppercase text-[10px] sm:text-[11px] rounded-lg transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-accent text-white shadow-sm'
+                  ? 'bg-accent text-black shadow-sm font-extrabold'
                   : 'text-muted hover:text-foreground'
               }`}
             >

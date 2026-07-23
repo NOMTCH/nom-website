@@ -102,19 +102,19 @@ export function FreeTools() {
   ];
 
   return (
-    <section id="tools" className="py-20 md:py-28 px-4 bg-background text-foreground relative border-t border-border">
+    <section id="tools" className="py-16 md:py-24 px-4 bg-background text-foreground relative border-t border-border">
       <div className="container mx-auto max-w-6xl">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <span className="text-accent font-bold text-xs uppercase tracking-wider inline-block px-4 py-1.5 bg-accent/10 border border-accent/30 rounded-full">
             Level Up Your Brand &amp; Workflow
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-black tracking-tight text-foreground">
+          <h2 className="text-3xl md:text-5xl font-display font-black tracking-tight text-foreground">
             Coba Tools Premium Kami,<br/>
             <span className="text-accent">100% Gratis Tanpa Login!</span>
           </h2>
-          <p className="text-muted text-sm md:text-base font-semibold leading-relaxed">
+          <p className="text-muted text-xs md:text-sm font-semibold leading-relaxed">
             Mainkan langsung fitur mini-playground di bawah ini untuk melihat hasil kerja tools premium NOMSTD sebelum memakainya.
           </p>
         </div>

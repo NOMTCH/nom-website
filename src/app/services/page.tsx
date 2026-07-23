@@ -92,32 +92,32 @@ export default async function ServicesPage() {
   const dbPackages = await getPricingPackages();
 
   return (
-    <main className="min-h-screen bg-background text-foreground pt-[100px] flex flex-col">
+    <main className="min-h-screen bg-background text-foreground pt-[80px] md:pt-[100px] flex flex-col">
       <Navbar />
 
       {/* Header Banner */}
-      <section className="container mx-auto px-6 md:px-12 pt-8 pb-16">
+      <section className="container mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-14">
         <div className="max-w-4xl">
-          <span className="text-accent font-bold tracking-widest text-xs uppercase px-3.5 py-1.5 bg-accent/10 border border-accent/20 rounded-full inline-block mb-4">
+          <span className="text-accent font-bold tracking-widest text-xs uppercase px-3.5 py-1.5 bg-accent/10 border border-accent/20 rounded-full inline-block mb-3">
             SATU PINTU UNTUK SEMUA KEBUTUHAN
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-black uppercase tracking-tight text-foreground mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black uppercase tracking-tight text-foreground mb-4">
             Semua Solusi Kreatif. <br />
             <span className="text-accent">Tanpa Pusing Nyari Vendor.</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted leading-relaxed font-medium max-w-2xl">
+          <p className="text-xs md:text-sm text-muted leading-relaxed font-medium max-w-2xl">
             Nggak perlu pusing komunikasi sama banyak vendor terpisah. Dari rakitan PC workstation, web app Next.js, foto produk studio, sampai video cinematic aftermovie—semua disikat sama tim NOMSTD.
           </p>
         </div>
       </section>
 
       {/* Services Cards Grid */}
-      <section className="container mx-auto px-6 md:px-12 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section className="container mx-auto px-4 md:px-6 lg:px-8 pb-16 md:pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {serviceCategories.map((service) => (
             <div 
               key={service.id}
-              className="bg-surface border border-border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col group"
+              className="bg-surface border border-border rounded-2xl md:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group"
             >
               {/* Media Preview */}
               <div className="relative aspect-video bg-black overflow-hidden border-b border-border">
@@ -138,8 +138,8 @@ export default async function ServicesPage() {
               </div>
 
               {/* Content */}
-              <div className="p-6 md:p-8 flex flex-col flex-1">
-                <h2 className="text-2xl font-display font-black uppercase tracking-tight text-foreground mb-2 group-hover:text-accent transition-colors">
+              <div className="p-5 md:p-6 flex flex-col flex-1">
+                <h2 className="text-xl md:text-2xl font-display font-black uppercase tracking-tight text-foreground mb-1.5 group-hover:text-accent transition-colors">
                   {service.title}
                 </h2>
                 <p className="text-xs font-bold text-accent tracking-wider uppercase mb-4">

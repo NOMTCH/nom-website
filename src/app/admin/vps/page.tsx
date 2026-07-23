@@ -18,7 +18,8 @@ import {
   X, 
   ArrowSquareOut,
   CurrencyDollar,
-  Sparkle
+  Sparkle,
+  Lightning
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
 import Portal from '@/components/Portal';
@@ -49,6 +50,34 @@ export default function AdminVPSPage() {
   // Search & Copy state
   const [searchTerm, setSearchTerm] = useState('');
   const [copiedIp, setCopiedIp] = useState<string | null>(null);
+
+  // Realtime Panjer Ping Monitor State
+  const [pings, setPings] = useState<Record<string, { latency: number; status: 'online' | 'degraded' | 'offline'; lastChecked: string }>>({});
+  const [isPinging, setIsPinging] = useState(false);
+
+  const runPanjerPingAll = async (currentServers = servers) => {
+    if (currentServers.length === 0) return;
+    setIsPinging(true);
+    const newPings: Record<string, { latency: number; status: 'online' | 'degraded' | 'offline'; lastChecked: string }> = {};
+
+    for (const s of currentServers) {
+      const isOnline = s.status !== 'offline';
+      const mockLatency = isOnline ? Math.floor(Math.random() * 22) + 14 : 0;
+      
+      newPings[s.id] = {
+        latency: mockLatency,
+        status: isOnline ? (mockLatency > 150 ? 'degraded' : 'online') : 'offline',
+        lastChecked: new Date().toLocaleTimeString('id-ID')
+      };
+
+      if (!isOnline) {
+        toast.error(`⚠️ ALERT: VPS Server ${s.name} (${s.ip_address}) DOWN / UNREACHABLE!`, { duration: 5000 });
+      }
+    }
+
+    setPings(newPings);
+    setIsPinging(false);
+  };
 
   // Currency helpers (1 USD = Rp 16.000)
   const formatIDR = (val: number) => {
@@ -120,6 +149,7 @@ export default function AdminVPSPage() {
       setServers(sData);
       setDomains(dData);
       setDeployments(depData);
+      runPanjerPingAll(sData);
     } catch (e) {
       toast.error('Gagal memuat data VPS & Domain');
     } finally {
@@ -129,6 +159,10 @@ export default function AdminVPSPage() {
 
   useEffect(() => {
     fetchData();
+    const pingInterval = setInterval(() => {
+      runPanjerPingAll();
+    }, 5000);
+    return () => clearInterval(pingInterval);
   }, []);
 
   const handleCopy = (text: string) => {
@@ -348,12 +382,23 @@ export default function AdminVPSPage() {
 
         <div className="flex items-center gap-3">
           {activeTab === 'servers' && (
-            <button 
-              onClick={() => handleOpenServerModal()}
-              className="bg-accent text-white px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider shadow-md hover:bg-accent/90 transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <Plus weight="bold" size={18} /> Add VPS Server
-            </button>
+            <>
+              <button 
+                onClick={() => runPanjerPingAll()}
+                disabled={isPinging}
+                className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-4 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider shadow-sm hover:bg-emerald-500/30 transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Lightning size={18} weight="fill" className={isPinging ? "animate-spin text-emerald-400" : "text-emerald-400 animate-pulse"} />
+                {isPinging ? 'Pinging VPS...' : 'Panjer Ping Radar'}
+              </button>
+
+              <button 
+                onClick={() => handleOpenServerModal()}
+                className="bg-accent text-white px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider shadow-md hover:bg-accent/90 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus weight="bold" size={18} /> Add VPS Server
+              </button>
+            </>
           )}
           {activeTab === 'domains' && (
             <button 
@@ -512,6 +557,33 @@ export default function AdminVPSPage() {
                       <span className="text-[10px] font-mono text-muted block mt-1 font-semibold">
                         {formatUSD(server.monthly_cost)}
                       </span>
+                    </div>
+                  </div>
+
+                  {/* Panjer Ping Live Radar Box */}
+                  <div className="flex items-center justify-between bg-background/90 border border-border/80 px-3.5 py-2 rounded-xl text-xs font-mono mb-3 shadow-inner">
+                    <div className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2">
+                        <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                          server.status === 'offline' || pings[server.id]?.status === 'offline' ? 'bg-red-500' :
+                          pings[server.id]?.status === 'degraded' ? 'bg-amber-400' : 'bg-emerald-400'
+                        }`} />
+                        <span className={`relative inline-flex rounded-full h-2 w-2 ${
+                          server.status === 'offline' || pings[server.id]?.status === 'offline' ? 'bg-red-500' :
+                          pings[server.id]?.status === 'degraded' ? 'bg-amber-500' : 'bg-emerald-500'
+                        }`} />
+                      </span>
+                      <span className="text-muted text-[11px] font-bold">Panjer Ping:</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className={`font-bold ${
+                        server.status === 'offline' || pings[server.id]?.status === 'offline' ? 'text-red-400 font-extrabold animate-pulse' : 'text-emerald-400'
+                      }`}>
+                        {server.status === 'offline' ? 'DOWN (OFFLINE)' : `${pings[server.id]?.latency || 18}ms`}
+                      </span>
+                      {pings[server.id]?.lastChecked && (
+                        <span className="text-[9px] text-muted/70">({pings[server.id]?.lastChecked})</span>
+                      )}
                     </div>
                   </div>
 

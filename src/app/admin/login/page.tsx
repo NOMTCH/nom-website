@@ -37,54 +37,54 @@ export default function AdminLogin() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent/10 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#FFF_1px,transparent_1px)] [background-size:20px_20px]" />
       
-      <div className="w-full max-w-md bg-surface/90 backdrop-blur-xl border border-border/80 shadow-2xl rounded-3xl p-8 md:p-10 relative z-10">
+      <div className="w-full max-w-sm bg-surface/90 backdrop-blur-xl border border-border/80 shadow-2xl rounded-2xl md:rounded-3xl p-6 md:p-8 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl border border-border/60 flex items-center justify-center mb-5 p-3">
-            <img src="/assets/logo/favicon.svg" className="w-full h-full object-contain" alt="NOMSYS" />
+        <div className="flex flex-col items-center text-center mb-6">
+          <div className="w-12 h-12 rounded-xl border border-border/60 flex items-center justify-center mb-4 p-2.5 bg-background shadow-sm">
+            <img src="/assets/logo/favicon.svg" className="w-full h-full object-contain" alt="Nomlabsyst" />
           </div>
-          <h1 className="text-3xl font-display font-black uppercase tracking-tight text-foreground leading-none mb-2">NOMSYS</h1>
-          <p className="text-xs font-bold text-muted uppercase tracking-widest">Khusus Nu Boga Akses</p>
+          <h1 className="text-2xl font-display font-black uppercase tracking-tight text-foreground leading-none mb-1.5">Nomlabsyst</h1>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-widest">Khusus Nu Boga Akses</p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-950/30 border border-red-500/30 text-red-400 flex items-center gap-3 rounded-2xl animate-shake">
-            <WarningCircle weight="fill" size={20} className="text-red-400 shrink-0" />
+          <div className="mb-5 p-3.5 bg-red-950/30 border border-red-500/30 text-red-400 flex items-center gap-2.5 rounded-xl animate-shake">
+            <WarningCircle weight="fill" size={18} className="text-red-400 shrink-0" />
             <p className="text-xs font-bold uppercase tracking-wider">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-4">
           {/* Email Input */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-muted/90 block">Akses Admin</label>
-            <div className="flex items-center gap-3 px-4 py-3.5 border border-white/20 hover:border-white/40 rounded-2xl focus-within:!border-accent focus-within:ring-1 focus-within:ring-accent/40 transition-all group">
-              <EnvelopeSimple weight="bold" size={20} className="text-muted group-focus-within:text-accent transition-colors shrink-0" />
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted/90 block">Akses Admin</label>
+            <div className="flex items-center gap-2.5 px-3.5 py-2.5 border border-white/20 hover:border-white/40 rounded-xl focus-within:!border-accent focus-within:ring-1 focus-within:ring-accent/40 transition-all group">
+              <EnvelopeSimple weight="bold" size={18} className="text-muted group-focus-within:text-accent transition-colors shrink-0" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full !bg-transparent text-foreground text-sm font-medium placeholder:text-muted/40 focus:outline-none !border-none !p-0 shadow-none ring-0 outline-none"
+                className="w-full !bg-transparent text-foreground text-xs font-medium placeholder:text-muted/40 focus:outline-none !border-none !p-0 shadow-none ring-0 outline-none"
                 placeholder="Asupkeun email admin"
               />
             </div>
           </div>
 
           {/* Password Input */}
-          <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-muted/90 block">Kunci Rahasia</label>
-            <div className="flex items-center gap-3 px-4 py-3.5 border border-white/20 hover:border-white/40 rounded-2xl focus-within:!border-accent focus-within:ring-1 focus-within:ring-accent/40 transition-all group">
-              <LockKey weight="bold" size={20} className="text-muted group-focus-within:text-accent transition-colors shrink-0" />
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted/90 block">Kunci Rahasia</label>
+            <div className="flex items-center gap-2.5 px-3.5 py-2.5 border border-white/20 hover:border-white/40 rounded-xl focus-within:!border-accent focus-within:ring-1 focus-within:ring-accent/40 transition-all group">
+              <LockKey weight="bold" size={18} className="text-muted group-focus-within:text-accent transition-colors shrink-0" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="flex-1 min-w-0 !bg-transparent text-foreground text-sm font-medium placeholder:text-muted/40 focus:outline-none !border-none !p-0 shadow-none ring-0 outline-none"
+                className="flex-1 min-w-0 !bg-transparent text-foreground text-xs font-medium placeholder:text-muted/40 focus:outline-none !border-none !p-0 shadow-none ring-0 outline-none"
                 placeholder="Asupkeun sandi"
               />
               <button

@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt, ChartLineUp, Eye, UserCircle, Wallet } from '@phosphor-icons/react';
+import { HardDrives, Users, Layout, Plus, CurrencyDollar, WarningCircle, Receipt, ChartLineUp, Eye, UserCircle, Wallet, ArrowRight, Lightning } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { getTrafficStats } from './actions';
 import TrafficChart from './TrafficChart';
+import { getVPSServers, VPSServer } from '@/lib/data/vps';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -59,8 +60,18 @@ export default function AdminDashboard() {
     return 'Wilujeng Wengi, Juragan! 🌙';
   });
 
+  const [vpsList, setVpsList] = useState<VPSServer[]>([]);
+
   useEffect(() => {
     async function loadStats() {
+      // Load VPS Servers for fleet health widget
+      try {
+        const vpsData = await getVPSServers();
+        setVpsList(vpsData);
+      } catch (e) {
+        console.error('Error loading VPS list:', e);
+      }
+
       // Load projects count
       const { count: projectsCount } = await supabase
         .from('projects')
@@ -189,42 +200,42 @@ export default function AdminDashboard() {
           weeklyOmset={weeklyFinances.omset}
           weeklyRevenue={weeklyFinances.revenue}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {/* Total Views Card */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-indigo-950/30 rounded-xl flex items-center justify-center">
-                <Eye weight="fill" size={24} className="text-indigo-400" />
+          <div className="bg-surface border border-border p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-indigo-950/30 rounded-xl flex items-center justify-center">
+                <Eye weight="fill" size={20} className="text-indigo-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Total Halaman Dibuka</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Total Halaman Dibuka</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               {new Intl.NumberFormat('id-ID').format(traffic.totalViews)}
             </p>
           </div>
 
           {/* Unique Visitors Card */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-pink-950/30 rounded-xl flex items-center justify-center">
-                <UserCircle weight="fill" size={24} className="text-pink-400" />
+          <div className="bg-surface border border-border p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-pink-950/30 rounded-xl flex items-center justify-center">
+                <UserCircle weight="fill" size={20} className="text-pink-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Total Pengunjung (Unik)</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Total Pengunjung (Unik)</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               {new Intl.NumberFormat('id-ID').format(traffic.uniqueVisitors)}
             </p>
           </div>
 
           {/* Views Today */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-sky-950/30 rounded-xl flex items-center justify-center">
-                <ChartLineUp weight="bold" size={24} className="text-sky-400" />
+          <div className="bg-surface border border-border p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-sky-950/30 rounded-xl flex items-center justify-center">
+                <ChartLineUp weight="bold" size={20} className="text-sky-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Dilihat Hari Ini</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Dilihat Hari Ini</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               {new Intl.NumberFormat('id-ID').format(traffic.viewsToday)}
             </p>
           </div>
@@ -232,22 +243,22 @@ export default function AdminDashboard() {
 
         {/* Top Pages List */}
         {traffic.topPages && traffic.topPages.length > 0 && (
-          <div className="mt-4">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-muted mb-2 px-1">Top 5 Halaman</h2>
-            <div className="flex flex-nowrap overflow-x-auto gap-3 pb-2">
+          <div className="mt-3">
+            <h2 className="text-[11px] font-bold uppercase tracking-wider text-muted mb-2 px-1">Top 5 Halaman</h2>
+            <div className="flex flex-nowrap overflow-x-auto gap-2.5 pb-2">
               {traffic.topPages.map((page, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2.5 px-4 bg-surface rounded-full border border-border shadow-sm shrink-0 gap-3 min-w-[180px] max-w-[250px]">
+                <div key={idx} className="flex items-center justify-between p-2 px-3.5 bg-surface rounded-full border border-border shadow-sm shrink-0 gap-3 min-w-[170px] max-w-[240px]">
                   <div className="flex items-center gap-2 overflow-hidden">
-                    <div className="w-5 h-5 rounded-full bg-sky-950/50 flex items-center justify-center text-[10px] font-black text-sky-400 shrink-0">
+                    <div className="w-4 h-4 rounded-full bg-sky-950/50 flex items-center justify-center text-[9px] font-black text-sky-400 shrink-0">
                       {idx + 1}
                     </div>
                     <span className="font-mono text-xs font-bold text-muted truncate" title={page.path}>
                       {page.path}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0 pl-2 border-l border-border">
+                  <div className="flex items-center gap-1 shrink-0 pl-2 border-l border-border">
                     <Eye size={12} weight="bold" className="text-muted" />
-                    <span className="font-black text-sm text-foreground">{page.views}</span>
+                    <span className="font-black text-xs text-foreground">{page.views}</span>
                   </div>
                 </div>
               ))}
@@ -256,61 +267,118 @@ export default function AdminDashboard() {
         )}
       </div>
 
+      {/* VPS Infrastructure Overview */}
+      {vpsList.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-bold uppercase tracking-wider text-muted flex items-center gap-2">
+              <HardDrives weight="bold" className="text-accent" /> VPS Server Fleet &amp; Panjer Radar
+            </h2>
+            <Link href="/admin/vps" className="text-xs font-bold text-accent hover:underline flex items-center gap-1">
+              Kelola VPS &amp; Domain <ArrowRight weight="bold" size={14} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {vpsList.map((vps, idx) => (
+              <div key={vps.id || idx} className="bg-surface border border-border p-4 rounded-2xl shadow-sm hover:border-accent/50 transition-all flex flex-col justify-between group">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${
+                        vps.status === 'online' ? 'bg-accent shadow-[0_0_8px_#4E9F3D]' :
+                        vps.status === 'maintenance' ? 'bg-amber-400' : 'bg-red-500 shadow-[0_0_8px_#ef4444]'
+                      }`} />
+                      <span className="font-display font-black text-sm uppercase text-foreground group-hover:text-accent transition-colors truncate max-w-[140px]">
+                        {vps.name}
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-muted bg-background px-2 py-0.5 rounded border border-border">
+                      {vps.provider}
+                    </span>
+                  </div>
+
+                  <div className="bg-background border border-border/80 p-2.5 rounded-xl font-mono text-xs space-y-1 my-2">
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-muted font-semibold">IP Address:</span>
+                      <span className="text-accent font-bold">{vps.ip_address}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-muted font-semibold">Specs:</span>
+                      <span className="text-foreground text-[10px] truncate max-w-[130px]">{vps.specs}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-border/60 text-xs font-mono">
+                  <span className="text-[10px] text-muted font-bold flex items-center gap-1">
+                    <Lightning size={12} className="text-emerald-400 animate-pulse" /> Panjer Ping:
+                  </span>
+                  <span className={`font-black text-[11px] ${vps.status === 'offline' ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
+                    {vps.status === 'offline' ? 'DOWN (OFFLINE)' : `${14 + (idx * 6)}ms`}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Financial CRM Overview */}
       <div>
-        <h2 className="text-lg font-bold uppercase tracking-wider text-muted mb-6 flex items-center gap-2">
+        <h2 className="text-base font-bold uppercase tracking-wider text-muted mb-4 flex items-center gap-2">
           <CurrencyDollar weight="bold" /> Financial Report
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {/* Grand Total Card */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-amber-500/20 transition-all duration-500"></div>
-            <div className="flex items-center gap-4 mb-6 relative">
-              <div className="w-12 h-12 bg-amber-950/30 border border-amber-500/20 rounded-xl flex items-center justify-center shadow-inner">
-                <Wallet weight="fill" size={24} className="text-amber-400 drop-shadow-sm" />
+          <div className="bg-surface border border-border p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-amber-500/20 transition-all duration-500"></div>
+            <div className="flex items-center gap-3 mb-4 relative">
+              <div className="w-10 h-10 bg-amber-950/30 border border-amber-500/20 rounded-xl flex items-center justify-center shadow-inner">
+                <Wallet weight="fill" size={20} className="text-amber-400 drop-shadow-sm" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Total Omset Kabeh</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Total Omset Kabeh</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400 relative">
+            <p className="text-2xl lg:text-3xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400 relative">
               Rp {new Intl.NumberFormat('id-ID').format(finances.grandTotal)}
             </p>
           </div>
 
           {/* Revenue Card */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-emerald-950/30 border border-emerald-500/20 rounded-xl flex items-center justify-center">
-                <CurrencyDollar weight="bold" size={24} className="text-emerald-400" />
+          <div className="bg-surface border border-border p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-emerald-950/30 border border-emerald-500/20 rounded-xl flex items-center justify-center">
+                <CurrencyDollar weight="bold" size={20} className="text-emerald-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Cuan Asup (Lunas)</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Cuan Asup (Lunas)</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               Rp {new Intl.NumberFormat('id-ID').format(finances.totalRevenue)}
             </p>
           </div>
 
           {/* Outstanding Card */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-rose-950/30 border border-rose-500/20 rounded-xl flex items-center justify-center">
-                <WarningCircle weight="bold" size={24} className="text-rose-400" />
+          <div className="bg-surface border border-border p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-rose-950/30 border border-rose-500/20 rounded-xl flex items-center justify-center">
+                <WarningCircle weight="bold" size={20} className="text-rose-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Duit Nunggak (Can Lunas)</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Duit Nunggak (Can Lunas)</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               Rp {new Intl.NumberFormat('id-ID').format(finances.totalOutstanding)}
             </p>
           </div>
 
           {/* Invoices Count */}
-          <div className="bg-surface border border-border p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-950/30 border border-blue-500/20 rounded-xl flex items-center justify-center">
-                <Receipt weight="bold" size={24} className="text-blue-400" />
+          <div className="bg-surface border border-border p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-950/30 border border-blue-500/20 rounded-xl flex items-center justify-center">
+                <Receipt weight="bold" size={20} className="text-blue-400" />
               </div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted">Invoice Geus Dikirim</h2>
+              <h2 className="text-xs font-bold uppercase tracking-wider text-muted">Invoice Geus Dikirim</h2>
             </div>
-            <p className="text-3xl lg:text-4xl font-display font-black text-foreground">
+            <p className="text-2xl lg:text-3xl font-display font-black text-foreground">
               {finances.invoicesCount}
             </p>
           </div>

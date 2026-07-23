@@ -18,20 +18,20 @@ export function MonoAssistant() {
   if (pathname !== '/') return null;
 
   return (
-    <div className="print:hidden fixed bottom-6 md:bottom-10 right-6 md:right-10 z-[999] flex flex-col items-end">
+    <div className="print:hidden fixed bottom-5 md:bottom-8 right-5 md:right-8 z-[999] flex flex-col items-end">
       <AnimatePresence>
         {isHovered && (
           <motion.div 
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="mb-4 bg-surface border border-border shadow-[0_12px_24px_rgba(0,0,0,0.25)] px-5 py-3.5 rounded-2xl relative"
+            className="mb-3 bg-surface border border-border shadow-xl px-4 py-2.5 rounded-2xl relative"
           >
-            <p className="text-sm font-bold text-foreground">
-              Ada project seru? Ngobrol yuk! 🚀
+            <p className="text-xs font-bold text-foreground whitespace-nowrap">
+              Ada project? Chat yuk! 🚀
             </p>
             {/* Speech bubble tail */}
-            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-surface border-b border-r border-border transform rotate-45"></div>
+            <div className="absolute -bottom-1.5 right-4 w-3 h-3 bg-surface border-b border-r border-border transform rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -40,15 +40,10 @@ export function MonoAssistant() {
         onClick={handleWA}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="group relative flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-[#25D366] text-white rounded-full shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:shadow-[0_16px_32px_rgba(37,211,102,0.6)] hover:-translate-y-1 transition-all duration-300"
+        className="group relative flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-accent text-white rounded-full shadow-[0_6px_20px_rgba(78,159,61,0.4)] hover:shadow-[0_10px_28px_rgba(78,159,61,0.6)] hover:scale-105 transition-all duration-200 cursor-pointer border border-white/20"
+        title="Chat via WhatsApp"
       >
-        {/* Soft highlight on hover */}
-        <div className="absolute inset-0 bg-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
-        <WhatsappLogo weight="fill" className="relative z-10 w-8 h-8 md:w-10 md:h-10" />
-        
-        {/* Continuous Pulse effect */}
-        <span className="absolute inset-0 rounded-full border-[3px] border-[#25D366] animate-ping opacity-30" style={{ animationDuration: '2s' }}></span>
+        <WhatsappLogo weight="fill" className="relative z-10 w-6 h-6 md:w-7 md:h-7" />
       </button>
     </div>
   );
