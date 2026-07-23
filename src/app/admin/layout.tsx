@@ -6,7 +6,7 @@ import { type Session } from '@supabase/supabase-js';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article, FileText, HardDrives } from '@phosphor-icons/react';
-import { Toaster } from 'sonner';
+import { toast, Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
