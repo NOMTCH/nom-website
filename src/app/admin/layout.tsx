@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { type Session } from '@supabase/supabase-js';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article, FileText } from '@phosphor-icons/react';
+import { SignOut, Briefcase, Desktop, List, X, Tag, CurrencyDollar, Envelope, Receipt, Heart, Article, FileText, HardDrives } from '@phosphor-icons/react';
 import { Toaster } from 'sonner';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -16,47 +16,100 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  // Strict Inactivity & Session Security Config (15 Minutes Max Idle)
+  const MAX_IDLE_TIME_MS = 15 * 60 * 1000;
+
+  const forceSecurityLogout = async (reason = 'Sesi Anda telah berakhir demi keamanan (Auto Logout).') => {
+    try {
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('nom_admin_last_active');
+      }
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error(e);
+    }
+    toast.error(reason);
+    router.push('/admin/login');
+  };
+
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    if (pathname.includes('/login')) return;
+
+    // Check initial session & verify token with Supabase server
+    const verifyServerSession = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error || !user) {
+        await forceSecurityLogout('Sesi tidak valid atau telah habis.');
+        return;
+      }
+
+      // Check last activity timestamp
+      const lastActive = sessionStorage.getItem('nom_admin_last_active');
+      const now = Date.now();
+      if (lastActive && now - parseInt(lastActive, 10) > MAX_IDLE_TIME_MS) {
+        await forceSecurityLogout('Sesi telah kedaluwarsa karena inaktivitas (15 Menit).');
+        return;
+      }
+
+      sessionStorage.setItem('nom_admin_last_active', now.toString());
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (!session) router.refresh(); // Let middleware handle redirect
-    });
-
-    return () => subscription.unsubscribe();
-  }, [router]);
-
-  // Idle Auto-Logout Timer (15 minutes)
-  useEffect(() => {
-    if (!session || pathname.includes('/login')) return;
-
-    let timeoutId: NodeJS.Timeout;
-
-    const resetTimer = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(async () => {
-        await supabase.auth.signOut();
-        router.push('/admin/login');
-      }, 15 * 60 * 1000); // 15 minutes
     };
 
-    // Listen to user activity
-    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
-    
-    resetTimer();
-    events.forEach(event => window.addEventListener(event, resetTimer));
+    verifyServerSession();
+
+    // Activity tracker that updates timestamp & checks deadline
+    const updateActivity = () => {
+      const lastActive = sessionStorage.getItem('nom_admin_last_active');
+      const now = Date.now();
+      
+      if (lastActive && now - parseInt(lastActive, 10) > MAX_IDLE_TIME_MS) {
+        forceSecurityLogout('Sesi telah kedaluwarsa karena inaktivitas.');
+        return;
+      }
+
+      sessionStorage.setItem('nom_admin_last_active', now.toString());
+    };
+
+    // Events to track activity
+    const activityEvents = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    activityEvents.forEach(evt => window.addEventListener(evt, updateActivity));
+
+    // Instant verification when tab re-gains focus or becomes visible (e.g. laptop wake up / tab switch)
+    const handleVisibilityOrFocus = async () => {
+      if (document.visibilityState === 'visible') {
+        const lastActive = sessionStorage.getItem('nom_admin_last_active');
+        const now = Date.now();
+        if (lastActive && now - parseInt(lastActive, 10) > MAX_IDLE_TIME_MS) {
+          await forceSecurityLogout('Laptop/Tab kembali aktif: Sesi telah kedaluwarsa.');
+          return;
+        }
+
+        // Re-verify with server
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          await forceSecurityLogout('Sesi login telah dicabut atau habis.');
+          return;
+        }
+      }
+    };
+
+    window.addEventListener('focus', handleVisibilityOrFocus);
+    document.addEventListener('visibilitychange', handleVisibilityOrFocus);
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session) router.push('/admin/login');
+    });
 
     return () => {
-      clearTimeout(timeoutId);
-      events.forEach(event => window.removeEventListener(event, resetTimer));
+      activityEvents.forEach(evt => window.removeEventListener(evt, updateActivity));
+      window.removeEventListener('focus', handleVisibilityOrFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
+      subscription.unsubscribe();
     };
-  }, [session, pathname, router]);
+  }, [pathname, router]);
 
   if (loading) {
     return (
@@ -102,7 +155,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         print:hidden
         ${sidebarOpen ? 'flex w-full md:w-64 border-b-4 md:border-b-0 md:border-r-4' : 'hidden md:flex md:w-20 md:border-r-4 overflow-visible'} 
         bg-surface border-r border-border 
-        transition-all duration-300 flex-col shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto custom-scrollbar z-40
+        transition-all duration-300 flex-col shrink-0 md:sticky md:top-0 md:h-screen md:max-h-screen overflow-hidden z-40
       `}>
         {/* Desktop Center Puller */}
         <button 
@@ -121,7 +174,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
         </div>
         
-        <nav className="flex-1 p-4 space-y-2 overflow-hidden">
+        <nav className="flex-1 p-4 space-y-2 overflow-y-auto custom-scrollbar">
           <Link 
             href="/admin" 
             className={`group flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-300 ${pathname === '/admin' ? 'bg-accent text-white shadow-[0_4px_20px_rgba(78,159,61,0.35)] scale-[1.02]' : 'text-muted hover:bg-background hover:text-foreground hover:translate-x-1'}`}
@@ -135,6 +188,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <Briefcase weight="bold" size={20} className="shrink-0 group-hover:scale-110 transition-transform duration-300" />
             {sidebarOpen && "Portfolio"}
+          </Link>
+          <Link 
+            href="/admin/vps" 
+            className={`group flex items-center ${!sidebarOpen ? 'justify-center px-0' : 'gap-3 px-4'} py-3.5 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all duration-300 ${pathname.includes('/admin/vps') ? 'bg-accent text-white shadow-[0_4px_20px_rgba(78,159,61,0.35)] scale-[1.02]' : 'text-muted hover:bg-background hover:text-foreground hover:translate-x-1'}`}
+          >
+            <HardDrives weight="bold" size={20} className="shrink-0 group-hover:scale-110 transition-transform duration-300" />
+            {sidebarOpen && "VPS & Domains"}
           </Link>
           <Link 
             href="/admin/promos" 
